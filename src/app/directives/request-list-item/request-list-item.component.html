@@ -1,0 +1,53 @@
+<div class="request-section active">
+    <div class="request-upper">
+        <div class="request-person">
+            <div class="request-person-fig"><server-image [src]=itemDetail.user.profilePic></server-image></div>
+            <div class="request-person-info">
+                <h4>{{ itemDetail.user.firstName}} {{ itemDetail.user.lastName}}</h4>
+                <p>  <relative-time [createdAt]="itemDetail.createdAt"></relative-time></p>
+            </div>
+        </div>
+        <div class="request-person-msg">
+            <p> <a [routerLink]="['/requests/detail',itemDetail._id]" (click)="requestcounter();">{{ itemDetail.description }}</a></p>
+        </div>
+        <div class="request-person-spec">
+            <ul>
+                <li><img src="/assets/images/cp-icon.png"><span >
+                        <span *ngIf="itemDetail.otherCategoryTitle" >{{ itemDetail.otherCategoryTitle }} </span>
+                        <span *ngIf="!itemDetail.otherCategoryTitle" >{{ itemDetail.category.title }} </span>
+                        
+                </span></li>
+                <li><img src="/assets/images/location-icon.png"><span> {{itemDetail.city}},{{ itemDetail.state }}</span></li>
+                <li><img src="/assets/images/group-icon.png"><span>{{ itemDetail.capacity.title }}</span></li>
+            </ul>
+            <ul>
+                <li><img src="/assets/images/clock-icon.png"><span>{{itemDetail.timeDuration}}</span></li>
+                <li><img src="/assets/images/calendar-icon.png"><span>{{itemDetail.startDate}} - {{itemDetail.endDate}}</span></li>
+                <li><img src="/assets/images/folder-icon.png"><span>From: ${{itemDetail.budget.minimum}}/Hr</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="request-ship">
+        <div class="request-ship-inner clearfix">
+            <div class="request-ship-left">
+                <a class="request-btn pointer" (click)="showMessegeBox();" >Fulfill this request</a>
+                <a class="pointer" (click)="toggleCommentBox();"><img src="/assets/images/comment-icon.png" ><span  *ngIf="itemDetail.comments.length ==0">Comments ({{itemDetail.comments.length}})</span><span  *ngIf="itemDetail.comments.length >0">Comments ({{itemDetail.comments.length}})</span></a>
+                <a href="javascript:void(0);"  (click)="openFlagModal(itemDetail._id)"><img src="/assets/images/curve-flag.png"><span>Flag</span></a>
+                <a *ngIf="userId" [routerLink]="['/requests/edit',itemDetail._id]" > <img src="/assets/images/edit-icon.png"><span>Edit</span></a>
+                
+            </div>
+            
+            <div class="request-ship-right">
+                <a href="#"><img src="/assets/images/fb-icon.png" alt=""></a>
+                <a href="#"><img src="/assets/images/instagram-icon.png" alt=""></a>
+                <a href="#"><img src="/assets/images/twitter-icon.png" alt=""></a>
+            </div>
+        </div>
+    </div>
+    <div class="request-comment" *ngIf="showCommentBox">
+        <comment-list  [requestId]="itemDetail._id" [(comments)]="itemDetail.comments"></comment-list>
+    </div>
+    <div  *ngIf="showMesseges">
+        <request-messenger [spaces]="itemDetail.spaces" [requestUserId]="itemDetail.user._id" [requestId]="itemDetail._id" [messages]="itemDetail.messages"></request-messenger>
+    </div>
+</div>

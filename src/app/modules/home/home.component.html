@@ -1,0 +1,76 @@
+<div id="main-wrap">
+    <div class="container">
+
+        <div class="home-top">
+            <h1>Need a Space?</h1>
+            <p>Rent Unique Retail, Event, Production, And Meeting Spaces Near You</p>
+            <form action="">
+                <input name="location" type="text" #search [(ngModel)]="location" placeholder="Location"><span>
+                    <select name="category" [(ngModel)]="category">
+                        <option value="">Category</option>
+                        <option *ngFor="let item of categories" [value]="item._id">{{ item.title }}</option>
+                    </select>
+                </span><button (click)="filterData()">Search</button>
+            </form>
+        </div>
+        <div class="small-request-outer">
+            <div class="heading-text">
+                <h3>Can’t Find A Space?
+                    <div class="right-btn clearfix">
+                        <a (click)="requestSpacse();">Request a Space
+                            <!-- <i class="fa fa-angle-right"></i> -->
+                        </a>
+                    </div>
+                </h3>
+                <p>Make a request and we will find you the perfect space just like these people!</p>
+            </div>
+            <!-- <div class="right-btn clearfix">
+                <a (click)="requestSpacse();">Request a Space</a>
+            </div> -->
+
+            <carousel *ngIf="requests && requests.length > 0"  [requests]="requests"></carousel>
+        </div>
+        <div class="small-request-outer" *ngIf="spaces && spaces.length > 0">
+
+            <h3>Top Rated Spaces
+                <a [routerLink]="['/spaces']">See All
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </h3>
+            <carousel-related [spaces]="spaces">
+            </carousel-related>
+        </div>
+        <div class="small-request-outer" *ngIf="eventSpaces && eventSpaces.length > 0">
+            <h3>Top Event Spaces
+                <a [routerLink]="['/spaces']">See All
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </h3>
+            <carousel-related [spaces]="eventSpaces"></carousel-related>
+        </div>
+        <div class="small-request-outer" *ngIf="creativeSpaces && creativeSpaces.length > 0">
+
+            <h3>Top Creative Spaces
+                <a [routerLink]="['/spaces']">See All
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </h3>
+
+            <carousel-related [spaces]="creativeSpaces"></carousel-related>
+        </div>
+    </div>
+</div>
+<div class="host-income-wrap">
+    <div class="host-income">
+        <h2>List A Space</h2>
+        <div class="host-income-sec">
+            <p>“The opportunity to open my space to other creators, like photographers and filmmakers, has not only allowed
+                me to expand my network and meet more like minded creatives but also diversify my income as a full-time consultant.”</p>
+            <p>
+                <span>Become a host and earn extra income</span>
+                <a (click)="listSpacse();">List a Space</a>
+            </p>
+        </div>
+
+    </div>
+</div>

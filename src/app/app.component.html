@@ -1,0 +1,200 @@
+<div class="loading-overlay" *ngIf="loading">
+    <div class="loader"></div>
+</div>
+<div class="error-box" *ngIf="error"> {{alertMessage }} </div>
+<div class="seccess-box" *ngIf="success"> {{alertMessage }} </div> 
+<div id="container-fluid">
+    <div id="header-wrap">
+        <header id="header" class="clearfix">
+            <div id="header-left">
+                <a [routerLink]="['/']">
+                    <img src="/assets/images/logo.png" alt="">
+                </a>
+                <form class="search-form" action="">
+                    <input id="search1" name="search" type="text" [(ngModel)]="searchKeyWord"  (input)="doSearch($event)"  placeholder="Search">
+                    <ul class="search-result" [ngClass]="{ 'result' : showResult }" >
+                        <li *ngFor="let item of searchResult" > 
+                            <a [routerLink]="['/spaces/detail/', item._id]" >{{ item.title }}</a>
+                        </li>
+                    </ul>
+                    <button class="fa fa-search"></button>
+                </form>
+            </div>
+            <div id="header-right">
+                <button type="button" class="collapsed navbar-toggle">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <ul class="nav-menu">
+                    <li>
+                        <a [routerLink]="['/requests']" class="logotTxt">Request
+                            <!-- <i class="fa fa-caret-down"></i> -->
+                        </a>
+                    </li>
+                    <li *ngIf="isUserLoggedIn">
+                        <a [routerLink]="['/spaces/new']">List a Space</a>
+                    </li>
+                    <li *ngIf="!isUserLoggedIn">
+                        <a class="pointer" (click)="openLoginModal()">List a Space</a>
+                    </li>
+                    <li *ngIf="isUserLoggedIn">
+                        <a class="msg-btn" [routerLink]="['/user/message']">Messages
+                            <!-- <span></span> -->
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">Help</a>
+                    </li>
+                    <li *ngIf="!isUserLoggedIn">
+                        <a href="javascript:void(0);" (click)="openLoginModal()">Login</a>
+                    </li>
+                    <li *ngIf="!isUserLoggedIn">
+                        <a href="javascript:void(0);" (click)="openSignUpModal()">Sign Up</a>
+                    </li>
+
+                </ul>
+                <ul class="prof-menu" *ngIf="isUserLoggedIn">
+                    <li>
+                        <a [routerLink]="['user/account']">
+                            <server-image [src]="profilePic" *ngIf="profilePic !=null"></server-image>
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="prof-inner">
+                            <li>
+                                <a [routerLink]="['user']">Edit Profile</a>
+                            </li>
+                            <li>
+                                <a [routerLink]="['user/account']">Account Settings</a>
+                            </li>
+                            <li>
+                                <a [routerLink]="['user/bookings']">My Bookings</a>
+                            </li>
+                            <li>
+                                <a [routerLink]="['user/spaces']">My Listings</a>
+                            </li>
+                            <li>
+                                <a [routerLink]="['user/requests']">My Requests</a>
+                            </li>
+                            <li>
+                                <a [routerLink]="['user/favorites']">My Favorites</a>
+                            </li>
+                            <li>
+                                <a (click)="logout()">Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </header>
+    </div>
+
+    <!--  HEADER END   -->
+
+    <!-- MAIN CONTENT START  -->
+    <router-outlet></router-outlet>
+    <!-- MAIN CONTETN END  -->
+
+    <!-- FOOTER  -->
+
+    <div id="footer-wrap">
+        <div class="container">
+            <div id="footer">
+                <div class="row">
+                    <div class="col-md-3 col-sm-4 col-xs-6">
+                        <div class="footer-sec">
+                            <h4>Spacse</h4>
+                            <ul class="footer-link">
+                                <li>
+                                    <a href="#">About Us</a>
+                                </li>
+                                <li>
+                                    <a href="#">Meet the Team</a>
+                                </li>
+                                <li>
+                                    <a href="#">Terms of Service</a>
+                                </li>
+                                <li>
+                                    <a href="#">Privacy Policy</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 col-xs-6">
+                        <div class="footer-sec">
+                            <h4>Discover</h4>
+                            <ul class="footer-link">
+                                <li>
+                                    <a href="#">Request a Space</a>
+                                </li>
+                                <li>
+                                    <a href="#">List a Space</a>
+                                </li>
+                                <li>
+                                    <a href="#">All Listings</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 col-xs-12">
+                        <div class="footer-sec">
+                            <h4>Contact Us</h4>
+                            <ul class="footer-link">
+                                <li>
+                                    <a href="mailto:support@spacse.com">support@spacse.com</a>
+                                </li>
+                                <li>
+                                    <a href="tel:1-234-567-4567">1-234-567-4567</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-12">
+                        <div class="social-sec">
+                            <h4>Talk to Us</h4>
+                            <ul class="social-link">
+                                <li>
+                                    <a href="#">
+                                        <img src="/assets/images/social-icon1.png" alt="">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/assets/images/social-icon2.png" alt="">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/assets/images/social-icon3.png" alt="">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/assets/images/social-icon4.png" alt="">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copy">
+            <p>&copy; 2017 SPACSE, INC. ALL RIGHTS RESERVED</p>
+        </div>
+    </div>
+</div>
+
+<div style="display: none">
+
+</div>
+<!-- <header>
+  <md-toolbar color="primary">
+    <a [routerLink]="['/']" class="logotTxt">MEAN</a>
+    <a class="links" [routerLink]="['/posts']">Posts</a>
+    
+  </md-toolbar>
+</header>
+
+<footer>
+</footer> -->

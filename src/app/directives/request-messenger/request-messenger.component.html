@@ -1,0 +1,55 @@
+<div class="payment-outer">
+    <div class="payment-upper">
+        <div class="payment-chat" *ngFor="let message of messagesList" >
+            <div class="payment-chat-fig">
+                <server-image [src]=message.sender.profilePic></server-image>
+            </div>
+            <div class="payment-chat-info">
+                <span class="payment-chat-time">{{ message.sender.firstName }} ( <a  [routerLink]="['/spaces/detail', message.spacse._id]" >{{ message.spacse.title }} </a>)</span>
+                <span class="payment-chat-time">
+                    <relative-time [createdAt]="message.createdAt" ></relative-time>
+                </span>
+                <div class="payment-request">
+                    <div>{{ message.comment }}</div>
+                    <ImageModal *ngIf="message.photoUrl" [singleImage]="message.photoUrl" [imagePointer] = "message.photoUrl" (cancelEvent) ="cancelImageModel()"></ImageModal>
+                    <div *ngFor="let tour of message.tour">
+                           <div>Date : {{ tour.tourDate }} </div> 
+                           <div>Start Time : {{ tour.startTime }}</div> 
+                           <div>End Time : {{ tour.endTime }}</div> 
+                           <!-- <div>Status : {{ tour.status }}</div>  -->
+                    </div>
+                    <div *ngFor="let payment of message.requestTransaction">
+                           <div>Date : <readable-date [createdAt]="payment.createdAt"></readable-date></div> 
+                           <div>Amount : {{ payment.amount }}</div> 
+                           <div>Reason : {{ payment.reason }}</div> 
+                           <!-- <div>Status : {{ tour.status }}</div>  -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="payment-lower" >
+        <form action="" class="clearfix">
+            <div class="payment-lower-left">
+                <select name="spacseId" [(ngModel)]="spacseId">
+                    <option *ngFor="let item of spaces" value="{{ item.spacse._id }}">{{ item.spacse.title }}</option>
+                </select>
+                <input name="messageValue" type="text" [(ngModel)]="messageValue" placeholder="Type a message…">
+                <div class="message-image" *ngIf="sendImage" >
+                    <file-upload uploadLimit="1" *ngIf="messageImage.length == 0" [(uploadedImage)]="messageImage"></file-upload>
+                    <div *ngFor="let item of messageImage[0]">
+                        <server-image [src]="item.response.path"></server-image><i class="fa fa-times-circle" (click)="removeImage()"></i>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="payment-lower-right">
+                <a (click)="sendTourRequest()" *ngIf="requestUserId != userId" ><img src="assets/images/view-icon.png" alt=""></a>
+                <a (click)="toggleImageBox()" *ngIf="requestUserId ==userId"><img src="assets/images/picture-icon.png" alt=""></a>
+                <a (click)="requestPayment()" class="dollor-sign" *ngIf="requestUserId ==userId" >$</a>
+                <button (click)="sendMessage()">Send</button>
+            </div>
+        </form>
+    </div>
+</div>

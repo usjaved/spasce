@@ -1,0 +1,42 @@
+<div class="modal-content" role="payment">
+        <div class="error-box" *ngIf="error"> {{alertMessage }} </div>
+        <div class="seccess-box" *ngIf="success"> {{alertMessage }} </div>
+    <div class="modal-body">
+        <h3>Request Payment</h3>
+        <form>
+            <div class="form-group">
+                ${{ context.payment.amount }} for {{ context.payment.reason }}
+            </div>
+            <div class="form-group">
+                <label for="ccname">Name on card:</label>
+                <input type="text" class="form-control" name="ccname" [(ngModel)]="ccname" id="ccname" placeholder="Card Holder Name" />
+            </div>
+
+            <div class="form-group">
+                <label for="ccnumber">Credit Card Number:</label>
+                <input type="text" class="form-control" name="ccnumber" [(ngModel)]="ccnumber" id="ccnumber" placeholder="Credit Card Number" />
+            </div>
+
+            <div class="form-group">
+                <label for="Enterreason">Name on card:</label>
+                <input type="text" class="form-control" name="reason" [(ngModel)]="ccname" id="ccname" placeholder="Card Holder Name" />
+            </div>
+
+            <div class="form-group">
+                <label for="Enterreason">Name on card:</label>
+                <input type="text" class="form-control" name="reason" [(ngModel)]="ccname" id="ccname" placeholder="Card Holder Name" />
+            </div>
+
+            <div class="form-group">
+                <label for="Enterreason">Name on card:</label>
+                <input type="text" class="form-control" name="reason" [(ngModel)]="ccname" id="ccname" placeholder="Card Holder Name" />
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="doPayment()">Request Payment</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="close()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

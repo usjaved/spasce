@@ -1,0 +1,34 @@
+<div class="sign-up-modal">
+        <div class="error-box" *ngIf="error"> {{alertMessage }} </div>
+        <div class="seccess-box" *ngIf="success"> {{alertMessage }} </div>
+        
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="model-close-button" (click)="closeDialog()">X</div>
+                <h3>Login SPACSE</h3>
+                <a (click)="loginWithFacebook()" class="btn btn-primary"><img src="assets/images/fb-img.png" alt="">Continue with Facebook</a>
+                <a id="google-login-button" class="btn btn-default login-googlle"><img src="assets/images/google-img.png" alt="">Continue with Google
+                    
+                </a>
+                <a (click)="loginWithLinkedIn()" class="btn btn-info"><img src="assets/images/linked-img.png" alt="">Continue with LinkedIn</a>
+
+                <div class="or-sec">
+                    <p><span>Or</span></p>
+
+                    <div class="form-group">
+                        <input class="input-text" type="email" [(ngModel)]="email" placeholder="Email Address" />
+                    </div>
+                    <div class="form-group">
+                        <input class="input-text" type="password" [(ngModel)]="password" placeholder="Password" />
+                    </div>
+
+                    <a class="btn btn-info" (click)="doLogin()">Login</a>
+                </div>
+                <div style="text-align: center; margin: 0 0 10px 0">
+                    Don't have an account? <a class="login-link" (click)="openSignUp()"> Sign Up </a>
+                </div>
+
+            </div>
+        </div>
+    </div>

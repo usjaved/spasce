@@ -1,0 +1,80 @@
+<div id="main-wrap">
+    <div class="container">
+        
+            <div class="error-box" *ngIf="error"> {{alertMessage }} </div>
+            <div class="seccess-box" *ngIf="success"> {{alertMessage }} </div>
+        <div class="profile-main">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li>
+                    <a [routerLink]="['/user/dashboard']" aria-controls="dashboard" role="tab" data-toggle="tab">Dashboard</a>
+                </li>
+                <li class="active"><a [routerLink]="['/user']" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+                <li><a [routerLink]="['/user/account']" aria-controls="account" role="tab" data-toggle="tab">Account</a></li>
+                <li><a [routerLink]="['/user/message']" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+                <li><a [routerLink]="['/user/bookings']" aria-controls="my_bookings" role="tab" data-toggle="tab">My Bookings</a></li>
+                <li><a [routerLink]="['/user/requests']" aria-controls="my_requests" role="tab" data-toggle="tab">My Requests</a></li>
+                <li><a [routerLink]="['/user/favorites']" aria-controls="my_favorites" role="tab" data-toggle="tab">My Favorites</a></li>
+            </ul>
+            <div role="tabpanel" class="tab-pane active">
+
+                <div class="profile-section">
+                    <div class="profile-photo">
+                        <h4>Profile Photo</h4>
+                        <p>Please upload a photo that clearly shows your face</p>
+                   
+                        <div class="profile-photo-sec" >
+                                <server-image [src]="getUploadeImage()" ></server-image>
+                        </div>
+                        <div class="upload-button">
+                                <file-upload [onlyButton]="true" uploadLimit="1" [(uploadedImage)]="uploadedFile"> </file-upload>
+                        </div>
+                        <div style="clear:both"></div>
+                   </div>
+
+                    <div class="profile-info">
+                        <h4>Basic Information</h4>
+                        <form action="">
+                            <div class="form-group">
+                                <label for="">First Name</label>
+                                <div class="profile-info-right">
+                                    <input type="text" name="firstName" [(ngModel)]="user.firstName" placeholder="First Name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Last Name</label>
+                                <div class="profile-info-right">
+                                    <input type="text" name="lastName" [(ngModel)]="user.lastName" placeholder="Last Name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Email Address</label>
+                                <div class="profile-info-right">
+                                    <input type="email" name="email" [(ngModel)]="user.email" placeholder="Email Address">
+                                    <p>We won’t share your email address with Spacse users.</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Mobile Number</label>
+                                <div class="profile-info-right">
+                                    <input type="text" name="mobile" [(ngModel)]="user.mobile" placeholder="Mobile Number">
+                                    <p>We won’t share your mobil number with Spacse users unless you have a confirmed booking.</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">About Me</label>
+                                <div class="profile-info-right">
+                                    <textarea name="about"  [(ngModel)]="user.about" ></textarea>
+                                    <p>Help the Spacse community know you better!</p>
+                                    <p>What hobbies do you have?</p>
+                                    <p>How’s it like having you as a guest or host?</p>
+                                </div>
+                            </div>
+                            <button (click)="updateProfile()">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

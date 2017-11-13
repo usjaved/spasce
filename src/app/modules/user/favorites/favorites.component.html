@@ -1,0 +1,90 @@
+<div id="main-wrap">
+    <div class="container">
+        <div class="profile-main">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li>
+                    <a [routerLink]="['/user/dashboard']" aria-controls="dashboard" role="tab" data-toggle="tab">Dashboard</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user']" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/account']" aria-controls="account" role="tab" data-toggle="tab">Account</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/message']" aria-controls="messages" role="tab" data-toggle="tab">Messages</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/bookings']" aria-controls="my_bookings" role="tab" data-toggle="tab">My Bookings</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/requests']" aria-controls="my_requests" role="tab" data-toggle="tab">My Requests</a>
+                </li>
+                <li class="active">
+                    <a [routerLink]="['/user/favorites']" aria-controls="my_favorites" role="tab" data-toggle="tab">My Favorites</a>
+                </li>
+            </ul>
+            <div role="tabpanel" class="tab-pane active">
+                <div class="loading-overlay">
+                    <div class="loader"></div>
+                </div>
+
+                <div class="col-sm-12" *ngIf="data.length == 0">
+                    <p>
+                        You don't have any Favourite Spacses.
+                    </p>
+                </div>
+                <div class="my_bookings-tab" *ngIf="data.length !=0 ">
+                    <h4>
+                        <b>Favourite Spacses </b>
+                    </h4>
+
+                    <div class="row">
+                        <div *ngFor="let item of data"  class="col-sm-6 space-list-item">
+
+                            <div class="book-slide">
+                                <div class="book-slide-fig">
+                                    <div class="clone" aria-hidden="true" style="width: 100%;">
+                                        <server-image [src]="item.spacse.coverPictire"></server-image>
+                                        <!-- <img src ="/assets/images/active-like.png"> 
+                                        <span></span>
+                                        <p> From: <strong >${{ space.pricingLayer[0].rate / 4 }}</strong>
+                                            <small>per hour</small></p>  -->
+                                    </div>
+                                </div>
+                                <div class="book-slide-info">
+                                    <h4>  <a [routerLink]="['/spaces/detail',item.spacse._id]"> {{ item.spacse.title }}  </a></h4>
+                                    <p>{{ item.spacse.subTitle }}</p>
+                                    <ul>
+                                        <li>
+                                            <img src="/assets/images/location-icon.png" alt="">
+                                            <span>{{ item.spacse.city }}, {{ item.spacse.state }}</span>
+                                        </li>
+                                        <li>
+                                            <img width="27px" src="/assets/images/group-icon.png" alt="">
+                                            <span>{{ item.spacse.capacity.title }}</span>
+                                        </li>
+                                        <li>
+                                            <img width="24px" src="/assets/images/arrow-direction.png" alt="">
+                                            <span>{{ item.spacse.squareFootArea }} Sq. Ft.</span>
+                                        </li>
+                                    </ul>
+                                    <div class="star-sec">
+                                        <img src="/assets/images/star-icon.png" alt="">
+                                        <img src="/assets/images/star-icon.png" alt="">
+                                        <img src="/assets/images/star-icon.png" alt="">
+                                        <img src="/assets/images/star-icon.png" alt="">
+                                        <img src="/assets/images/star-icon.png" alt="">
+                                        <span>10 Reviews</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

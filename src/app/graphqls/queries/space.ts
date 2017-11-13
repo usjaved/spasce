@@ -1,0 +1,647 @@
+import gql from 'graphql-tag';
+
+export const spaceNewFormDetail = gql`
+     query categories{
+        categories{
+            _id
+            title
+        }
+        properyCapacities{
+            _id
+            title  
+        }
+        amenities{
+            _id
+            title
+        }
+    }
+`;
+export const getSpacessQuery = gql`
+     query spacse{
+        spacses{
+            _id
+            title
+            subTitle
+            address
+            state
+            city
+            squareFootArea
+            createdAt
+            coverPictire
+            description
+            securityDeposit
+            user{
+                _id
+                firstName
+                lastName
+                profilePic
+            }
+            spaceCategories{
+                categoryId
+              }
+            comments{
+                 _id
+                user{
+                    _id
+                    firstName
+                    lastName
+                    profilePic
+                }
+                comment
+                photoUrl
+                commentType
+                createdAt
+            }
+            category{
+                _id
+                title
+            }
+            capacity{
+                _id
+                title
+            }
+            spacsePhotoGallery {
+                _id
+                propertyId
+                imageUrl
+            }
+            pricingLayer {
+                _id
+                timeFrame
+                timeFrameType
+                rate
+            }
+        }
+    }
+`;
+export const getSpaceDetail = gql`
+    query spacse($id:String){
+        spacse(_id:$id){
+            _id
+            title
+            subTitle
+            address
+            userId
+            state
+            city
+            country
+            latitude
+            longitude
+            coverPictire
+            squareFootArea
+            createdAt
+            description
+            numberOfRooms
+            numberOfRestRooms
+            securityDeposit
+            additionalFees
+            spaceCategories{
+                categoryId
+            }
+            user{
+                _id
+                firstName
+                lastName
+                profilePic  
+                about
+            }
+            comments{
+                 _id
+                user{
+                    _id
+                    firstName
+                    lastName
+                    profilePic
+                }
+                comment
+                createdAt
+            }
+            category{
+                _id
+                title
+            }
+            capacity{
+                _id
+                title
+                maximumValue
+            }
+            spacseamenities{
+                _id
+                amenities{
+                  _id
+                  title
+                }
+            }
+            avaibilities {
+                _id
+                days
+                startTime
+                endTime
+              }
+            spacsePhotoGallery {
+                _id
+                propertyId
+                imageUrl
+            }
+            pricingLayer {
+                _id
+                timeFrame
+                timeFrameType
+                rate
+            }
+            userPaymentInfo{
+                paymentType
+                email
+                paypalId
+                bankInfo
+                routingNo
+                accounttype
+                accountNo
+              }
+        }
+    }
+`;
+
+
+export const getEditSpaceDetail = gql`
+query spacse($id:String, $userId : String){
+    spacseForEdit(_id:$id, userId : $userId){
+        _id
+        title
+        subTitle
+        address
+        state
+        city
+        country
+        latitude
+        longitude
+        coverPictire
+        squareFootArea
+        createdAt
+        description
+        numberOfRooms
+        numberOfRestRooms
+        securityDeposit
+        additionalFees
+        isPrivate
+        spaceCategories{
+            categoryId
+        }
+        user{
+            _id
+            firstName
+            lastName
+            profilePic  
+            about
+        }
+        comments{
+             _id
+            user{
+                _id
+                firstName
+                lastName
+                profilePic
+            }
+            comment
+            createdAt
+        }
+        category{
+            _id
+            title
+        }
+        capacity{
+            _id
+            title
+            maximumValue
+        }
+        spacseamenities{
+            _id
+            amenities{
+              _id
+              title
+            }
+        }
+        avaibilities {
+            _id
+            days
+            startTime
+            endTime
+          }
+        spacsePhotoGallery {
+            _id
+            propertyId
+            imageUrl
+        }
+        pricingLayer {
+            _id
+            timeFrame
+            timeFrameType
+            rate
+        }
+        userPaymentInfo{
+            paymentType
+            email
+            paypalId
+            bankInfo
+            routingNo
+            accounttype
+            accountNo
+          }
+    }
+}
+`;
+
+
+export const getFilterSpacessQuery = gql`
+query filterSpacse($capacity: [String], $category: [String], $city: String, $state: String, $minPrice: Float, $maxPrice: Float, $minCapacity: Float, $maxCapacity: Float){
+   filterSpacses(capacity: $capacity, category: $category, city: $city, state: $state, minPrice: $minPrice, maxPrice: $maxPrice, minCapacity: $minCapacity, maxCapacity: $maxCapacity){
+       _id
+       title
+       subTitle
+       address
+       state
+       city
+       latitude
+       longitude
+       squareFootArea
+       createdAt
+       description
+       coverPictire
+       user{
+           _id
+           firstName
+           lastName
+           profilePic
+       }
+       comments{
+            _id
+           user{
+               _id
+               firstName
+               lastName
+           }
+           comment
+           photoUrl
+           commentType
+           createdAt
+       }
+       category{
+           _id
+           title
+       }
+       capacity{
+           _id
+           title
+       }
+       pricingLayer {
+        rate
+        timeFrame
+        timeFrameType
+      }
+   }
+}
+`;
+export const GetHomePageDetails = gql`
+query getHomePageDetails{
+    categories{
+        _id
+        title
+    }
+    requests{
+        _id
+        createdAt
+        startDate
+        endDate
+        budgetId
+        timeDuration
+        address
+        city
+        state
+        description
+        otherCategoryTitle
+        category{
+            title
+            _id
+        }
+        user {
+          _id
+          firstName
+          lastName 
+          profilePic
+        }
+        capacity {
+          _id
+          title
+          maximumValue
+          minimumValue
+        }
+        budget{
+            maximum
+            minimum
+            title
+            _id
+          }
+    }
+    
+    getTopRatedSpaces{
+        _id
+        title
+        subTitle
+        address
+        state
+        city
+        squareFootArea
+        createdAt
+        coverPictire
+        description
+        user{
+            _id
+            firstName
+            lastName
+            profilePic
+        }
+        pricingLayer{
+         _id
+         rate
+         timeFrame
+         timeFrameType
+       }
+        category{
+            _id
+            title
+        }
+        capacity{
+            _id
+            title
+        }
+    }
+    getTopEventSpaces{
+        _id
+        title
+        subTitle
+        address
+        state
+        city
+        squareFootArea
+        createdAt
+        coverPictire
+        description
+        user{
+            _id
+            firstName
+            lastName
+            profilePic
+        }
+        pricingLayer{
+         _id
+         rate
+         timeFrame
+         timeFrameType
+       }
+        category{
+            _id
+            title
+        }
+        capacity{
+            _id
+            title
+        }
+    } 
+    getTopCreativeSpaces{
+       _id
+       title
+       subTitle
+       address
+       state
+       city
+       squareFootArea
+       createdAt
+       coverPictire
+       description
+       user{
+           _id
+           firstName
+           lastName
+           profilePic
+       }
+       pricingLayer{
+        _id
+        rate
+        timeFrame
+        timeFrameType
+      }
+       category{
+           _id
+           title
+       }
+       capacity{
+           _id
+           title
+       }
+   }
+}
+`;
+
+export const gatAllSpace = gql`
+query getAllSpace($limit: Int , $offset: Int ){
+    getAllSpace( limit: $limit, offset: $offset){
+            _id
+            title
+            status
+        } 
+    }
+`
+export const getSpaceDetailForEdit = gql`
+query spacse($id:String){
+    spacse(_id:$id){
+        _id
+        title
+        subTitle
+        address
+        state
+        city
+        country
+        coverPictire
+        squareFootArea
+        createdAt
+        description
+        numberOfRooms
+        numberOfRestRooms
+        additionalFees
+        securityDeposit
+        latitude
+        longitude
+        user{
+            _id
+            firstName
+            lastName
+            profilePic
+        }
+        category{
+            _id
+            title
+        }
+        capacity{
+            _id
+            title
+            maximumValue
+        }
+        spacseamenities{
+            _id
+            amenities{
+              _id
+              title
+            }
+        }
+        avaibilities {
+            _id
+            days
+            startTime
+            endTime
+          }
+        spacsePhotoGallery {
+            _id
+            propertyId
+            imageUrl
+        }
+        pricingLayer {
+            _id
+            timeFrame
+            timeFrameType
+            rate
+        }
+        userPaymentInfo
+        {
+          _id
+          paymentType
+          bankInfo
+          accounttype
+          accountNo
+          routingNo
+          email
+          paypalId
+        }
+    }
+}
+`;
+
+export const getUsersActiveSpace = gql`
+query getUsersActiveSpace($userId: String){
+    getApprovedSpace(userId:$userId){
+        _id
+        title
+        subTitle
+        address
+        coverPictire
+        squareFootArea
+        category{
+            _id
+            title
+        }
+        capacity{
+            _id
+            title
+            maximumValue
+        }
+    }
+}
+`;
+
+export const usersListing = gql`
+query dashBoradListing($userId: String){
+    getInProcessSpace(userId:$userId){
+        _id
+        title
+        subTitle
+        address
+        coverPictire
+        squareFootArea
+        category{
+            _id
+            title
+        }
+        capacity{
+            _id
+            title
+            maximumValue
+        }
+    }
+    getApprovedSpace(userId:$userId){
+        _id
+        title
+        subTitle
+        address
+        coverPictire
+        squareFootArea
+        category{
+            _id
+            title
+        }
+        capacity{
+            _id
+            title
+            maximumValue
+        }
+    }
+    getPendingSpace(userId:$userId){
+        _id
+        title
+        subTitle
+        address
+        coverPictire
+        squareFootArea
+        category{
+            _id
+            title
+        }
+        capacity{
+            _id
+            title
+            maximumValue
+        }
+    }
+}
+`;
+export const searchSpaceByTitle = gql`
+    query searchSpasce($keyWord: String){
+        searchSpaceByTitle(keyWord : $keyWord){
+            _id
+            title
+        }
+    }`
+
+export const similerSpasce = gql`
+    query similerSpasce($categoryId: String){
+        similerSpasce(categoryId : $categoryId){
+            _id
+            title
+            subTitle
+            address
+            state
+            city
+            squareFootArea
+            createdAt
+            coverPictire
+            description
+            user{
+                _id
+                firstName
+                lastName
+                profilePic
+            }
+            pricingLayer{
+             _id
+             rate
+             timeFrame
+             timeFrameType
+           }
+            category{
+                _id
+                title
+            }
+            capacity{
+                _id
+                title
+            }
+        }
+    }`

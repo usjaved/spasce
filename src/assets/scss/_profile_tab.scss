@@ -1,0 +1,92 @@
+.profile-section{
+	h4{
+		font-size: 30px;
+		font-weight: 600;
+		margin: 0 0 20px;
+		+ p{
+			font-weight: 600;
+			margin: 0 0 42px;
+		}
+	}
+	.profile-photo-sec{
+		margin-bottom: 65px;
+		img,button{
+			display: inline-block;
+			vertical-align: middle;
+		}
+		button{
+			width: 236px;
+			height: 58.2px;
+			background-color: #0c71cb;
+			padding: 0;
+			border: none;
+			color: #fff;
+			font-size: 24px;
+			font-weight: 600;
+			margin-left: 64px;
+		}
+	}
+	.profile-info{
+		h4{
+			margin-bottom: 40px;
+		}
+	}
+	.form-group{
+		position: relative;
+		padding-left: 210px;
+		max-width: 680px;
+		margin: 0 0 46px;
+		label{
+			position: absolute;
+			left: 0;
+			top: 13px;
+			font-size: 26px;
+			color: #000000;
+			margin: 0;
+		}
+		input{
+			height: 61.3px;
+			display: block;
+			width: 100%;
+			border: solid 0.5px #979797;
+			font-size: 26px;
+			color: #000000;
+			padding: 0 25px;
+		}
+		textarea{
+			height: 275.2px;
+			border: solid 0.5px #979797;
+			width: 100%;
+			display: block;
+			resize: none;
+			padding: 10px;
+		}
+		p{
+			font-size: 18px;
+			font-weight: 600;
+			color: #666666;
+			line-height: 1.278;
+			margin: 0;
+		}
+		input,textarea{
+			+ p{
+				padding-top: 7px;
+			}
+		}
+	}
+	form{
+		button{
+			width: 100%;
+			display: block;
+			max-width: 236px;
+			height: 58.2px;
+			background-color: #0c71cb;
+			padding: 0;
+			text-align: center;
+			border: none;
+			color: #fff;
+			font-size: 24px;
+			font-weight: 600;
+		}
+	}
+}

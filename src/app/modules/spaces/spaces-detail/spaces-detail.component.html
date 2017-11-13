@@ -1,0 +1,265 @@
+<div id="container-fluid" *ngIf="isLoading">
+
+<div class="error-box" *ngIf="error"> {{alertMessage }} </div>
+<div class="seccess-box" *ngIf="success"> {{alertMessage }} </div>
+    <div class="banner-wrap">
+        <server-image [src]="spacse.coverPictire"></server-image>
+        <a class="pointer" (click)="openImageGallery()" *ngIf="images.length > 0" >View Photos</a>
+    </div>
+    <!-- Banner end -->
+
+    <!-- main start -->
+    <div id="main-wrap">
+        <div class="container">
+            <div class="listing-main">
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="listing-section">
+                            <ul class="listing-bar">
+                                <li><a (click)="showOverView();">Overview</a></li>
+                                <li><a (click)="showLocationSection();">Location</a></li>
+                                <li><a (click)="showHostSection();">The Host</a></li>
+                                <li><a (click)=" showReviewSection();">Reviews</a></li>
+                            </ul>
+           <!-- Overview -->
+                    <div *ngIf="showoverview">
+                                <div class="listing-spec">
+                                    <h2> {{ spacse.title }} </h2>
+                                    <p> {{ spacse.subTitle }} </p>
+                                    <ul class="item-spec">
+                                        <li><img src="assets/images/item-icon1.png" alt=""><span>{{ spacse.category.title }}</span></li>
+                                        <li><img src="assets/images/item-icon2.png" alt=""><span>{{ spacse.city }}, {{ spacse.state }}</span></li>
+                                    </ul>
+                                    <ul class="item-spec">
+                                        <li><img src="assets/images/item-icon3.png" alt=""><span>{{ spacse.capacity.maximumValue}}</span></li>
+                                        <li><img src="assets/images/item-icon4.png" alt=""><span>{{spacse.squareFootArea}} Sq. Ft.</span></li>
+                                        <li><img src="assets/images/item-icon5.png" alt=""><span>{{ spacse.numberOfRooms}} Rooms<i>|</i>{{ spacse.numberOfRestRooms}} RestRooms</span></li>
+                                    </ul>
+                                    <div class="star-sec"><img src="assets/images/star-icon.png" alt="">
+                                        <img src="assets/images/star-icon.png" alt="">
+                                        <img src="assets/images/star-icon.png" alt="">
+                                        <img src="assets/images/star-icon.png" alt="">
+                                        <img src="assets/images/star-icon.png" alt=""><span>10 Reviews</span></div>
+                                </div>
+                                <!-- Spacse description -->
+                                <div class="desc-outer">
+                                    <div class="desc-sec">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="desc-left">
+                                                    <h4>Description</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="desc-right">
+                                                    <p>
+                                                        {{ spacse.description }}
+                                                    </p>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Amenities-->
+                                    <div class="desc-sec">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="desc-left">
+                                                    <h4>Amenities </h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="desc-right">
+                                                    <div class="row" *ngFor="let item of spacse.spacseamenities">
+                                                        <div class="col-md-6" *ngIf="item.amenities">
+                                                            <ul>
+                                                                <li>{{item.amenities.title}}</li>
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Availbility -->
+                                    <div class="desc-sec">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="desc-left">
+                                                    <h4>Availbility</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="desc-right">
+                                                    <ul *ngFor="let item of spacse.avaibilities">
+                                                        <li>
+                                                            <span>{{item.days}}</span>
+                                                            <i>-</i>
+                                                            <em>{{item.startTime}} - {{item.endTime}}</em>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- pricing -->
+                                    <div class="desc-sec">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="desc-left">
+                                                    <h4>Pricing</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="desc-right" *ngFor="let item of spacse.pricingLayer">
+                                                    <ul>
+                                                        <li>
+                                                            <span>{{ item.timeFrame }} {{item.timeFrameType}}</span>
+                                                            <i>-</i>
+                                                            <em> $ {{item.rate}}.00</em>
+
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+            <!-- location -->
+                            <div class="desc-sec" *ngIf="showlocation">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="desc-left">
+                                            <h4>Location</h4>
+                                        </div>
+                                    </div> 
+                                    <div class="col-sm-9">
+                                        <div class="desc-right">
+                                            <p>{{ spacse.city}},{{ spacse.state}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="map">
+                                            <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="true" [zoom]="zoom">
+                                                <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+                                            </agm-map>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+            <!--host-->
+                            <div class="hosted-sec" *ngIf="showhost">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="hosted-fig"><server-image [src]="spacse.user.profilePic"></server-image> <a  href="javascript:void(0);"  (click)="openHostModal(spacse._id)">Contact Host</a></div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <div class="hosted-info">
+                                            <h5>{{ spacse.user.firstName }} {{ spacse.user.lastName }}</h5>
+                                            <p>{{ spacse.user.about }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            <!-- review -->
+                            <div *ngIf=" showreview">
+                                <div class="reviewed-sec">
+                                    <div class="star-sec"><strong>10 Reviews</strong><img src="assets/images/star-icon.png" alt="">
+                                        <img src="assets/images/star-icon.png" alt="">
+                                        <img src="assets/images/star-icon.png" alt="">
+                                        <img src="assets/images/star-icon.png" alt="">
+                                        <img src="assets/images/star-icon.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="commented-sec">
+                                    <div class="review-inner">
+                                        <div class="review-sec clearfix">
+                                            <div class="review-fig"><img src="assets/images/person-img2.png" alt=""></div>
+                                            <div class="review-info">
+                                                <p><strong>Ryan T.</strong>August 2015</p>
+                                            </div>
+                                        </div>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue
+                                            dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing
+                                            elit. Nunc a orci vel metus congue dig. Orci varius natoque penatibus. Lorem
+                                            ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue
+                                            dig. Orci varius natoque penatibus</p>
+                                    </div>
+                                    <!--  <div class="request-comment">
+                                                <comment-list [requestId]="spacse._id" [comments]="spacse.comments"></comment-list>
+                                            </div> -->
+
+                                </div>
+                                <a class="more-btn" href="#">Show More</a>
+                            </div>
+
+                        </div>
+                    </div>
+          <!-- pricing side block -->
+                    <div class="col-md-5 hidden-sm hidden-xs">
+                        <div class="listing-aside">
+                            <div class="discount-sec">
+                                <i>Starting from</i>
+                                <strong>${{ spacse.pricingLayer[0].rate }}</strong><span>per {{ spacse.pricingLayer[0].timeFrame }} {{ spacse.pricingLayer[0].timeFrameType }}</span>
+                                <div class="discount-price"><em>500</em></div>
+                            </div>
+                            <div class="booking-sec">
+                                <div class="selection-calendar-new clearfix">
+                                        <span><ng2-datepicker [options]="options" [(ngModel)]="startDate"></ng2-datepicker></span><span><ng2-datepicker [options]="options" [(ngModel)]="endDate"></ng2-datepicker>
+                                        </span>
+                                    <!-- <span><input type="text" id="from" name="from" placeholder="From"></span><span><input type="text" id="to" name="to" placeholder="To"></span> -->
+                                </div>
+                                <p class="pricing-title clearfix">
+                                    Space prices
+                                    <span>Tax not included</span>
+                                </p>
+                                <ul class="clearfix">
+                             <li *ngFor="let item of pricePlan" [ngClass]="{'active' : item.isSelected}" (click)="selectPricePlan(item)">
+                                 <div class="check-inner"> <span>{{item.timeFrame}} {{item.timeFrameType}} </span><b> $ {{item.rate}}.00</b> </div>
+                             </li>
+                                </ul>
+                                <a  (click)="bookNow()">Book Now</a>
+                            </div>
+                            <div  class="make-offer">
+                                <p>Need to book custom arrangments?</p>
+                                <a  class="make-offer-btn" href="javascript:void(0);"  (click)="openOfferModal(spacse._id)">Make An Offer</a>
+                            </div>
+                            <div class="contact-host">
+                                <div class="contact-host-upper">
+                                    <div class="contact-host-fig"><server-image [src]="spacse.user.profilePic"></server-image></div>
+                                    <div class="contact-host-info">
+                                        <h4>{{ spacse.user.firstName }} {{ spacse.user.lastName }}</h4>
+                                        <p>Joined in August 2014 <br>Response rate: <b>100%</b> <br>Responds within <b>10 hours</b><br>
+                                            <i class="fa fa-check-circle"></i><span>Verified owner</span></p>
+                                    </div>
+                                </div>
+                                <a   class="contact-host-btn" href="javascript:void(0);"  (click)="openHostModal(spacse._id)">Contact Host</a>
+                                <a  class="contact-host-btn" href="javascript:void(0);"  (click)="sendTourRequest()">Schedule a Tour</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="listing-lower">
+                <div class="small-request-outer">
+                    <h3>Similar  Spasces <a  [routerLink]="['/spaces']">See All <i class="fa fa-angle-right"></i></a></h3>
+                    <similer-space limit="3" [categoryId]="spacse.category._id"></similer-space>
+                    <!-- <carousel-related [spaces]="spaces"></carousel-related> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="showImageGallery"  >
+            <ImageModal [modalImages]="images" [imagePointer]="0"  (cancelEvent) ="hideImageGallery()"></ImageModal>
+    </div>
+    <!-- main end -->
+
+</div>
+<!--container-fluid -->

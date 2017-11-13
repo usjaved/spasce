@@ -1,0 +1,25 @@
+<div class="modal-content RequestTour">
+    <div class="error-box" *ngIf="error"> {{alertMessage }} </div>
+    <div class="seccess-box" *ngIf="success"> {{alertMessage }} </div>
+    <div class="modal-body">
+        <h3>Request A Tour</h3>
+        <div class="form-group">
+            <label for="Date">Date</label>
+            <div>
+                <ng2-datepicker [(ngModel)]="date"></ng2-datepicker>
+            </div>
+        </div>
+        <div class="form-group request-time">
+            <label for="Request Time">Request Time</label>
+            <div class="clearfix">
+                <input type="time" [(ngModel)]="startTime" class="form-control" placeholder="Start Time">
+                <input type="time" [(ngModel)]="endTime" class="form-control" placeholder="End Time">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" (click)="bookATour()" class="btn btn-primary">Request Tour</button>
+            <button type="button" (click)="closeModel()" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+
+    </div>
+</div>

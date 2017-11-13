@@ -1,0 +1,131 @@
+<!--component html goes here -->
+<div id="main-wrap">
+    <div class="loader" *ngIf="loading"></div>
+
+    <div class="error-box" *ngIf="error"> {{alertMessage }} </div>
+    <div class="seccess-box" *ngIf="success"> {{alertMessage }} </div>
+    <div class="container">
+        <div class="profile-main">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li>
+                    <a [routerLink]="['/user/dashboard']" aria-controls="dashboard" role="tab" data-toggle="tab">Dashboard</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user']" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
+                </li>
+                <li class="active">
+                    <a [routerLink]="['/user/account']" aria-controls="account" role="tab" data-toggle="tab">Account</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/message']" aria-controls="messages" role="tab" data-toggle="tab">Messages</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/bookings']" aria-controls="my_bookings" role="tab" data-toggle="tab">My Bookings</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/requests']" aria-controls="my_requests" role="tab" data-toggle="tab">My Requests</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/favorites']" aria-controls="my_favorites" role="tab" data-toggle="tab">My Favorites</a>
+                </li>
+            </ul>
+            <div role="tabpanel" class="tab-pane active">
+                <div class="accordion-panel accordion-panel2">
+                    <ul class="accordion-nav accordion-nav2">
+                        <li>
+                            <a [routerLink]="['/user/account']">Notifications</a>
+                        </li>
+                        <li>
+                            <a class="active">Payments</a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/user/transactionhistory']">Transaction History</a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/user/changepassword']">Change Password</a>
+                        </li>
+                    </ul>
+                    <div class="accordion-content accordion-content2">
+
+                        <section class="active">
+                            <div class="account-tab">
+                                <div class="account-tab-inner">
+                                    <h4>Payment Methods</h4>
+                                    <p>
+                                        <a (click)="addPayment();">Add new payment method</a>
+                                    </p>
+                                </div>
+                                <div class="account-tab-inner" *ngIf="paymentmethods.length > 0">
+                                    <h4>Payment Methods</h4>
+                                    <div class="tentative-table">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>FirstName </th>
+                                                    <th>LastName</th>
+                                                    <th>Account Type</th>
+                                                    <th>Routing No</th>
+                                                    <th>Account No</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of paymentmethods">
+                                                    <td> {{ item.firstName }}</td>
+                                                    <td> {{item.lastName}}</td>
+                                                    <td> {{ item.accounttype }} </td>
+                                                    <td>{{ item.routingNo }}</td>
+                                                    <td> {{ item.accountNo }}</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                                <div class="account-tab-inner" *ngIf="showPayment">
+                                    <h4>Direct Deposit Account</h4>
+                                    <div class="account-sec">
+                                        <span for="">Account Type</span>
+                                        <div class="account-field">
+                                            <input name="account-type" id="radio-1" type="radio" [(ngModel)]="accounttype" value=Personal>
+                                            <label for="radio-1">Personal</label>
+                                            <input name="account-type" id="radio-2" type="radio" [(ngModel)]="accounttype" value=Business>
+                                            <label for="radio-2">Business</label>
+                                        </div>
+                                    </div>
+                                    <div class="account-sec">
+                                        <span for="">First Name</span>
+                                        <div class="account-field">
+                                            <input type="text" [(ngModel)]="firstName">
+                                        </div>
+                                    </div>
+                                    <div class="account-sec">
+                                        <span for="">Last Name</span>
+                                        <div class="account-field">
+                                            <input type="text" [(ngModel)]="lastName">
+                                        </div>
+                                    </div>
+                                    <div class="account-sec">
+                                        <span for="">Routing Number</span>
+                                        <div class="account-field">
+                                            <input type="text" [(ngModel)]="routingNo">
+                                        </div>
+                                    </div>
+                                    <div class="account-sec">
+                                        <span for="">Account Number</span>
+                                        <div class="account-field">
+                                            <input type="text" [(ngModel)]="accountNo">
+                                        </div>
+                                    </div>
+                                    <button (click)="receivePayment()">Receive Payments</button>
+                                </div>
+                            </div>
+                        </section>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

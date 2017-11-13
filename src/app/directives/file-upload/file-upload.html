@@ -1,0 +1,7 @@
+<!-- <div *ngIf="!onlyButton "  class="drop-container" (drop)="fileDroped($event)" ngFileDrop (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
+  <h1>Drag & Drop</h1>
+</div> -->
+<div class="select-file-button">
+    <button class="file-select-button">Upload Photo</button>
+  <input type="file" style="position: absolute;z-index: 999;display: block;" ngFileSelect (uploadOutput)="onFileSelectUploadOutput($event)" [uploadInput]="uploadInput" multiple>
+</div>

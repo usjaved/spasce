@@ -1,0 +1,43 @@
+#footer-wrap{
+	border-top: 1px solid #979797;
+	background: #fff;
+	color: #000;
+	font-size: 28px;
+	.container{
+		max-width: 1200px;
+	}
+	#footer{
+		padding: 66px 0 73px;
+	}
+	h4{
+		margin: 0 0 18px;
+		font-size: 28px;
+		font-weight: 700;
+	}
+	a{
+		color: #000;
+	}
+	li{
+		margin-bottom: 19px;
+		&:last-child{
+			margin: 0;
+		}
+	}
+	.social-link{
+		li{
+			margin-right: 26px;
+			display: inline-block;
+		}
+	}
+}
+.footer-copy{
+	text-align: center;
+	border-top: solid 1px #979797;
+	color: #000;
+	font-size: 18px;
+	height: 73px;
+	line-height: 73px;
+	p{
+		margin: 0;
+	}
+}

@@ -1,0 +1,43 @@
+<div class="item">
+                <div class="small-request">
+                    <div class="request-section active">
+                        <div class="request-upper">
+                            <div class="request-person">
+                                <div class="request-person-fig"><server-image [src]=request.user.profilePic></server-image></div>
+                                <div class="request-person-info">
+                                    <h4>{{request.user.firstName}} {{request.user.lastName}}</h4>
+                                    <p>  <relative-time [createdAt]="request.createdAt"></relative-time></p>
+                                    <p> <a [routerLink]="['/requests/detail',request._id]" (click)="requestcounter()">{{ request.description }}</a></p>
+                                </div>
+                            </div>
+                            <div class="request-person-spec">
+                                <ul>
+                                    <li><img src="/assets/images/cp-icon.png"><span >
+                                        <span *ngIf="request.otherCategoryTitle" >{{ request.otherCategoryTitle }} </span>
+                                        <span *ngIf="!request.otherCategoryTitle" >{{ request.category.title }} </span>
+                                        
+                                </span></li>
+                                    <li><img width="18px" src="/assets/images/location-icon.png"><span>{{request.address}},{{request.country}}</span></li>
+                                </ul>
+                                <ul>
+                                    <li><img width="30px" src="/assets/images/group-icon.png"><span>{{ request.capacity.title }}</span></li>
+                                    <li><img width="23px" src="/assets/images/calendar-icon.png"><span>{{request.startDate}} - {{request.endDate}}</span></li>
+                                    <li><img width="22px" src="/assets/images/folder-icon.png"><span>From: ${{ request.budget.minimum}}/Hr</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="request-ship">
+                            <div class="request-ship-inner clearfix">
+                                <div class="request-ship-left">
+                                    <a class="request-btn pointer" (click)=" sendmessage()">Message</a>
+                                </div>
+                                <div class="request-ship-right">
+                                    <a href="#"><img src="/assets/images/fb-icon.png" alt=""></a>
+                                    <a href="#"><img src="/assets/images/instagram-icon.png" alt=""></a>
+                                    <a href="#"><img src="/assets/images/twitter-icon.png" alt=""></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>

@@ -1,0 +1,68 @@
+<div class="sign-up-modal">
+    <div class="error-box" *ngIf="error"> {{alertMessage }} </div>
+    <div class="seccess-box" *ngIf="success"> {{alertMessage }} </div>
+    
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body" *ngIf="!showSignUpForm">
+                <div class="model-close-button" (click)="closeDialog()">X</div>
+                <h3>You Need An Account To Request A Space</h3>
+                <a (click)="loginWithFacebook()" class="btn btn-primary"><img src="assets/images/fb-img.png" alt="">Continue with Facebook</a>
+                <a id="google-login-button" class="btn btn-default"><img src="assets/images/google-img.png" alt="">Continue with Google
+                   
+                </a>
+                <a (click)="loginWithLinkedIn()" class="btn btn-info"><img src="assets/images/linked-img.png" alt="">Continue with LinkedIn</a>
+                <div class="or-sec">
+                    <p><span>Or</span></p>
+                    <a (click)="showSignUpForm = true" class="btn btn-info">Sign Up with Email</a>
+                    <p>By signing up I agree to Spacse’s Terms of Service</p>
+                </div>
+                <p class="log-in">Already have an account? <a href="javascript:void()" (click)="openLoginModel()">Log In</a> </p>
+            </div>
+
+            <div class="modal-body" *ngIf="showSignUpForm">
+                <div class="model-close-button" (click)="closeDialog()">X</div>
+                <h3>Join SPACSE</h3>
+
+                <div class="form-group">
+                    <input class="input-text" type="text" [(ngModel)]="firstName" placeholder="First name">
+                </div>
+                <div class="form-group">
+                    <input class="input-text" type="text" [(ngModel)]="lastName" placeholder="Last name">
+                </div>
+                <div class="form-group">
+                    <input class="input-text" type="email" [(ngModel)]="email" placeholder="Email address">
+                </div>
+
+                <div class="form-group">
+                    <input class="input-text" type="password" [(ngModel)]="password" placeholder="Create a Password">
+                </div>
+                <div class="form-group">
+                    <input class="input-text" type="password" [(ngModel)]="cpassword" placeholder="Confirm Password">
+                </div>
+                <label>Birthdate</label>
+                <div class="form-group">
+                    <select style="width: 30%" class="input-select" [(ngModel)]="month">
+                            <option value="">Month</option> 
+                            <option *ngFor="let m of [1,2,3,4,5,6,7,8,9,10,11,12]"  value="{{ m }}">{{ m }}</option> 
+                        </select>
+                    <select style="width: 30%" class="input-select" [(ngModel)]="day">
+                            <option value="">Day</option> 
+                            <option *ngFor="let m of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]"  value="{{ m }}">{{ m }}</option> 
+                        </select>
+                    <select style="width: 30%" class="input-select" [(ngModel)]="year">
+                            <option value="">Year</option> 
+                            <option *ngFor="let m of years"  value="{{ m }}">{{ m }}</option> 
+                        </select>
+                </div>
+
+                <div class="or-sec">
+
+                    <a (click)="signUpWithEmail()" class="btn btn-info">Sign Up</a>
+                    <p>By signing up I agree to Spacse’s Terms of Service</p>
+                </div>
+                <p class="log-in">Already have an account? <a href="javascript:void()" (click)="openLoginModel()">Log In</a> </p>
+            </div>
+        </div>
+    </div>
+</div>

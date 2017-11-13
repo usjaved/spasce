@@ -1,0 +1,58 @@
+<div id="main-wrap">
+    <div class="container">
+        <div class="small-request-outer">
+            <div class="heading-text">
+                <h3 class="clearfix">Space Requests <span></span>
+                    <a class="request-btn" (click)="requestSpacse();" >Request a Space</a>
+                </h3>
+            </div>
+            <div class="filter-section">
+                <h4>Filter By:</h4>
+                <div class="filter-inner">
+                    <ul class="clearfix">
+                        <li><img src="/assets/images/cp-icon.png" alt="">
+                            <span>Space Type <i class="fa fa-caret-down" (click)="enableCategoryFilter()"></i></span>
+                            <ul class="capacity-listing" *ngIf="showCategoryFilter">
+                                <li class="" *ngFor="let item of categories" (click)="selectCategory(item)" [ngClass]="{ 'selected' : item.isSelected }">
+                                    {{item.title}}
+                                </li>
+                            </ul>
+
+                        </li>
+                        <li><img src="/assets/images/location-icon.png" alt="">
+                            <input type="text" #search [(ngModel)]="location" placeholder="e.g. Los Angeles, CA">
+                            <div class="location-dropdown">
+                                <p><input checked="" type="checkbox" name="location" id="location1"><label for="location1">Los Angeles, CA (1)</label></p>
+                                <p><input type="checkbox" name="location" id="location2"><label for="location2">Los Angeles, CA (5)</label></p>
+                                <p><input type="checkbox" name="location" id="location3"><label for="location3">Los Angeles, CA (12)</label></p>
+                                <p><input type="checkbox" name="location" id="location4"><label for="location4">Los Angeles, CA (34)</label></p>
+                            </div>
+                        </li>
+                        <li>
+                            <img src="/assets/images/group-icon.png" alt=""><span>Capacity <i class="fa fa-caret-up" (click)="enableCapacityFilter()"></i></span>
+                            <ul class="capacity-listing" *ngIf="showCapacityFilter">
+                                <li class="" *ngFor="let item of capacities" (click)="selectCategory(item)" [ngClass]="{ 'selected' : item.isSelected }">
+                                    {{item.title}}
+                                </li>
+                            </ul>
+                        </li>
+                        <li><img src="/assets/images/calendar-icon.png" alt=""><span>Dates <i class="fa fa-caret-down"></i></span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="filter-tag clearfix">
+                <div class="filter-tag-left">
+                    <ul>
+                        <li *ngFor="let filter of filters" class="tag"><img src="/assets/images/location-icon.png" alt=""><span>{{ filter.title }}</span><i (click)="removeFilter(filter)"
+                                class="fa fa-times-circle"></i></li>
+
+                    </ul>
+                </div>
+                <div class="filter-tag-right"><a class="pointer" (click)="clearFilter()">Clear Filters</a></div>
+            </div>
+            <div class="search-results" infinite-scroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="300" (scrolled)="onScroll()">
+                <request-list-item *ngFor="let item of listItems" [itemDetail]="item"></request-list-item>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="swiper-main small-request-outer">
+    <swiper [config]="config" #usefulSwiper>
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" *ngFor="let request of requests">
+                <slider-item [request]="request" ></slider-item>
+            </div>
+        </div>
+    </swiper>
+    <div class="owl-nav" *ngIf="requests.length > 3" >
+        <div class="owl-next"></div>
+        <div class="owl-prev"></div>
+    </div>
+</div>

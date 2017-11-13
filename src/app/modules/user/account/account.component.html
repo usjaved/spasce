@@ -1,0 +1,51 @@
+<div id="main-wrap">
+    <div class="container">
+        <div class="loader" *ngIf="loading" ></div>
+<div class="error-box" *ngIf="error"> {{alertMessage }} </div>
+<div class="seccess-box" *ngIf="success"> {{alertMessage }} </div>
+        <div class="profile-main">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li><a [routerLink]="['/user/dashboard']" aria-controls="dashboard" role="tab" data-toggle="tab">Dashboard</a>                    </li>
+                <li><a [routerLink]="['/user']" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+                <li class="active"><a [routerLink]="['/user/account']" aria-controls="account" role="tab" data-toggle="tab">Account</a></li>
+                <li><a [routerLink]="['/user/message']" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+                <li><a [routerLink]="['/user/bookings']" aria-controls="my_bookings" role="tab" data-toggle="tab">My Bookings</a></li>
+                <li><a [routerLink]="['/user/requests']" aria-controls="my_requests" role="tab" data-toggle="tab">My Requests</a></li>
+                <li><a [routerLink]="['/user/favorites']" aria-controls="my_favorites" role="tab" data-toggle="tab">My Favorites</a></li>
+            </ul>
+            <div role="tabpanel" class="tab-pane active">
+                <div class="accordion-panel accordion-panel2">
+                    <ul class="accordion-nav accordion-nav2">
+                        <li><a class="active">Notifications</a></li>
+                        <li><a [routerLink]="['/user/payment']">Payments</a></li>
+                        <li><a [routerLink]="['/user/transactionhistory']">Transaction History</a></li>
+                        <li><a [routerLink]="['/user/changepassword']">Change Password</a></li>
+                    </ul>
+                    <div class="accordion-content accordion-content2">
+                        <section class="active">
+                            <div class="account-tab">
+                                <div class="account-tab-inner">
+                                    <h4>Text Message Notifications</h4>
+                                    <input id="verify1" type="checkbox" [(ngModel)]="recievesms" value="Recieve SMS notification">
+                                    <label for="verify1">Recieve SMS notifications to : +1******1234 </label>
+                                </div>
+                                <div class="account-tab-inner">
+                                    <h4>Email Notifications</h4>
+                                    <input id="verify2" type="checkbox" [(ngModel)]="generalandpromotional" value="General and promotional emails">
+                                    <label for="verify2">General and promotional emails </label>
+                                    <input id="verify3" type="checkbox" [(ngModel)]="reservationandreview" value="Reservation and review reminders">
+                                    <label for="verify3">Reservation and review reminders </label>
+                                    <input id="verify4" type="checkbox" [(ngModel)]="accountacivity" value="Account activity">
+                                    <label for="verify4">Account activity </label>
+                                </div>
+                                <button (click)="saveChanges()">Save Changes</button>
+                            </div>
+                        </section>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

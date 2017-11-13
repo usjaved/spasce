@@ -1,0 +1,118 @@
+<div id="step-wrap">
+    <div class="clearfix">
+        <aside class="listing-sidebar">
+            <div class="listing-sidebar-inner">
+                <agm-map [usePanning]='true' (mapReady)="mapReady($event)" [latitude]="latitude" [longitude]="longitude" [scrollwheel]="true"
+                    [zoom]="zoom">
+                    <agm-marker *ngFor="let item of spaces" [latitude]="toNumber(item.latitude)" [iconUrl]="getMarker(item)" [longitude]="toNumber(item.longitude)" [label]="getPrice(item)" (markerClick)="markerClick(item)"></agm-marker>
+                </agm-map>
+            </div>
+        </aside>
+        <section class="listing-content">
+            <div class="listing-gallery-range">
+                <div class="listing-range-top clearfix">
+                    <div class="listing-range-dis">
+                        <h4>What type of space do you need?</h4>
+                        <p>Choose all that apply</p>
+                    </div>
+                    <div class="listing-range-space">
+                        <div class="type-space">
+                            <label *ngFor="let item of categories" (click)="selectCategory(item)" [ngClass]=" { 'selected' : item.isSelected }"> {{ item.title }} 
+                                    </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="listing-range-sec">
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <div class="listing-range-info">
+                                <label for="">Space capacity</label>
+                                <div class="range-sec">
+                                     <ion-range-slider #sliderCapacity type="double" min="0" max="200" from="0" decorate_both="false" (onFinish)="updateCapacity($event)"></ion-range-slider>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-5 col-sm-offset-2">
+                            <div class="listing-range-info">
+                                <label for="">Price range</label>
+                                <div class="range-sec">
+                                    <ion-range-slider #sliderPrice type="double" min="0" max="2500" from="0" prefix="$" decorate_both="false" (onFinish)="updatePrice($event)"></ion-range-slider>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="listing-gallery-upper">
+                <div class="listing-offer-bar clearfix">
+                    <div class="listing-offer-bar-left">
+                        <!-- <p>Displaying <b>10 of 100</b>  listings in <b>Los Angeles, CA</b></p> -->
+                    </div>
+                    <div class="listing-offer-bar-right">
+                        <!-- <em>Sort by:</em><span>
+                                <select name="" id="">
+                                    <option value="">Top Rated</option>
+                                    <option value="">Top Rated</option>
+                                    <option value="">Top Rated</option>
+                                    <option value="">Top Rated</option>
+                                </select>
+                            </span> -->
+                    </div>
+                </div>
+                <div class="listing-offer">
+                    <div class="row">
+                        <div class="col-sm-12" *ngIf="spaces.length == 0">
+                            <p> No record for the search</p>
+                           
+                              Do  you want to create <a (click)="requestSpacse();">Request a Space</a> ?
+                     </div>
+                        <div class="col-sm-6 space-list-item" *ngFor="let item of spaces">
+                            <div class="book-slide" [ngClass]="{ selected : item.isSelected }" >
+                                <div class="book-slide-fig">
+                                    <ul class="slides">
+                                        <li>
+                                            <i>New</i>
+                                            <server-image [src]="item.coverPictire"></server-image>
+                                            <span class="active"></span>
+                                            <p>From: <strong>${{ item.pricingLayer[0].rate }}</strong><small>per {{ item.pricingLayer[0].timeFrame }} {{ item.pricingLayer[0].timeFrameType  }}</small></p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="book-slide-info">
+                                    <h4>
+                                        <a [routerLink]="['/spaces/detail',item._id]"> {{ item.title }} </a>
+                                    </h4>
+                                    <p class="listing-description">{{ item.description }}</p>
+                                    <ul>
+                                        <li><img src="/assets/images/location-icon.png" alt=""><span>{{ item.city }}, {{ item.state }}</span></li>
+                                        <li><img width="27px" src="/assets/images/group-icon.png" alt=""><span>{{  item.capacity.title }}</span></li>
+                                        <li><img width="24px" src="/assets/images/arrow-direction.png" alt=""><span>{{ item.squareFootArea }} Sq. Ft.</span></li>
+                                    </ul>
+                                    <div class="star-sec"><img src="/assets/images/star-icon.png" alt="">
+                                        <img src="/assets/images/star-icon.png" alt="">
+                                        <img src="/assets/images/star-icon.png" alt="">
+                                        <img src="/assets/images/star-icon.png" alt="">
+                                        <img src="/assets/images/star-icon.png" alt=""><span>10 Reviews</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="listing-lower">
+                <div class="small-request-outer">
+                    <div class="heading-text">
+                        <h3>Can’t Find A Space? <a [routerLink]="['/requests']">See All <i class="fa fa-angle-right"></i></a></h3>
+                        <p>Make a request and we will find you the perfect space just like these people!</p>{{selectedcategory}}
+                        <similer-request [categoryId]=selectedcategory limit="5"> </similer-request> 
+                        <!-- <similer-request categoryId="597acd4341813a13ac4a47f3" limit="5"> </similer-request> -->     
+                    </div>
+                    <div class="right-btn clearfix">
+                        <a (click)="requestSpacse();">Request a Space</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

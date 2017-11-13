@@ -1,0 +1,72 @@
+<div id="container-fluid" *ngIf="isLoading">
+    <!--main start -->
+    <div id="main-wrap">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="#">Space Request Feed</a></li>
+                <li><span>Request</span></li>
+            </ul>
+            <div class="request-section request-section-outer active">
+                <div class="request-upper">
+                    <div class="request-person">
+                        <div class="request-person-fig"><server-image [src]=request.user.profilePic></server-image></div>
+                        <div class="request-person-info">
+                            <h4>{{request.user.firstName}} {{request.user.lastName}}</h4>
+                            <p><relative-time [createdAt]="request.createdAt"></relative-time></p>
+                        </div>
+                    </div>
+                    <div class="request-person-msg">
+                        <p>{{ request.description }} </p>
+                    </div>
+                    <div class="request-person-spec">
+                        <ul>
+                            <li><img src="/assets/images/cp-icon.png"><span >
+                                <span *ngIf="request.otherCategoryTitle" >{{ request.otherCategoryTitle }} </span>
+                                <span *ngIf="!request.otherCategoryTitle" >{{ request.category.title }} </span>
+                                
+                        </span></li>
+                            <li><img src="assets/images/location-icon.png"><span>{{ request.city }},{{ request.state }}</span></li>
+                            <li><img src="assets/images/group-icon.png"><span>{{ request.capacity.title }}</span></li>
+                        </ul>
+                        <ul>
+                            <li><img src="assets/images/clock-icon.png"><span>{{ request.timeDuration }}</span></li>
+                            <li><img src="assets/images/calendar-icon.png"><span>{{ request.startDate }} - {{ request.endDate }}</span></li>
+                            <li><img src="assets/images/folder-icon.png"><span>From: ${{ request.budget.minimum }}/Hr</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="request-ship">
+                    <div class="request-ship-inner clearfix">
+                        <div class="request-ship-left">
+                            <a class="request-btn" (click)="showMessage()">Fulfill this request</a>
+                            <a (click)="showComments()"><img src="assets/images/comment-icon.png" *ngIf="request.comments.length >0"><span>Comments ({{request.comments.length}})</span></a>
+                            <a href="javascript:void(0);"  (click)="openFlagModal(request._id) "><img src="assets/images/curve-flag.png"><span>Flag</span></a>
+                        </div>
+                        <div class="request-ship-right">
+                            <a href="#"><img src="assets/images/fb-icon.png" alt=""></a>
+                            <a href="#"><img src="assets/images/instagram-icon.png" alt=""></a>
+                            <a href="#"><img src="assets/images/twitter-icon.png" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="request-comment" *ngIf="showCommentBox">
+                    <comment-list [requestId]="request._id" [comments]="request.comments"></comment-list>
+                </div>
+                <div  *ngIf="showMesseges">
+                    <request-messenger  
+                       [spaces]="request.spaces" 
+                       [requestUserId]="request.userId"  
+                       [requestId]="request._id" 
+                       [messages]="request.messages"></request-messenger>
+                </div>
+
+            </div>
+            <div class="small-request-outer" *ngIf="request.category._id" >
+                <h3>Similar Space Requests</h3>
+                <similer-request limit="2" [categoryId]="request.category._id"></similer-request>
+            </div>
+        </div>
+    </div>
+    <!--main end -->
+</div>
+<!--container-fluid -->

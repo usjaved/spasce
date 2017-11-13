@@ -1,0 +1,25 @@
+<form action="">
+      <server-image [src]=profilePic></server-image>
+          <textarea placeholder="Write a comment…" [(ngModel)]="comment" name="comment"></textarea>
+
+    <div class="">
+        <a class="add-comment pointer" (click)="addComment()">Add Comment</a>
+    </div>
+
+</form>
+
+<div class="comment-sec" *ngFor="let comment of comments; let i=index">
+    <div class="comment-level comment-level1 " *ngIf="i < limit"  >
+        <div class="comment-fig"><server-image [src]=comment.user.profilePic></server-image></div>
+        <div class="comment-info">
+            <h4>{{ comment.user.firstName }} {{comment.user.lastName}}</h4>
+            <p>{{ comment.comment }}</p>
+            <p>
+                <!-- <a href="#">Like</a>.<a href="#">Reply</a>. -->
+                <span><relative-time [createdAt]="comment.createdAt"></relative-time></span></p>
+        </div>
+    </div>
+</div>
+<div class="request-more clearfix" *ngIf="limit < comments.length" >
+    <div class="request-more-left"><a class="pointer" (click)="loadMore()">View more comments</a></div>
+</div>

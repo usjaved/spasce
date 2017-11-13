@@ -1,0 +1,44 @@
+<!--component html goes here -->
+<div class="modal-dialog" role="dialog">
+    <div class="error-box" *ngIf="error"> {{alertMessage }} </div>
+    <div class="seccess-box" *ngIf="success"> {{alertMessage }} </div>
+    <div class="modal-content">
+        <div class="modal-body">
+
+            <h3>Report Post</h3>
+
+            <form>
+                <div class="form-group">
+                    <label for="" class="control-label">Reason for report:</label>
+                    <div class="">
+                        <div class="roundedOne">
+                            <input type="radio" [(ngModel)]="flagReason" value="Spam" name="radiog_lite" id="radio5" class="css-checkbox">
+                            <label for="radio5" class="css-label">Spam</label>
+                        </div>
+                        <div class="roundedOne">
+                            <input type="radio" [(ngModel)]="flagReason" value="Duplicate" name="radiog_lite" id="radio6" class="css-checkbox">
+                            <label for="radio6" class="css-label">Duplicate</label>
+                        </div>
+                        <div class="roundedOne">
+                            <input type="radio" [(ngModel)]="flagReason" value="Inappropiate" name="radiog_lite" id="radio7" class="css-checkbox">
+                            <label for="radio7" class="css-label">Inappropiate</label>
+                        </div>
+                        <div class="roundedOne">
+                            <input type="radio" [(ngModel)]="flagReason" value="Needs editing" name="radiog_lite" id="radio8" class="css-checkbox">
+                            <label for="radio8" class="css-label">Needs editing</label>
+                        </div>
+                        <div class="roundedOne">
+                            <input type="radio" [(ngModel)]="flagReason" value="Self promotion" name="radiog_lite" id="radio9" class="css-checkbox">
+                            <label for="radio9" class="css-label">Self promotion</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" (click)=addFlag()>Submit Report</button>
+                    <button type="button" class="btn btn-primary" (click)=close()>Cancle</button>
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

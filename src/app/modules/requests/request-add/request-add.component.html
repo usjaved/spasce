@@ -1,0 +1,332 @@
+<!--component html goes here -->
+
+<!--main start -->
+<div class="error-box" *ngIf="error"> {{alertMessage }} </div>
+<div class="seccess-box" *ngIf="success"> {{alertMessage }} </div>
+<div class="step-top-bar" *ngIf="hideInfo" >
+       
+    
+    <p>Listings In This Area Are Coming Soon!</p>
+    <i (click)="hideInfo=false" class="fa fa-times-circle"></i>
+</div>
+<div id="step-wrap">
+    <div class="clearfix">
+        <section class="step-content">
+            <div class="step-main">
+                <article>
+                    <h1>Request a Space</h1>
+                    <p>Let us know the type of space you need and we will find it for you at no additional cost, we are here to help.</p>
+                    <h5 class="label-bar"><img width="24px" src="/assets/images/item-icon1.png" alt=""><span>Type of Space Needed</span></h5>
+                    <div class="type-space">
+                        <label *ngFor="let item of categories" (click)="selectCategory(item)" [ngClass]=" { 'selected' : item.isSelected }"  > {{ item.title }} 
+                        </label>
+                    </div>
+                    <div class="other-space">
+                        <span><input type="checkbox" id="otherspace" [(ngModel)]="otherCategory" (change)="otherCategoryOption()" ><label for="otherspace">Other</label></span>
+                        <input *ngIf="otherCategory"  type="text" [(ngModel)]="otherCategoryTitle" placeholder="Enter in the type of space you need">
+                    </div>
+                    <h5 class="label-bar"><img width="17px" src="/assets/images/item-icon2.png" alt=""><span>City</span></h5>
+                    <div class="city-space">
+                        <input type="text" [(ngModel)] = "city" #locationSearch placeholder="Los Angeles, CA">
+                    </div>
+                    <h5 class="label-bar"><img width="30px" src="/assets/images/item-icon3.png" alt=""><span>Space Capacity</span></h5>
+                    <div class="type-space type-space2">
+                            <label *ngFor="let item of capacities" (click)="selectCapacity(item)" [ngClass]=" { 'selected' : item.isSelected }"  > {{ item.title }} 
+                                    
+                            </label>
+                    </div>
+                    <h5 class="label-bar"><img src="/assets/images/clock-icon.png" alt=""><span>Type of Space Needed</span></h5>
+                    <div class="type-space">
+                        <input name="space-booking" id="space-book1" [(ngModel)]="spaceTime" (change)="slecectTime()" value="4 Hours" type="radio"><label for="space-book1">4 Hours
+                        </label><input name="space-booking" id="space-book2" [(ngModel)]="spaceTime" (change)="slecectTime()" value="8 Hours" type="radio"><label for="space-book2">8 Hours
+                        </label><input name="space-booking" id="space-book3" [(ngModel)]="spaceTime" (change)="slecectTime()" value="12 Hours" type="radio"><label for="space-book3">12 Hours</label>
+                    </div>
+                    <div class="other-space">
+                        <span><input type="checkbox" id="otherspace1" (change)="otherTimeChange()" [(ngModel)]="otherSpaceTime"><label for="otherspace1">Other</label></span>
+                        <input *ngIf="otherSpaceTime" [(ngModel)]="otherSpaceTimeTitle" placeholder="2 Hours">
+                    </div>
+                    <h5 class="label-bar"><span>Request Date(s)</span></h5>
+                    <div class="calendar-sec">
+                        <span>
+                            Start Date
+                            <ng2-datepicker [options]="options" [(ngModel)]="startDate"></ng2-datepicker>
+                        </span>
+                        <span>
+                            End Date
+                            <ng2-datepicker [options]="options" [(ngModel)]="endDate"></ng2-datepicker>
+                        </span>
+                    </div>
+                    <h5 class="label-bar"><img src="/assets/images/folder-icon.png" alt=""><span>Daily Budget</span></h5>
+                    <div class="space-select">
+                        <span>
+                            <select [(ngModel)]="budget">
+                                <option *ngFor="let item of budgets"  [value]="item._id">{{ item.title }}</option>
+                            </select>
+                        </span>
+                    </div>
+                    <h5 class="label-bar"><span>Describe Your Space</span></h5>
+                    <div class="space-textarea">
+                        <textarea name="" id="" cols="30" rows="10" [(ngModel)]="description" placeholder="Tell us any specific needs and preferences you have. The more information we have, the more possibilities we can create."></textarea>
+                    </div>
+                </article>
+                <div class="step-pager clearfix">
+                 <div class="step-pager-right step-no-pager"><a (click)="submitForm()">Submit Request</a></div>
+                </div>
+            </div>
+            <div class="space-slider-outer">
+                <div class="small-request-outer">
+                    <div class="heading-text">
+                        <h3>Most Recent Requests <a href="#">See All <i class="fa fa-angle-right"></i></a></h3>
+                    </div>
+                    <div class="owl-carousel">
+                        <div class="item">
+                            <div class="small-request">
+                                <div class="request-section active">
+                                    <div class="request-upper">
+                                        <div class="request-person">
+                                            <div class="request-person-fig"><img src="/assets/images/person-img1.png" alt=""></div>
+                                            <div class="request-person-info">
+                                                <h4>Joe S.</h4>
+                                                <p>Created 5 hours ago</p>
+                                                <p><b>Lorem ipsum dolor sit amet, consectetur...</b></p>
+                                            </div>
+                                        </div>
+                                        <div class="request-person-spec">
+                                            <ul>
+                                                <li><img width="30px" src="/assets/images/cp-icon.png"><span>Coworking Space</span></li>
+                                                <li><img width="18px" src="/assets/images/location-icon.png"><span>Los Angeles, CA</span></li>
+                                            </ul>
+                                            <ul>
+                                                <li><img width="30px" src="/assets/images/group-icon.png"><span>30</span></li>
+                                                <li><img width="23px" src="/assets/images/calendar-icon.png"><span>05/26/17 - 05/30/17</span></li>
+                                                <li><img width="22px" src="/assets/images/folder-icon.png"><span>From: $200/Hr</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="request-ship">
+                                        <div class="request-ship-inner clearfix">
+                                            <div class="request-ship-left">
+                                                <a class="request-btn" href="#">Message</a>
+                                            </div>
+                                            <div class="request-ship-right">
+                                                <a href="#"><img src="/assets/images/fb-icon.png" alt=""></a>
+                                                <a href="#"><img src="/assets/images/instagram-icon.png" alt=""></a>
+                                                <a href="#"><img src="/assets/images/twitter-icon.png" alt=""></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="small-request">
+                                <div class="request-section active">
+                                    <div class="request-upper">
+                                        <div class="request-person">
+                                            <div class="request-person-fig"><img src="/assets/images/person-img1.png" alt=""></div>
+                                            <div class="request-person-info">
+                                                <h4>Joe S.</h4>
+                                                <p>Created 5 hours ago</p>
+                                                <p><b>Lorem ipsum dolor sit amet, consectetur...</b></p>
+                                            </div>
+                                        </div>
+                                        <div class="request-person-spec">
+                                            <ul>
+                                                <li><img width="30px" src="/assets/images/cp-icon.png"><span>Coworking Space</span></li>
+                                                <li><img width="18px" src="/assets/images/location-icon.png"><span>Los Angeles, CA</span></li>
+                                            </ul>
+                                            <ul>
+                                                <li><img width="30px" src="/assets/images/group-icon.png"><span>30</span></li>
+                                                <li><img width="23px" src="/assets/images/calendar-icon.png"><span>05/26/17 - 05/30/17</span></li>
+                                                <li><img width="22px" src="/assets/images/folder-icon.png"><span>From: $200/Hr</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="request-ship">
+                                        <div class="request-ship-inner clearfix">
+                                            <div class="request-ship-left">
+                                                <a class="request-btn" href="#">Message</a>
+                                            </div>
+                                            <div class="request-ship-right">
+                                                <a href="#"><img src="/assets/images/fb-icon.png" alt=""></a>
+                                                <a href="#"><img src="/assets/images/instagram-icon.png" alt=""></a>
+                                                <a href="#"><img src="/assets/images/twitter-icon.png" alt=""></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="small-request">
+                                <div class="request-section active">
+                                    <div class="request-upper">
+                                        <div class="request-person">
+                                            <div class="request-person-fig"><img src="/assets/images/person-img1.png" alt=""></div>
+                                            <div class="request-person-info">
+                                                <h4>Joe S.</h4>
+                                                <p>Created 5 hours ago</p>
+                                                <p><b>Lorem ipsum dolor sit amet, consectetur...</b></p>
+                                            </div>
+                                        </div>
+                                        <div class="request-person-spec">
+                                            <ul>
+                                                <li><img width="30px" src="/assets/images/cp-icon.png"><span>Coworking Space</span></li>
+                                                <li><img width="18px" src="/assets/images/location-icon.png"><span>Los Angeles, CA</span></li>
+                                            </ul>
+                                            <ul>
+                                                <li><img width="30px" src="/assets/images/group-icon.png"><span>30</span></li>
+                                                <li><img width="23px" src="/assets/images/calendar-icon.png"><span>05/26/17 - 05/30/17</span></li>
+                                                <li><img width="22px" src="/assets/images/folder-icon.png"><span>From: $200/Hr</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="request-ship">
+                                        <div class="request-ship-inner clearfix">
+                                            <div class="request-ship-left">
+                                                <a class="request-btn" href="#">Message</a>
+                                            </div>
+                                            <div class="request-ship-right">
+                                                <a href="#"><img src="/assets/images/fb-icon.png" alt=""></a>
+                                                <a href="#"><img src="/assets/images/instagram-icon.png" alt=""></a>
+                                                <a href="#"><img src="/assets/images/twitter-icon.png" alt=""></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="small-request">
+                                <div class="request-section active">
+                                    <div class="request-upper">
+                                        <div class="request-person">
+                                            <div class="request-person-fig"><img src="/assets/images/person-img1.png" alt=""></div>
+                                            <div class="request-person-info">
+                                                <h4>Joe S.</h4>
+                                                <p>Created 5 hours ago</p>
+                                                <p><b>Lorem ipsum dolor sit amet, consectetur...</b></p>
+                                            </div>
+                                        </div>
+                                        <div class="request-person-spec">
+                                            <ul>
+                                                <li><img width="30px" src="/assets/images/cp-icon.png"><span>Coworking Space</span></li>
+                                                <li><img width="18px" src="/assets/images/location-icon.png"><span>Los Angeles, CA</span></li>
+                                            </ul>
+                                            <ul>
+                                                <li><img width="30px" src="/assets/images/group-icon.png"><span>30</span></li>
+                                                <li><img width="23px" src="/assets/images/calendar-icon.png"><span>05/26/17 - 05/30/17</span></li>
+                                                <li><img width="22px" src="/assets/images/folder-icon.png"><span>From: $200/Hr</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="request-ship">
+                                        <div class="request-ship-inner clearfix">
+                                            <div class="request-ship-left">
+                                                <a class="request-btn" href="#">Message</a>
+                                            </div>
+                                            <div class="request-ship-right">
+                                                <a href="#"><img src="/assets/images/fb-icon.png" alt=""></a>
+                                                <a href="#"><img src="/assets/images/instagram-icon.png" alt=""></a>
+                                                <a href="#"><img src="/assets/images/twitter-icon.png" alt=""></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="small-request">
+                                <div class="request-section active">
+                                    <div class="request-upper">
+                                        <div class="request-person">
+                                            <div class="request-person-fig"><img src="/assets/images/person-img1.png" alt=""></div>
+                                            <div class="request-person-info">
+                                                <h4>Joe S.</h4>
+                                                <p>Created 5 hours ago</p>
+                                                <p><b>Lorem ipsum dolor sit amet, consectetur...</b></p>
+                                            </div>
+                                        </div>
+                                        <div class="request-person-spec">
+                                            <ul>
+                                                <li><img width="30px" src="/assets/images/cp-icon.png"><span>Coworking Space</span></li>
+                                                <li><img width="18px" src="/assets/images/location-icon.png"><span>Los Angeles, CA</span></li>
+                                            </ul>
+                                            <ul>
+                                                <li><img width="30px" src="/assets/images/group-icon.png"><span>30</span></li>
+                                                <li><img width="23px" src="/assets/images/calendar-icon.png"><span>05/26/17 - 05/30/17</span></li>
+                                                <li><img width="22px" src="/assets/images/folder-icon.png"><span>From: $200/Hr</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="request-ship">
+                                        <div class="request-ship-inner clearfix">
+                                            <div class="request-ship-left">
+                                                <a class="request-btn" href="#">Message</a>
+                                            </div>
+                                            <div class="request-ship-right">
+                                                <a href="#"><img src="/assets/images/fb-icon.png" alt=""></a>
+                                                <a href="#"><img src="/assets/images/instagram-icon.png" alt=""></a>
+                                                <a href="#"><img src="/assets/images/twitter-icon.png" alt=""></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="small-request">
+                                <div class="request-section active">
+                                    <div class="request-upper">
+                                        <div class="request-person">
+                                            <div class="request-person-fig"><img src="/assets/images/person-img1.png" alt=""></div>
+                                            <div class="request-person-info">
+                                                <h4>Joe S.</h4>
+                                                <p>Created 5 hours ago</p>
+                                                <p><b>Lorem ipsum dolor sit amet, consectetur...</b></p>
+                                            </div>
+                                        </div>
+                                        <div class="request-person-spec">
+                                            <ul>
+                                                <li><img width="30px" src="/assets/images/cp-icon.png"><span>Coworking Space</span></li>
+                                                <li><img width="18px" src="/assets/images/location-icon.png"><span>Los Angeles, CA</span></li>
+                                            </ul>
+                                            <ul>
+                                                <li><img width="30px" src="/assets/images/group-icon.png"><span>30</span></li>
+                                                <li><img width="23px" src="/assets/images/calendar-icon.png"><span>05/26/17 - 05/30/17</span></li>
+                                                <li><img width="22px" src="/assets/images/folder-icon.png"><span>From: $200/Hr</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="request-ship">
+                                        <div class="request-ship-inner clearfix">
+                                            <div class="request-ship-left">
+                                                <a class="request-btn" href="#">Message</a>
+                                            </div>
+                                            <div class="request-ship-right">
+                                                <a href="#"><img src="/assets/images/fb-icon.png" alt=""></a>
+                                                <a href="#"><img src="/assets/images/instagram-icon.png" alt=""></a>
+                                                <a href="#"><img src="/assets/images/twitter-icon.png" alt=""></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <aside class="step-sidebar">
+            <div class="step-sidebar-inner">
+                <div class="step-sidebar-fig sidebar-no-padding">
+                    <img src="/assets/images/list-space-img.png" alt="">
+                </div>
+                <div class="step-sidebar-info">
+                    <h4>Requesting a space couldn’t be easier!</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig.  Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig.  Orci varius natoque penatibus.  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig.  Orci varius natoque penatibus</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>

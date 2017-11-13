@@ -1,0 +1,19 @@
+.banner-wrap{
+	position: relative;
+	img{
+		width: 100%;
+	}
+	a{
+		color: #327ccb;
+		display: block;
+		width: 165.5px;
+		height: 58.2px;
+		line-height: 58.2px;
+		background-color: #ffffff;
+		border: solid 1px #327ccb;
+		position: absolute;
+		left: 50px;
+		bottom: 25px;
+		text-align: center;
+	}
+}

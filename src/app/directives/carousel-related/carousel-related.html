@@ -1,0 +1,14 @@
+<div class="swiper-main small-request-outer">
+    <swiper [config]="config" #usefulSwiper>
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" *ngFor="let space of spaces">
+               <carousel-related-item [space]="space" ></carousel-related-item>
+                     
+          </div>
+        </div>
+    </swiper>
+    <div class="owl-nav" *ngIf="spaces">
+        <div *ngIf="spaces && spaces.lenght > 3"  class="owl-next owl-next{{uniqSliderId}}"></div>
+        <div *ngIf="spaces && spaces.lenght > 3" class="owl-prev owl-prev{{uniqSliderId}}"></div>
+    </div>
+</div>
