@@ -7,7 +7,7 @@ import { Apollo, ApolloQueryObservable } from 'apollo-angular';
 import { ApolloQueryResult } from 'apollo-client';
 import { spaceNewFormDetail, getFilterSpacessQuery, getSpaceDetail, getSpaceDetailForEdit, gatAllSpace, usersListing, getEditSpaceDetail, getUsersActiveSpace, similerSpasce } from '../queries/space';
 // import { CategoriesInterface } from './../schemas/spaces';
-import { CreateSpaceAmenities, CreateUserPaymentInfo, UpdateSecurityDeposit, UpdateAdditionalFees, SubmitForApproval, createSpaceStep1, createSpaceStep4, createSpaceStep6, BookSpacse, UpdateStatus, updateBookingStatus } from '../mutations/space';
+import { CreateSpaceAmenities, CreateUserPaymentInfo, UpdateSecurityDeposit, UpdateAdditionalFees, SubmitForApproval, createSpaceStep1, createSpaceStep4, createSpaceStep6, BookSpacse, UpdateStatus, updateBookingStatus, createSpacseReview } from '../mutations/space';
 import { getSpacebookings } from '../queries/user';
 
 interface CategoriesInterface {
@@ -52,6 +52,13 @@ export class SpacesService {
         return this.apollo.mutate({
             mutation: CreateUserPaymentInfo,
             variables: data
+        })
+    }
+
+    createSpacseReview(data):any{
+        return this.apollo.mutate({
+            mutation:createSpacseReview,
+            variables:data
         })
     }
 
@@ -126,9 +133,10 @@ export class SpacesService {
             fetchPolicy: 'network-only',
         });
     }
-    getHomePageDetails() {
+    getHomePageDetails(data) {
         return this.apollo.watchQuery<any>({
             query: GetHomePageDetails,
+            variables: data,
             fetchPolicy: 'network-only',
         });
     }

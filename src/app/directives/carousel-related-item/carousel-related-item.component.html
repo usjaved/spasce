@@ -5,9 +5,10 @@
                 <a [routerLink]="['/spaces/detail',space._id]">
                     <server-image [src]="space.coverPictire"></server-image>
                 </a>
-                <!-- <img src ="/assets/images/like.png" (click)="add();" *ngIf="like==false"> 
-                <img src ="/assets/images/active-like.png"  (click)="add();"*ngIf="like==true" >  -->
                 <span></span>
+                 <!-- <img src ="/assets/images/like.png" (click)="add();" *ngIf="like==false"> 
+                <img src ="/assets/images/active-like.png"  (click)="add();"*ngIf="like==true" >  -->
+                <span class="like" [ngClass]="{ 'active' : like }" (click)="add()" ></span>
                 <p> From: <strong >${{ space.pricingLayer[0].rate / 4 }}</strong>
                     <small>per hour</small></p>  
             </div>
@@ -20,11 +21,8 @@
                 <li><img width="27px" src="/assets/images/group-icon.png" alt=""><span>{{ space.capacity.title }}</span></li>
                 <li><img width="24px" src="/assets/images/arrow-direction.png" alt=""><span>{{ space.squareFootArea }} Sq. Ft.</span></li>
             </ul>
-            <div class="star-sec"><img src="/assets/images/star-icon.png" alt="">
-                <img src="/assets/images/star-icon.png" alt="">
-                <img src="/assets/images/star-icon.png" alt="">
-                <img src="/assets/images/star-icon.png" alt="">
-                <img src="/assets/images/star-icon.png" alt=""><span>10 Reviews</span></div>
+            <div class="star-sec">
+              <rating-star [TotalReview] ="space.TotalReview" [rating]="space.AvgReview"></rating-star></div>
         </div>
     </div>
 </div>

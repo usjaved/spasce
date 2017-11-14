@@ -79,12 +79,7 @@
                                             </li>
                                         </ul>
                                         <div class="star-sec">
-                                            <img src="/assets/images/star-icon.png" alt="">
-                                            <img src="/assets/images/star-icon.png" alt="">
-                                            <img src="/assets/images/star-icon.png" alt="">
-                                            <img src="/assets/images/star-icon.png" alt="">
-                                            <img src="/assets/images/star-icon.png" alt="">
-                                            <span>10 Reviews</span>
+                                            <rating-star [TotalReview]="item.spacse.TotalReview" [rating]=" item.spacse.AvgReview"></rating-star>
                                         </div>
                                     </div>
                                 </div>
@@ -160,7 +155,10 @@
                                             <div class="my_bookings-btn">
                                                 <a href="javascript:void(0);" (click)="openHostModal(item.spacse._id)">Contact Host</a>
                                             </div>
+
                                         </div>
+                                        <a href="javascript:void(0);" (click)="openreviewModal(item.spacse._id,item._id)">Rate the Spacse</a>
+
                                     </div>
                                 </div>
                             </div>

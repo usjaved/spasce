@@ -35,11 +35,8 @@
                                         <li><img src="assets/images/item-icon4.png" alt=""><span>{{spacse.squareFootArea}} Sq. Ft.</span></li>
                                         <li><img src="assets/images/item-icon5.png" alt=""><span>{{ spacse.numberOfRooms}} Rooms<i>|</i>{{ spacse.numberOfRestRooms}} RestRooms</span></li>
                                     </ul>
-                                    <div class="star-sec"><img src="assets/images/star-icon.png" alt="">
-                                        <img src="assets/images/star-icon.png" alt="">
-                                        <img src="assets/images/star-icon.png" alt="">
-                                        <img src="assets/images/star-icon.png" alt="">
-                                        <img src="assets/images/star-icon.png" alt=""><span>10 Reviews</span></div>
+                                    <div class="star-sec">
+                                      <span> <rating-star [TotalReview] ="spacse.TotalReview" [rating]="spacse.AvgReview"></rating-star></span></div>
                                 </div>
                                 <!-- Spacse description -->
                                 <div class="desc-outer">
@@ -168,13 +165,10 @@
                                 </div>
                             </div>
             <!-- review -->
-                            <div *ngIf=" showreview">
+                            <div *ngIf="showreview">
                                 <div class="reviewed-sec">
-                                    <div class="star-sec"><strong>10 Reviews</strong><img src="assets/images/star-icon.png" alt="">
-                                        <img src="assets/images/star-icon.png" alt="">
-                                        <img src="assets/images/star-icon.png" alt="">
-                                        <img src="assets/images/star-icon.png" alt="">
-                                        <img src="assets/images/star-icon.png" alt="">
+                                    <div class="star-sec"><strong><rating-star [TotalReview] ="spacse.TotalReview" [rating]="spacse.AvgReview"></rating-star></strong>
+                                       
                                     </div>
                                 </div>
                                 <div class="commented-sec">
@@ -207,7 +201,7 @@
                             <div class="discount-sec">
                                 <i>Starting from</i>
                                 <strong>${{ spacse.pricingLayer[0].rate }}</strong><span>per {{ spacse.pricingLayer[0].timeFrame }} {{ spacse.pricingLayer[0].timeFrameType }}</span>
-                                <div class="discount-price"><em>500</em></div>
+                              <!--  <div class="discount-price"><em>500</em></div> -->
                             </div>
                             <div class="booking-sec">
                                 <div class="selection-calendar-new clearfix">
@@ -235,7 +229,7 @@
                                     <div class="contact-host-fig"><server-image [src]="spacse.user.profilePic"></server-image></div>
                                     <div class="contact-host-info">
                                         <h4>{{ spacse.user.firstName }} {{ spacse.user.lastName }}</h4>
-                                        <p>Joined in August 2014 <br>Response rate: <b>100%</b> <br>Responds within <b>10 hours</b><br>
+                                        <p>{{ timeToDate(spacse.user.createdAt) }} <br>Response rate: <b>100%</b> <br>Responds within <b>10 hours</b><br>
                                             <i class="fa fa-check-circle"></i><span>Verified owner</span></p>
                                     </div>
                                 </div>

@@ -1,3 +1,4 @@
+import { ReviewsComponent } from '../../../directives/reviews/reviews';
 import { AlertComponent } from './../../../directives/alert/alert.component';
 import { Component, OnInit } from "@angular/core";
 import { UserService } from '../../../graphqls/services/user';
@@ -15,29 +16,45 @@ import { Http } from '@angular/http';
 export class BookingsComponent implements OnInit {
 
   space = [];
-  userId;
+  review = [];
+  userId : String;
   success = false;
   error = false;
   isLoading = false;
   loading =false;
   alertMessage = "";
   _timer: any;
+  showrate = true;
   constructor(private _userservice: UserService,
     public http: Http,
     private _broadcast: Broadcaster, private modal: Modal) {
     this.userId = localStorage.getItem('loginUserId');
-  }
+   }
 
   ngOnInit() {
-    this.getbookings();
-   
-  }
+        this.getbookings();
+   }
   getbookings()
   {
     this._userservice.getUserSpacseBooking(this.userId).subscribe(res => {
       this.space = res.data.user.bookings;
     });
-  }
+
+   /* this._userservice.getReview(this.userId).subscribe(res => {
+      this.review =res.data.user.reviews;
+     });
+
+     for(let i=0;i<this.space.length;i++){
+       for(let j=0;j<this.review.length;j++){
+            if(this.review[j].bookingId == this.space[i]._id && this.showrate == false){
+              this.showrate =false;
+            }
+            else{
+              this.showrate=true;
+            }
+       }
+     }*/
+   }
   openHostModal(id) {
     if (localStorage.getItem("loginUserId")) {
       var dialog = this.modal.open(ContactToHostComponent, overlayConfigFactory({ "spacseId": id }, BSModalContext));
@@ -46,6 +63,20 @@ export class BookingsComponent implements OnInit {
       this._broadcast.broadcast("loginOpen", "login");
     }
   }
+
+  openreviewModal(spacseId,bookingId) {
+    if (localStorage.getItem("loginUserId")) {
+      var dialog = this.modal.open(ReviewsComponent, overlayConfigFactory({ "spacseId": spacseId ,"userId":this.userId,"bookingId":bookingId}, BSModalContext));
+    }
+    else {
+      this._broadcast.broadcast("loginOpen", "login");
+    }
+  }
+
+  
+
+
+
   confirmNow(item) {
 
     var dialog = this.modal.open(AlertComponent, overlayConfigFactory({

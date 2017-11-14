@@ -74,6 +74,7 @@ export class SpaceAddComponent implements OnInit {
     pastPhotoGallery = [];
     isPrivate = false;
     loading = false;
+    isSubmitted = false;
     //categories: Array<any>;
     constructor(
         private _spacesService: SpacesService,
@@ -959,6 +960,7 @@ export class SpaceAddComponent implements OnInit {
         data.status = "Active";
         this._spacesService.submitForApproval(data).subscribe(res => {
             if (res.data.submitForApproval.code == "200") {
+                this.isSubmitted = true;
                 localStorage.removeItem("spaceStep");
                 localStorage.removeItem("tempSpaceId");
                 this.messageAlert("success", "Your space submitted for approval");

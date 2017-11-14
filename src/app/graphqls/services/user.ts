@@ -1,4 +1,4 @@
-import { getFullMessageHistoryForUser, getMessageListByUser, getUserPaymentMethods, userProfile } from './../queries/user';
+import { getFullMessageHistoryForUser, getMessageListByUser, getUserPaymentMethods, userProfile, getreviews } from './../queries/user';
 import { getSpacessQuery } from './../queries/space';
 import { CreateSpace, UpdatePrice, UploadImages } from './../mutations/space';
 import { Injectable } from '@angular/core';
@@ -142,4 +142,10 @@ export class UserService {
             variables : data
         })
     }
+     getReview(userId):any{
+         var data = {userId: userId};
+        return this.apollo.watchQuery<any>({
+            query:getreviews,
+            variables: data
+        })  }
 }

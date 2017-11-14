@@ -1236,7 +1236,8 @@
                                     <h1>Hi {{firstName}} {{lastName}},
                                         <br>your listing is complete!</h1>
                                     <p>
-                                        <a class="photo-btn" (click)="submitForApproval()">Submit for approval</a>
+                                        <a class="photo-btn pointer" *ngIf="!isSubmitted" (click)="submitForApproval()">Submit for approval</a>
+                                        <a class="photo-btn pointer" *ngIf="isSubmitted" >Submitted</a>
                                     </p>
                                     <div class="step-complete">
                                         <p>Once our team approves your listing, it will be publicly displayed within 2 working

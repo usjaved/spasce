@@ -215,6 +215,8 @@ export const getUserSpaceBooking = gql`
                 title
                 subTitle
                 coverPictire
+                TotalReview
+                AvgReview
                 capacity
                 {
                   _id
@@ -259,7 +261,7 @@ query user($userId: String!)
 }
 `;
 export const getSpacebookings = gql`
- query getSpacebookings($userId: String){
+ query getSpacebookings($userId: String!){
     getBookingStatistics(userId: $userId) {
         code
         message
@@ -355,6 +357,8 @@ query user($userId: String!){
             title
             subTitle
             coverPictire
+            TotalReview
+            AvgReview
             capacity
             {
               _id
@@ -365,10 +369,16 @@ query user($userId: String!){
         }
       }  
 }
-
-
-
-
-
-
+`;
+export const getreviews =gql`
+query user($userId: String!){
+    user(_id: $userId) {
+         _id
+        reviews {
+          _id
+          spacseId
+          bookingId
+        }
+      }
+}
 `;

@@ -2,7 +2,7 @@
     <div class="loader"></div>
 </div>
 <div class="error-box" *ngIf="error"> {{alertMessage }} </div>
-<div class="seccess-box" *ngIf="success"> {{alertMessage }} </div> 
+<div class="seccess-box" *ngIf="success"> {{alertMessage }} </div>
 <div id="container-fluid">
     <div id="header-wrap">
         <header id="header" class="clearfix">
@@ -11,10 +11,10 @@
                     <img src="/assets/images/logo.png" alt="">
                 </a>
                 <form class="search-form" action="">
-                    <input id="search1" name="search" type="text" [(ngModel)]="searchKeyWord"  (input)="doSearch($event)"  placeholder="Search">
-                    <ul class="search-result" [ngClass]="{ 'result' : showResult }" >
-                        <li *ngFor="let item of searchResult" > 
-                            <a [routerLink]="['/spaces/detail/', item._id]" >{{ item.title }}</a>
+                    <input id="search1" name="search" type="text" [(ngModel)]="searchKeyWord" (input)="doSearch($event)" placeholder="Search">
+                    <ul class="search-result" [ngClass]="{ 'result' : showResult }">
+                        <li *ngFor="let item of searchResult">
+                            <a [routerLink]="['/spaces/detail/', item._id]">{{ item.title }}</a>
                         </li>
                     </ul>
                     <button class="fa fa-search"></button>
@@ -44,7 +44,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">Help</a>
+                        <a [routerLink]="['pages/help']">Help</a>
                     </li>
                     <li *ngIf="!isUserLoggedIn">
                         <a href="javascript:void(0);" (click)="openLoginModal()">Login</a>
@@ -106,16 +106,16 @@
                             <h4>Spacse</h4>
                             <ul class="footer-link">
                                 <li>
-                                    <a href="#">About Us</a>
+                                    <a [routerLink]="['/pages/about-us']">About Us</a>
                                 </li>
                                 <li>
-                                    <a href="#">Meet the Team</a>
+                                    <a [routerLink]="['/pages/team']">Meet the Team</a>
                                 </li>
                                 <li>
-                                    <a href="#">Terms of Service</a>
+                                    <a [routerLink]="['/pages/terms-of-service']">Terms of Service</a>
                                 </li>
                                 <li>
-                                    <a href="#">Privacy Policy</a>
+                                    <a [routerLink]="['/pages/privacy-policy']">Privacy Policy</a>
                                 </li>
                             </ul>
                         </div>
@@ -125,13 +125,13 @@
                             <h4>Discover</h4>
                             <ul class="footer-link">
                                 <li>
-                                    <a href="#">Request a Space</a>
+                                    <a [routerLink]="['/requests/new']">Request a Space</a>
                                 </li>
                                 <li>
-                                    <a href="#">List a Space</a>
+                                    <a [routerLink]="['/spaces/new']">List a Space</a>
                                 </li>
                                 <li>
-                                    <a href="#">All Listings</a>
+                                    <a [routerLink]="['/spaces']">All Listings</a>
                                 </li>
                             </ul>
                         </div>
@@ -154,22 +154,22 @@
                             <h4>Talk to Us</h4>
                             <ul class="social-link">
                                 <li>
-                                    <a href="#">
+                                    <a href="http://facebook.com" target="_blank">
                                         <img src="/assets/images/social-icon1.png" alt="">
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="http://linkedin.com" target="_blank">
                                         <img src="/assets/images/social-icon2.png" alt="">
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="http://twitter.com" target="_blank">
                                         <img src="/assets/images/social-icon3.png" alt="">
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="http://instagram.com/" target="_blank">
                                         <img src="/assets/images/social-icon4.png" alt="">
                                     </a>
                                 </li>

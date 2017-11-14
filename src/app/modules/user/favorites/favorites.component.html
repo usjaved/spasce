@@ -1,6 +1,9 @@
 <div id="main-wrap">
     <div class="container">
         <div class="profile-main">
+                <div class="loader" *ngIf="loading" ></div>
+                <div class="error-box" *ngIf="error"> {{alertMessage }} </div>
+                <div class="seccess-box" *ngIf="success"> {{alertMessage }} </div>
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li>
@@ -26,10 +29,6 @@
                 </li>
             </ul>
             <div role="tabpanel" class="tab-pane active">
-                <div class="loading-overlay">
-                    <div class="loader"></div>
-                </div>
-
                 <div class="col-sm-12" *ngIf="data.length == 0">
                     <p>
                         You don't have any Favourite Spacses.
@@ -71,12 +70,7 @@
                                         </li>
                                     </ul>
                                     <div class="star-sec">
-                                        <img src="/assets/images/star-icon.png" alt="">
-                                        <img src="/assets/images/star-icon.png" alt="">
-                                        <img src="/assets/images/star-icon.png" alt="">
-                                        <img src="/assets/images/star-icon.png" alt="">
-                                        <img src="/assets/images/star-icon.png" alt="">
-                                        <span>10 Reviews</span>
+                                        <rating-star [rating]="item.spacse.AvgReview" [TotalReview] ="item.spacse.TotalReview"></rating-star>                                                                                   
                                     </div>
                                 </div>
                             </div>

@@ -30,6 +30,8 @@ import { ContactToHostComponent } from './contact-to-host/contact-to-host.compon
 import { MakeOfferComponent } from './make-offer/make-offer.component';
 import { FullFillComponent } from './fullfill-request/fullfill-request';
 import { AlertComponent } from './alert/alert.component';
+import { ReviewsComponent } from './reviews/reviews';
+import { RatingStarComponent } from './rating-star/rating-star.component';
 
 @NgModule({
     imports: [
@@ -65,7 +67,9 @@ import { AlertComponent } from './alert/alert.component';
          FullFillComponent,
          AlertComponent,
          SimilerRequest,
-         SimilerSpace
+         SimilerSpace,
+         ReviewsComponent,
+         RatingStarComponent
     ],
     exports: [
         RequestListItemComponent,
@@ -77,6 +81,7 @@ import { AlertComponent } from './alert/alert.component';
         RelativeTimeComponent,
         FileUploadComponent,
         FlagComponent,
+        ReviewsComponent,
         RequestMessengerComponent,
         ServerImage,
         MakeOfferComponent,
@@ -91,9 +96,11 @@ import { AlertComponent } from './alert/alert.component';
         FullFillComponent,
         AlertComponent,
         SimilerRequest,
-        SimilerSpace
+        SimilerSpace,       
+        RatingStarComponent
+        
     ],
-    entryComponents:[FlagComponent, AlertComponent, TourComponent, PaymentRequest, PayNowModel,ContactToHostComponent,MakeOfferComponent, FullFillComponent],
+    entryComponents:[ReviewsComponent,FlagComponent, AlertComponent, TourComponent, PaymentRequest, PayNowModel,ContactToHostComponent,MakeOfferComponent, FullFillComponent],
 
 })
 

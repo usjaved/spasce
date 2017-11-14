@@ -169,3 +169,12 @@ mutation bookSpacse($userId : String, $spaceId : String, $amount : Float, $reaso
     }
 }
 `;
+
+export const createSpacseReview =gql`
+mutation createSpacseReview($userId: String, $spacseId: String, $bookingId : String, $comment : String, $rate : Float){
+    createSpacseReview(userId: $userId, spacseId: $spacseId, bookingId : $bookingId ,comment : $comment, rate : $rate){
+         code 
+        message
+    }
+}
+`;

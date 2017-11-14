@@ -45,6 +45,7 @@ import { IonRangeSliderModule } from "ng2-ion-range-slider";
 import { AdminModule } from './modules/admin/admin.module';
 import { PagerService } from './utility/pagination';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
+import { PagesModule } from './modules/pages/pages.module';
 
 const client = new ApolloClient({
   networkInterface: createNetworkInterface({
@@ -80,6 +81,7 @@ export function provideClient(): ApolloClient {
     DatePickerModule,
     LinkedInSdkModule,
     AdminModule,
+    PagesModule,
     InfiniteScrollModule, 
     AgmCoreModule.forRoot(
       {

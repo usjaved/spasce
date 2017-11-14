@@ -13,6 +13,7 @@ export const ROUTES : Routes = [
   { path: 'user',      loadChildren: './modules/user/user.module#UserModule'},
   { path: 'requests',  loadChildren: './modules/requests/requests.module#RequestsModule' },
   { path: 'spaces',    loadChildren: './modules/spaces/spaces.module#SpacesModule' },
+  { path: 'pages',    loadChildren: './modules/pages/pages.module#PagesModule' }
 ]
 /*
 export const ROUTES: Routes = [

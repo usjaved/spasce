@@ -89,11 +89,8 @@
                                         <li><img width="27px" src="/assets/images/group-icon.png" alt=""><span>{{  item.capacity.title }}</span></li>
                                         <li><img width="24px" src="/assets/images/arrow-direction.png" alt=""><span>{{ item.squareFootArea }} Sq. Ft.</span></li>
                                     </ul>
-                                    <div class="star-sec"><img src="/assets/images/star-icon.png" alt="">
-                                        <img src="/assets/images/star-icon.png" alt="">
-                                        <img src="/assets/images/star-icon.png" alt="">
-                                        <img src="/assets/images/star-icon.png" alt="">
-                                        <img src="/assets/images/star-icon.png" alt=""><span>10 Reviews</span></div>
+                                    <div class="star-sec">
+                                         <rating-star [TotalReview] ="item.TotalReview" [rating]="item.AvgReview"></rating-star></div>
                                 </div>
                             </div>
                         </div>

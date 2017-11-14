@@ -1010,3 +1010,39 @@ input[type=checkbox].css-checkbox:checked + label.css-label {
 .search-result.result{
   display: block;
 }
+
+.category-filter .capacity-listing{
+  display: none;
+}
+.category-filter:hover .capacity-listing{
+  display: block;
+}
+
+.book-slide-fig span.like {
+  position: absolute;
+  right: 24px;
+  top: 24px;
+  width: 27px;
+  z-index: 1;
+  height: 22px;
+  background: url(/assets/images/like.png) no-repeat;
+  background-position: center center;
+  background-size: 100%;
+  cursor: pointer;
+}
+
+.book-slide-fig span.like.active {
+  position: absolute;
+  right: 24px;
+  top: 24px;
+  width: 27px;
+  z-index: 1;
+  height: 22px;
+  background: url(/assets/images/active-like.png) no-repeat;
+  background-position: center center;
+  background-size: 100%;
+  cursor: pointer;
+}
+body{
+  overflow-y: scroll;
+}

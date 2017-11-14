@@ -1,3 +1,4 @@
+import { DateModel, DatePickerOptions } from 'ng2-datepicker';
 import { MessageEvent } from './../../../utility/messageEvent';
 import { Broadcaster } from './../../../utility/broadcaster';
 import { Component, ViewChild, ElementRef, NgZone } from '@angular/core';
@@ -18,6 +19,7 @@ export class RequestListComponent {
     addressConponent: any;
     categories = [];
     capacities = [];
+    showDateFilet = false;
     showCapacityFilter = false;
     showCategoryFilter = false;
     location = "";
@@ -27,7 +29,8 @@ export class RequestListComponent {
     @ViewChild("search")
     public searchElementRef: ElementRef;
     isLoading = false;
-
+    filterDate : DateModel;
+    options: DatePickerOptions;
     constructor(
         public mapsAPILoader: MapsAPILoader,
         private ngZone: NgZone,
@@ -43,6 +46,7 @@ export class RequestListComponent {
         // this.getFiteredRequests();
 
         this.addressConponent = {};
+        this.options = new DatePickerOptions();
         this.onScroll();
         this.mapsAPILoader.load().then(() => {
             let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
@@ -136,6 +140,12 @@ export class RequestListComponent {
                     this.filters.splice(i, 1);
                 }
             }
+        }else if (item.type == "date") {
+            for (var i = 0; i < this.filters.length; i++) {
+                if (this.filters[i].title == item.title) {
+                    this.filters.splice(i, 1);
+                }
+            }
         } else {
             for (var i = 0; i < this.filters.length; i++) {
                 if (this.filters[i].title == item.title) {
@@ -165,6 +175,7 @@ export class RequestListComponent {
         }
         data.city = "";
         data.state = "";
+       
         if (this.addressConponent.locality) {
             data.city = this.addressConponent.locality;
         }
@@ -174,6 +185,14 @@ export class RequestListComponent {
         data.loginUserId = localStorage.getItem("loginUserId");
         data.limit = this.pageLimit;
         data.pageNo = this.pageNo;
+
+        data.dates = [];
+        for(var i = 0; i < this.filters.length; i++){
+            if(this.filters[i].type == "date"){
+                data.dates.push(this.filters[i].title);
+            }
+        }
+
         this._requestService.getFilterRequestsQuery(data).subscribe(res => {
             this.isLoading = false;
             if(this.pageNo  != 0){
@@ -205,6 +224,12 @@ export class RequestListComponent {
                         this.filters.splice(J, 1);
                     }
                 }
+            } else if (this.filters[J].type == "date") {
+                for (var i = 0; i < this.filters.length; i++) {
+                    if (this.filters[i].title == this.filters[J].title) {
+                        this.filters.splice(J, 1);
+                    }
+                }
             } else {
                 for (var i = 0; i < this.filters.length; i++) {
                     if (this.filters[i].title == this.filters[J].title) {
@@ -221,5 +246,15 @@ export class RequestListComponent {
             this.pageNo++;
             this.getFilterDetails();
         }
+    }
+    dateFilter(){
+        if(this.filterDate.formatted){
+            var _startTime = this.filterDate.formatted;
+            this.filters.push({ "title": this.filterDate.formatted, type: "date" });
+            this.pageNo = -1;
+            this.showDateFilet = false;
+            this.onScroll();
+        }
+        
     }
 }

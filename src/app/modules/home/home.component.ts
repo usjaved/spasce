@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
         });
 
         var data = { loginUserId: localStorage.getItem("loginUserId") }
-        this._spaceService.getHomePageDetails().subscribe(data => {
+        this._spaceService.getHomePageDetails(data).subscribe(data => {
             this.spaces = data.data.getTopRatedSpaces;
             this.creativeSpaces = data.data.getTopCreativeSpaces;
             this.eventSpaces = data.data.getTopEventSpaces;

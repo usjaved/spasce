@@ -74,7 +74,8 @@ mutation createPaymentMethod($userId: String, $accounttype: String, $firstName: 
 export const createFavourite = gql`
 mutation createFavourite($spacseId: String, $userId: String) {
     createFavourite(spacseId: $spacseId, userId: $userId) {
-        _id
+        code
+        message
     }
 }
 `;

@@ -248,8 +248,8 @@ export const getRequestDetail = gql`
 `;
 
 export const getFilterRequestsQuery = gql`
-query filterRequests($capacity: [String], $category: [String], $city: String, $state: String, $loginUserId: String, $limit : Int, $pageNo : Int){
-   filterRequests(capacity: $capacity, category: $category, city: $city, state: $state,  limit : $limit, pageNo: $pageNo ){
+query filterRequests($capacity: [String], $category: [String], $city: String, $state: String, $loginUserId: String, $dates : [String],  $limit : Int, $pageNo : Int){
+   filterRequests(capacity: $capacity, category: $category, city: $city, state: $state,  limit : $limit, pageNo: $pageNo, dates : $dates ){
         _id
         createdAt
         startDate

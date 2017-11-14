@@ -226,16 +226,6 @@ export class SpacesDetailComponent {
         } else {
             var _diff = _endTime - _startTime;
             _diffInDays = _diff / (24 * 60 * 60 * 1000);
-            // if (_diffInDays < 7) {
-            //     this.selectPackageByTimeFrame("Day");
-            // } else if (_diffInDays < 30) {
-            //     this.selectPackageByTimeFrame("Week");
-            //     _diffInDays = _diffInDays / 7;
-            // } else {
-            //     this.selectPackageByTimeFrame("Month");
-            //     _diffInDays = _diffInDays / 30;
-            // }
-
             if ( this.selectedPriceLayer.timeFrameType != "Day" && this.selectedPriceLayer.timeFrameType != "Week" && this.selectedPriceLayer.timeFrameType != "Month") {
                 this.messageAlert("error", "Please select valid package.")
                 return;
@@ -318,6 +308,15 @@ export class SpacesDetailComponent {
         else {
             this._broadcast.broadcast("loginOpen", "login");
         }
+    }
+    timeToDate(createdAt){
+        if(createdAt){
+            var  createdAt;
+            let now = new Date();
+            now.setTime(parseInt(createdAt));
+            return "Joined in " + now.toLocaleString( "en-us" , {month: "long"}) + " " + now.getFullYear()
+        }
+        
     }
 }
 

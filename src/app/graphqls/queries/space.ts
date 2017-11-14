@@ -29,6 +29,8 @@ export const getSpacessQuery = gql`
             createdAt
             coverPictire
             description
+            TotalReview
+            AvgReview
             securityDeposit
             user{
                 _id
@@ -95,6 +97,8 @@ export const getSpaceDetail = gql`
             numberOfRestRooms
             securityDeposit
             additionalFees
+            TotalReview
+            AvgReview
             spaceCategories{
                 categoryId
             }
@@ -104,6 +108,7 @@ export const getSpaceDetail = gql`
                 lastName
                 profilePic  
                 about
+                createdAt
             }
             comments{
                  _id
@@ -267,7 +272,9 @@ query filterSpacse($capacity: [String], $category: [String], $city: String, $sta
        createdAt
        description
        coverPictire
-       user{
+       TotalReview
+       AvgReview
+        user{
            _id
            firstName
            lastName
@@ -302,7 +309,7 @@ query filterSpacse($capacity: [String], $category: [String], $city: String, $sta
 }
 `;
 export const GetHomePageDetails = gql`
-query getHomePageDetails{
+query getHomePageDetails($loginUserId : String){
     categories{
         _id
         title
@@ -354,6 +361,11 @@ query getHomePageDetails{
         createdAt
         coverPictire
         description
+        TotalReview
+        AvgReview
+        favourites(userId : $loginUserId){
+            _id
+        }
         user{
             _id
             firstName
@@ -386,6 +398,11 @@ query getHomePageDetails{
         createdAt
         coverPictire
         description
+        TotalReview
+        AvgReview
+        favourites(userId : $loginUserId){
+            _id
+        }
         user{
             _id
             firstName
@@ -418,6 +435,11 @@ query getHomePageDetails{
        createdAt
        coverPictire
        description
+       TotalReview
+       AvgReview
+       favourites(userId : $loginUserId){
+        _id
+        }
        user{
            _id
            firstName
@@ -471,6 +493,7 @@ query spacse($id:String){
         securityDeposit
         latitude
         longitude
+        TotalReview
         user{
             _id
             firstName
@@ -526,7 +549,7 @@ query spacse($id:String){
 `;
 
 export const getUsersActiveSpace = gql`
-query getUsersActiveSpace($userId: String){
+query getUsersActiveSpace($userId: String !){
     getApprovedSpace(userId:$userId){
         _id
         title
@@ -548,7 +571,7 @@ query getUsersActiveSpace($userId: String){
 `;
 
 export const usersListing = gql`
-query dashBoradListing($userId: String){
+query dashBoradListing($userId: String !){
     getInProcessSpace(userId:$userId){
         _id
         title
@@ -623,7 +646,9 @@ export const similerSpasce = gql`
             createdAt
             coverPictire
             description
-            user{
+            TotalReview
+            AvgReview
+             user{
                 _id
                 firstName
                 lastName

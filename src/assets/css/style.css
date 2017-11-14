@@ -14736,6 +14736,59 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 
+
 input[type="number"] {
   -moz-appearance: textfield;
 }
+.rating li {
+  display: inline-block !important;
+  font-size: 21px !important;
+  margin-right: 7px !important;
+  cursor: pointer;
+}
+.rating li i.fa{
+  color: #327ccb;
+}
+rating-star{
+  display:block;
+}
+
+.capacity-listing .request-btn.pointer{
+  font-weight: 600;
+  width: 196.1px;
+  height: 44.2px;
+  line-height: normal;
+  text-align: center;
+  background-color: #327ccb;
+  color: #fff;
+  border: none;
+  margin-top: 14px;
+}
+
+.capacity-listing ng2-datepicker input{
+  border: 1px solid #cfcfcf !important;
+  padding: 12px !important;
+  width: 100% !important;
+}
+.capacity-listing ng2-datepicker .datepicker-input-icon{
+    position: absolute !important;
+    top: 0px !important;
+    right: 0px !important;
+}
+
+
+
+ .capacity-listing ng2-datepicker i svg {
+  width: 25px !important;
+  height: 25px !important;
+  position: absolute;
+  top: 12px;
+  right: 20px;
+}
+
+.capacity-listing ng2-datepicker input {
+  display: block !important;
+  width: 100% !important;
+  font-size: 20px !important;
+}
+

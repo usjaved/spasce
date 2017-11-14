@@ -3,16 +3,16 @@
         <div class="small-request-outer">
             <div class="heading-text">
                 <h3 class="clearfix">Space Requests <span></span>
-                    <a class="request-btn" (click)="requestSpacse();" >Request a Space</a>
+                    <a class="request-btn pointer" [routerLink]='["/requests/new"]' >New Request</a>
                 </h3>
             </div>
             <div class="filter-section">
                 <h4>Filter By:</h4>
                 <div class="filter-inner">
                     <ul class="clearfix">
-                        <li><img src="/assets/images/cp-icon.png" alt="">
+                        <li class="category-filter"><img src="/assets/images/cp-icon.png" alt="">
                             <span>Space Type <i class="fa fa-caret-down" (click)="enableCategoryFilter()"></i></span>
-                            <ul class="capacity-listing" *ngIf="showCategoryFilter">
+                            <ul class="capacity-listing">
                                 <li class="" *ngFor="let item of categories" (click)="selectCategory(item)" [ngClass]="{ 'selected' : item.isSelected }">
                                     {{item.title}}
                                 </li>
@@ -28,27 +28,34 @@
                                 <p><input type="checkbox" name="location" id="location4"><label for="location4">Los Angeles, CA (34)</label></p>
                             </div>
                         </li>
-                        <li>
-                            <img src="/assets/images/group-icon.png" alt=""><span>Capacity <i class="fa fa-caret-up" (click)="enableCapacityFilter()"></i></span>
-                            <ul class="capacity-listing" *ngIf="showCapacityFilter">
+                        <li class="category-filter">
+                            <img src="/assets/images/group-icon.png" alt=""><span>Capacity <i class="fa fa-caret-down" (click)="enableCapacityFilter()"></i></span>
+                            <ul class="capacity-listing" >
                                 <li class="" *ngFor="let item of capacities" (click)="selectCategory(item)" [ngClass]="{ 'selected' : item.isSelected }">
                                     {{item.title}}
                                 </li>
                             </ul>
                         </li>
-                        <li><img src="/assets/images/calendar-icon.png" alt=""><span>Dates <i class="fa fa-caret-down"></i></span></li>
+                        <li class=""><img src="/assets/images/calendar-icon.png" alt=""><span>Dates <i class="fa fa-caret-down" (click)="showDateFilet = !showDateFilet"></i></span>
+                            <ul class="capacity-listing" *ngIf="showDateFilet" >
+                                <li class="">
+                                    <ng2-datepicker [options]="options" [(ngModel)]="filterDate"></ng2-datepicker>
+                                    <button (click)="dateFilter()" class="request-btn pointer">Done</button>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
             <div class="filter-tag clearfix">
                 <div class="filter-tag-left">
                     <ul>
-                        <li *ngFor="let filter of filters" class="tag"><img src="/assets/images/location-icon.png" alt=""><span>{{ filter.title }}</span><i (click)="removeFilter(filter)"
+                        <li *ngFor="let filter of filters" class="tag"><span>{{ filter.title }}</span><i (click)="removeFilter(filter)"
                                 class="fa fa-times-circle"></i></li>
 
                     </ul>
                 </div>
-                <div class="filter-tag-right"><a class="pointer" (click)="clearFilter()">Clear Filters</a></div>
+                <div class="filter-tag-right" *ngIf="filters.length > 0" ><a class="pointer" (click)="clearFilter()">Clear Filters</a></div>
             </div>
             <div class="search-results" infinite-scroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="300" (scrolled)="onScroll()">
                 <request-list-item *ngFor="let item of listItems" [itemDetail]="item"></request-list-item>
