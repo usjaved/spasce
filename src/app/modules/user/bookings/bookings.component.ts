@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ReviewsComponent } from '../../../directives/reviews/reviews';
 import { AlertComponent } from './../../../directives/alert/alert.component';
 import { Component, OnInit } from "@angular/core";
@@ -27,12 +28,21 @@ export class BookingsComponent implements OnInit {
   showrate = true;
   constructor(private _userservice: UserService,
     public http: Http,
-    private _broadcast: Broadcaster, private modal: Modal) {
+    private _broadcast: Broadcaster,
+    private router: Router,
+    private modal: Modal) {
     this.userId = localStorage.getItem('loginUserId');
+    // if(!this.userId){
+    //   this.router.navigate(['/']);
+    // }
    }
 
   ngOnInit() {
+    if (!this.userId) {
+      this.router.navigate(['/']);
+    }else{
         this.getbookings();
+    }
    }
   getbookings()
   {

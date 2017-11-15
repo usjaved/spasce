@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { UserService } from './../../../graphqls/services/user';
 import { Component, OnInit } from "@angular/core";
 import { Broadcaster } from '../../../utility/broadcaster';
@@ -17,14 +18,16 @@ export class ProfileComponent implements OnInit {
   error = false;
   alertMessage = "";
   _timer: any;
+  userId
   constructor(
     private _userService: UserService,
     private broadcaster: Broadcaster,
-    
+    private router: Router
   ) { 
     this.profilePic= localStorage.getItem("serverPath") + "/uploads/person-img5.png"
     this.uploadedFile  = [];
     this.user = {};
+    this.userId = localStorage.getItem("loginUserId");
     this.getProfileInfo();
   }
 
@@ -88,14 +91,14 @@ export class ProfileComponent implements OnInit {
    
 }
   ngOnInit() {
-
+    if(!this.userId){
+      this.router.navigate(['/']);
+    }
   }
   updateProfile(){
     
     this._userService.updateUser(this.user).subscribe(res => {
       this.messageAlert('success', res.data.updateUser.message);
-     
-
     }, err => {
 
     }) 

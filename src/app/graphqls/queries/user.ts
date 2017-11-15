@@ -345,6 +345,7 @@ query user($userId: String!){
 export const getUserFavouriteSpacses =gql`
 query user($userId: String!){
     user(_id: $userId) {
+        _id
         favourites {
           _id
           spacse {

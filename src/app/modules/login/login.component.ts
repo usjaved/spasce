@@ -99,6 +99,7 @@ export class LoginComponent implements CloseGuard, ModalComponent<CustomModalCon
     this.loginService.execute(this.email, this.password).subscribe(res => {
       localStorage.setItem("loginSession", res.data.login._id);
       this.notify.emit('login');
+      localStorage.setItem("loginWithEmail" , "true");
       this.dialog.close("login");
     }, error => {
       this.messageAlert('error', 'Email or password not match');

@@ -20,7 +20,7 @@
                         <li><a class="active">Notifications</a></li>
                         <li><a [routerLink]="['/user/payment']">Payments</a></li>
                         <li><a [routerLink]="['/user/transactionhistory']">Transaction History</a></li>
-                        <li><a [routerLink]="['/user/changepassword']">Change Password</a></li>
+                        <li *ngIf="loginWithEmail == 'true'" ><a [routerLink]="['/user/changepassword']">Change Password</a></li>
                     </ul>
                     <div class="accordion-content accordion-content2">
                         <section class="active">

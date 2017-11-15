@@ -27,6 +27,7 @@ export class AppComponent {
   title = 'app';
   loginUserId = "";
   loginUserName = "";
+  showMobileMenu = false;
   profilePic= "uploads/person-img5.png";
   isUserLoggedIn = false;
   loading = true;
@@ -59,7 +60,7 @@ export class AppComponent {
 
     if (!localStorage.getItem("loginUserId")) {
       this.broadcaster.broadcast("loginOpen", "login");
-  }
+    }
   }
   ngAfterViewChecked() {
     this.broadcaster.on<string>('success')
@@ -198,6 +199,7 @@ export class AppComponent {
     if (event instanceof NavigationStart) {
       this.loading = true
       this.showResult = false;
+      this.showMobileMenu = false;
     }
     if (event instanceof NavigationEnd) {
       this.loading = false;

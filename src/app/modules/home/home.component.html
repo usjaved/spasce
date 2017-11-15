@@ -7,7 +7,7 @@
             <form action="">
                 <input name="location" type="text" #search [(ngModel)]="location" placeholder="Location"><span>
                     <select name="category" [(ngModel)]="category">
-                        <option value="">Category</option>
+                        <option value="" disabled selected>Category</option>
                         <option *ngFor="let item of categories" [value]="item._id">{{ item.title }}</option>
                     </select>
                 </span><button (click)="filterData()">Search</button>

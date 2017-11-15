@@ -8,7 +8,7 @@
         </div>
     </swiper>
     <div class="owl-nav" *ngIf="spaces">
-        <div *ngIf="spaces && spaces.lenght > 3"  class="owl-next owl-next{{uniqSliderId}}"></div>
-        <div *ngIf="spaces && spaces.lenght > 3" class="owl-prev owl-prev{{uniqSliderId}}"></div>
+        <div *ngIf="spaces && spaces.length > slidePerPage"  class="owl-next owl-next{{uniqSliderId}}"></div>
+        <div *ngIf="spaces && spaces.length > slidePerPage" class="owl-prev owl-prev{{uniqSliderId}}"></div>
     </div>
 </div>

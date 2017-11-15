@@ -1,4 +1,3 @@
-
 import stripePackage from 'stripe';
 import { MongoClient, ObjectId } from 'mongodb'
 import express from 'express'
@@ -72,6 +71,7 @@ export const start = async () => {
     const RequestsSpacses = db.collection('request_spacses');
     const PaymentMethods = db.collection('payment_methods');
     const Favourites = db.collection('user_favourites');
+    const Reviews = db.collection('spacse_reviews');
 
 
     const typeDefs = [`
@@ -111,15 +111,17 @@ export const start = async () => {
         accountsetting(_id: String) : UserAccountSetting
         requestview(_id: String) : RequestView
         bookings(_id: String): Booking
+        reviews(_id: String): Reviews
         favourites(_id: String) : Favourite
         
         paymentmethod(_id: String): PaymentMethod
   
         filterSpacses(capacity: [String], category: [String], city: String, state: String,  minPrice: Float, maxPrice: Float, minCapacity: Float, maxCapacity: Float) : [Spacse] 
-        filterRequests(capacity: [String], category: [String], city: String, state: String, limit: Int, pageNo: Int) : [Request]
+        filterRequests(capacity: [String], category: [String], dates: [String], city: String, state: String, limit: Int, pageNo: Int) : [Request]
         paymentmethods: [PaymentMethod]
         favourites : [Favourite]
         bookings: [Booking]
+        reviews: [Reviews]
         requestviews : [RequestView]
         users: [User]
         requests: [Request]
@@ -175,7 +177,6 @@ export const start = async () => {
         getTopEventSpaces: [Spacse]
         getTopCreativeSpaces: [Spacse] 
         latestRequests : [Request] 
-
       }
     
       type Favourite{
@@ -184,9 +185,21 @@ export const start = async () => {
         spacseId: String
         user : User
         spacse: Spacse
+       }
 
-     
-      }
+      type Reviews {
+        _id: String
+        userId: String
+        spacseId: String
+        bookingId : String
+        comment : String
+        rate : Float
+        user : User
+        createdAt: String
+        spacse: Spacse
+        booking: Booking
+        
+      } 
 
       type PaymentMethod{
         _id: String
@@ -210,6 +223,7 @@ export const start = async () => {
         mobile: String
         about: String
         profilePic : String
+        createdAt: Float
         requests: [Request]
         comments: [Comment]
         socialMedias: [UserSocialMedia]
@@ -224,6 +238,7 @@ export const start = async () => {
         spacseTours: [SpacseTour]
         orders: [SpacseOrderBook]
         bookings: [Booking]
+        reviews: [Reviews]
         events: [Event]	
         accountsetting : UserAccountSetting
         paymentmethods : [PaymentMethod]
@@ -322,6 +337,8 @@ export const start = async () => {
         userId : String 
         startDate : String
         endDate : String
+        startDateInSec : Float
+        endDateInSec : Float
         address : String
         createdAt: String
         city : String
@@ -444,6 +461,8 @@ export const start = async () => {
         status: String
         securityDeposit: String
         additionalFees: String
+        TotalReview: Float
+        AvgReview: Float
         isPrivate : String
         createdAt: Float
         updatedAt: Float    
@@ -462,7 +481,8 @@ export const start = async () => {
         spacseTours(limit: Int, offset: Int): [SpacseTour]
         orders(limit: Int, offset: Int): [SpacseOrderBook]
         bookings(limit:Int, offset: Int):[Booking]
-        favourites(limit:Int,offset: Int): [Favourite]
+        reviews(limit:Int,offset: Int):[Reviews]
+        favourites(userId : String): [Favourite]
         spaceCategories :[SpaceCategories]
       }
 
@@ -722,6 +742,8 @@ export const start = async () => {
         updateBookingStatus(id: String, status: String) : Response
 
         submitSpacesForRequest(requestId: String, userId: String, spacsesId: [String], spaceLink : String, description : String) : Response
+        createSpacseReview(userId: String, spacseId: String, bookingId : String,comment : String, rate : Float) : Response
+
       }
 
       schema {
@@ -761,40 +783,40 @@ export const start = async () => {
 
         similerSpasce: async (root, { categoryId }) => {
           var filter = {};
-          filter.status =  "Active";
-          filter.categoryId =  categoryId;
+          filter.status = "Active";
+          filter.categoryId = categoryId;
           return (await Spacses.find(filter).sort({ "createdAt": - 1 }).limit(10).toArray()).map(prepare);
         },
         searchSpaceByTitle: async (root, { keyWord }) => {
           var filter = {};
-          filter.status =  "Active";
+          filter.status = "Active";
           filter.title = new RegExp(keyWord, 'i');
           return (await Spacses.find(filter).sort({ "createdAt": - 1 }).limit(10).toArray()).map(prepare);
         },
         getTopRatedSpaces: async (root) => {
           var filter = {};
-          filter.status =  "Active";
+          filter.status = "Active";
           return (await Spacses.find(filter).sort({ "createdAt": - 1 }).limit(10).toArray()).map(prepare);
         },
         getTopEventSpaces: async (root) => {
-          var categoryFilter = { title : "Event" };
+          var categoryFilter = { title: "Event" };
           var category = prepare(await Categories.findOne(categoryFilter));
-          
+
           var filter = {};
-          filter.status =  "Active";
+          filter.status = "Active";
           filter.categoryId = category._id;
           return (await Spacses.find(filter).sort({ "createdAt": - 1 }).limit(10).toArray()).map(prepare);
         },
         getTopCreativeSpaces: async (root) => {
-          var categoryFilter = { title : "Creative" };
+          var categoryFilter = { title: "Creative" };
           var category = prepare(await Categories.findOne(categoryFilter));
-          
+
           var filter = {};
-          filter.status =  "Active";
+          filter.status = "Active";
           filter.categoryId = category._id;
           return (await Spacses.find(filter).sort({ "createdAt": - 1 }).limit(10).toArray()).map(prepare);
         },
-        latestRequests : async (root) => {
+        latestRequests: async (root) => {
           var filter = {};
           return (await Request.find(filter).sort({ "createdAt": - 1 }).limit(10).toArray()).map(prepare)
         },
@@ -1103,7 +1125,7 @@ export const start = async () => {
           }
 
         },
-
+      
         favourites: async (root, { }) => {
           return (await Favourites.find({}).skip(0).limit(50).toArray()).map(prepare)
         },
@@ -1128,7 +1150,7 @@ export const start = async () => {
           return prepare(await Requests.findOne(ObjectId(_id)))
         },
         requests: async (root, { }) => {
-          return (await Requests.find({}).skip(0).limit(50).toArray()).map(prepare)
+          return (await Requests.find({}).skip(0).limit(50).toArray()).map(prepare);
         },
         userRequests: async (root, { userId }) => {
           return (await Requests.find({ userId: userId }).skip(0).limit(50).toArray()).map(prepare)
@@ -1260,7 +1282,14 @@ export const start = async () => {
         bookings: async (root, { }) => {
           return (await Bookings.find({}).skip(0).limit(50).toArray()).map(prepare)
         },
-        budget: async (root, { _id }) => {
+
+        reviews: async (root, { _id }) => {
+          return prepare(await Reviews.findOne(ObjectId(_id)))
+        },
+        reviews: async (root, { }) => {
+          return (await Reviews.find({}).skip(0).limit(50).toArray()).map(prepare)
+        },
+         budget: async (root, { _id }) => {
           return prepare(await Budgets.findOne(ObjectId(_id)))
         },
         budgets: async (root, { }) => {
@@ -1407,7 +1436,7 @@ export const start = async () => {
           return (await Spacses.find(filter).skip(0).limit(50).toArray()).map(prepare)
         },
 
-        filterRequests: async (root, { capacity, category, city, state, limit, pageNo }) => {
+        filterRequests: async (root, { capacity, category, city, state, limit, pageNo, dates }) => {
           var filter = {};
           if (capacity.length > 0) {
             filter.capacityId = { $in: capacity };
@@ -1415,6 +1444,23 @@ export const start = async () => {
           if (category.length > 0) {
             filter.categoryId = { $in: category };
           }
+          if (dates.length > 0) {
+            filter.$or = [];
+            var time = 0;
+            var and = [];
+            for (i = 0; i < dates.length; i++) {
+              dateTime = new Date(dates[i]);
+              dateTime.setSeconds(10);
+              var time = dateTime.getTime();                  
+              and = [];
+              console.log(time);
+              and.push({ startDateInSec : { $lte : time }});
+              and.push({ endDateInSec : { $gte : time }});
+              filter.$or.push( { $and : and });  
+            }
+          } 
+
+          console.log(filter);
           if (city != "") {
             filter.city = city;
           }
@@ -1467,6 +1513,15 @@ export const start = async () => {
       Booking: {
         spacse: async ({ spaceId }) => {
           return prepare(await Spacses.findOne(ObjectId(spaceId)))
+        },
+        user: async ({ userId }) => {
+          return prepare(await Users.findOne(ObjectId(userId)))
+        },
+      },
+
+      Reviews:{
+        spacse: async ({ spacseId }) => {
+          return prepare(await Spacses.findOne(ObjectId(spacseId)))
         },
         user: async ({ userId }) => {
           return prepare(await Users.findOne(ObjectId(userId)))
@@ -1534,6 +1589,10 @@ export const start = async () => {
         bookings: async ({ _id }) => {
           return (await Bookings.find({ userId: _id }).limit(50).toArray()).map(prepare)
         },
+        reviews: async ({ _id }) => {
+          return (await Reviews.find({userId: _id}).skip(0).limit(50).toArray()).map(prepare)
+        },
+
         events: async ({ _id }) => {
           return (await Events.find({ userId: _id }).limit(50).toArray()).map(prepare)
         },
@@ -1821,15 +1880,19 @@ export const start = async () => {
           }
           return (await Bookings.find({ requestId: _id }).sort({ "createdAt": - 1 }).limit(limit).skip(offset).toArray()).map(prepare)
         },
-
-        favourites: async ({ _id }, { limit, offset }) => {
+        reviews: async ({ _id }, { limit, offset }) => {
           if (!limit) {
             limit = 20;
           }
           if (!offset) {
             offset = 0;
           }
-          return (await Favourites.find({ spacseId: _id }).sort({ "createdAt": - 1 }).limit(limit).skip(offset).toArray()).map(prepare)
+          return (await Reviews.find({ spacseId: _id }).sort({ "createdAt": - 1 }).limit(limit).skip(offset).toArray()).map(prepare)
+        },
+
+        favourites: async ({ _id }, { userId }) => {
+         
+          return (await Favourites.find({ spacseId: _id , userId : userId }).sort({ "createdAt": - 1 }).limit(1).skip(0).toArray()).map(prepare)
         },
         category: async ({ categoryId }) => {
           var res = await Categories.findOne(ObjectId(categoryId));
@@ -1999,6 +2062,8 @@ export const start = async () => {
           if (res) {
             return { "message": "Email already exist", "code": "400" };
           } else {
+            var currentTime = Date.now();
+            args.createdAt = currentTime;
             const res = await Users.insert(args)
             var user = prepare(await Users.findOne({ _id: res.insertedIds[1] }))
             var userId = res.insertedIds[1].toString();
@@ -2032,6 +2097,8 @@ export const start = async () => {
             return res.ops[0];
           }
 
+          var currentTime = Date.now();
+          args.createdAt = currentTime;
           var res = await Users.insert(args)
           user = prepare(await Users.findOne({ _id: res.insertedIds[1] }))
 
@@ -2064,6 +2131,8 @@ export const start = async () => {
             return res.ops[0];
           }
 
+          var currentTime = Date.now();
+          args.createdAt = currentTime;
           var res = await Users.insert(args)
           user = prepare(await Users.findOne({ _id: res.insertedIds[1] }))
           let LSdata = { 'userId': user._id, session: new Date().toISOString() + "-" + user.userId };
@@ -2094,7 +2163,8 @@ export const start = async () => {
             var res = await LoginSessions.insert(LSdata)
             return res.ops[0];
           }
-
+          var currentTime = Date.now();
+          args.createdAt = currentTime;
           var res = await Users.insert(args)
           user = prepare(await Users.findOne({ _id: res.insertedIds[1] }))
           let LSdata = { 'userId': user._id, session: new Date().toISOString() + "-" + user.userId };
@@ -2135,8 +2205,19 @@ export const start = async () => {
           return prepare(await Categories.findOne({ _id: res.insertedIds[1] }))
         },
         createRequest: async (root, args, context, info) => {
+
+          var  ses =  (await Requests.find({}).skip(0).limit(50).toArray()); // .map(prepare);
+          for(var i = 0 ; i < ses.length; i++){
+            ses[i].startDateInSec = (new Date(ses[i].startDate + " 00:00:01 ")).getTime();
+            ses[i].endDateInSec = (new Date(ses[i].endDate + " 23:59:59 ")).getTime();
+            Requests.update({ _id: ses[i]._id  }, ses[i]);
+          }
+          
+
           var currentTime = Date.now();
           args.createdAt = currentTime;
+          args.startDateInSec = (new Date(args.startDate + " 00:00:01 ")).getTime();
+          args.endDateInSec = (new Date(args.endDate + "  23:59:59 ")).getTime();
           const res = await Requests.insert(args)
           return prepare(await Requests.findOne({ _id: res.insertedIds[1] }))
         },
@@ -2189,6 +2270,10 @@ export const start = async () => {
         submitForApproval: async (root, args) => {
           const spaces = (await Spacses.findOne(ObjectId(args.spacseId)));
           if (spaces) {
+            var currentTime = Date.now();
+            spaces.createdAt = currentTime;
+            spaces.TotalReview = 0
+            spaces.AvgReview = 0
             spaces.status = "Pending";
             const res = await Spacses.update({ _id: ObjectId(args.spacseId) }, spaces);
             return { "message": "Your space submitted for approval", "code": "200" };
@@ -2250,30 +2335,52 @@ export const start = async () => {
         },
         createFavourite: async (root, args) => {
 
-            var filter = {};
-            filter.userId = args.userId;
-            filter.spacseId = args.spacseId;
-       
-            const match =  prepare (await Favourites.findOne(filter)); 
-           console.log("match"+ match);
-           console.log("userId"+ match.userId);
-           console.log("spacseId"+ match.spacseId);
-           var id =match._id; 
-                     if (id) {
-                    const res = await Favourites.remove({ "_id": ObjectId(id) });
-                    return { "message": "Spacse is removed from your Favourites", "code": "400" ,"id":id };
-                    
-                       console.log("remove");
-                   }
-                     
-                   else {
-                     
-                       const res = await Favourites.insert(args);
-                       var id = prepare(await Favourites.findOne({ _id: res.insertedIds[1] }))
-                       return { "message": "Spacse is added to your Favourites", "code": "200" ,"id":id };
-                   }  
-         /*  const res = await Favourites.insert(args);
-          return prepare(await Favourites.findOne({ _id: res.insertedIds[1] })) */
+          var match = await Favourites.findOne({ $and: [{ "userId": { $eq: args.userId } }, { "spacseId": { $eq: args.spacseId } }] });
+
+          console.log("match" + match);
+          if (match == null) {
+           const res = await Favourites.insert(args);
+            var id = await Favourites.findOne({ _id: res.insertedIds[1] })
+            return { "message": "Spacse is added to your Favourites", "code": "200", "id": id._id };
+          }
+          else {
+            var id = match._id;
+            const res = await Favourites.remove({ "_id": ObjectId(id) });
+            return { "message": "Spacse is removed from your Favourites", "code": "400", "id": id };
+           }
+       },
+
+        createSpacseReview: async (root, args) => {
+
+          var currentTime = Date.now();
+          args.createdAt = currentTime;
+          
+          const res = await Reviews.insert(args);
+          var id = (await Reviews.findOne({ _id: res.insertedIds[1] }))
+          
+          var filter = {};
+          filter.spacseId = args.spacseId;
+          var match = (await Reviews.find(filter).toArray()).map(prepare);
+          console.log(match);
+
+          if (match.length > 0) {
+
+            var totalreview = 0
+            var avgrating = 0
+            var rating =0
+            for (let i = 0; i < match.length; i++) {
+              totalreview = totalreview + 1;
+              rating= rating+ match[i].rate;
+            }
+            avgrating = (rating / match.length)
+            console.log("Total Review" + totalreview);
+            console.log("Avg rating"+avgrating);
+            var avgreviewspacse = await Spacses.update({ _id: ObjectId(args.spacseId) }, { $set: { "AvgReview": avgrating, "TotalReview": totalreview } })
+            console.log("Spacse_totalviews" + avgreviewspacse);
+          }
+            return { "message": "Review added", "code": "200" };
+          
+
         },
         createSpacseTour: async (root, args) => {
           var currentTime = Date.now();
@@ -2572,6 +2679,9 @@ export const start = async () => {
         },
 
         createContactToHost: async (root, args) => {
+          if(args.isDateFlexible == null){
+            args.isDateFlexible=false
+          }
           var currentTime = Date.now();
           args.createdAt = currentTime;
           const res = await ContactToHosts.insert(args);
@@ -2889,6 +2999,16 @@ export const start = async () => {
             res.send(req.file);
           } else {
             res.send({ "status": "fail", "message": "Please upload image with 3:2 ratio" });
+          }
+        } else if (req.body && req.body.maintainRatio == 'square') {
+          var dimensions = sizeOf(req.file.path);
+          var width = dimensions.width;
+          var height = dimensions.height;
+          var ratio = width / height;
+          if (ratio > 0.9 && ratio <= 1.1) {
+            res.send(req.file);
+          } else {
+            res.send({ "status": "fail", "message": "Please upload square image" });
           }
         } else {
           res.send(req.file);

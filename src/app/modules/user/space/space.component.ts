@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from "@angular/core";
 import { SpacesService } from '../../../graphqls/services/space';
 
@@ -11,8 +12,13 @@ export class UserSpaceComponent implements OnInit {
   inProcessSpaces: any = [];
   approvedSpaces: any = [];
   pendingSpaces: any = [];
-  constructor(private _spaceService: SpacesService) { 
-
+  userId
+  constructor(private _spaceService: SpacesService,
+    private router: Router) { 
+    this.userId = localStorage.getItem("loginUserId");
+    // if(!this.userId){
+    //   this.router.navigate(['/']);
+    // }
   }
 
   ngOnInit() {

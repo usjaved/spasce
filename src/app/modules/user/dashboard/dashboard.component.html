@@ -45,7 +45,7 @@
                         <section *ngIf="statistics" class="active">
                             <div class="dashboard-tab">
                                 <div class="dashboard-step dashboard-step1">
-                                    <div class="row">
+                                    <div class="row" *ngIf="total" >
                                         <div class="col-sm-4">
                                             <div class="dashboard-step-sec">
                                                 <img src="/assets/images/events.png" alt="">

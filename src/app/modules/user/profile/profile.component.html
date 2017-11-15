@@ -27,7 +27,7 @@
                                 <server-image [src]="getUploadeImage()" ></server-image>
                         </div>
                         <div class="upload-button">
-                                <file-upload [onlyButton]="true" uploadLimit="1" [(uploadedImage)]="uploadedFile"> </file-upload>
+                                <file-upload maintainRatio="square" [onlyButton]="true" uploadLimit="1" [(uploadedImage)]="uploadedFile"> </file-upload>
                         </div>
                         <div style="clear:both"></div>
                    </div>

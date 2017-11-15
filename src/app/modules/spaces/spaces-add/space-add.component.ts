@@ -700,7 +700,7 @@ export class SpaceAddComponent implements OnInit {
             }
         }
 
-        if (this.paymentmethod == "paypal") {
+   /*     if (this.paymentmethod == "paypal") {
             if (!this.email) {
                 this.messageAlert('error', 'Please enter email address');
 
@@ -724,7 +724,7 @@ export class SpaceAddComponent implements OnInit {
                     this.messageAlert('error', 'error');
                 })
             }
-        }
+        } */
     }
 
     validatesecuritydeposit() {
@@ -817,7 +817,7 @@ export class SpaceAddComponent implements OnInit {
         if (!this.price12hours) {
             this.messageAlert('error', 'Please enter 12 hours price');
             return;
-        }*/
+        } 
         if (this.price4hours.startsWith('$')) {
             this.price4hours = this.price4hours.slice(1)
         }
@@ -826,7 +826,7 @@ export class SpaceAddComponent implements OnInit {
         }
         if (this.price12hours.startsWith('$')) {
             this.price12hours = this.price12hours.slice(1)
-        }
+        } */
 
         this.wizard.goToNextStep();
         window.scrollTo(0, 0);
@@ -844,7 +844,7 @@ export class SpaceAddComponent implements OnInit {
         if (!this.priceMonth) {
             this.messageAlert('error', 'Please enter 1 month price');
             return;
-        } */
+        } 
         if (this.priceDay.startsWith('$')) {
             this.priceDay = this.priceDay.slice(1)
         }
@@ -853,7 +853,7 @@ export class SpaceAddComponent implements OnInit {
         }
         if (this.priceMonth.startsWith('$')) {
             this.priceMonth = this.priceMonth.slice(1)
-        }
+        } */
 
         var selectedCategoryCount = 0;
         var isRetailSelected = false;
@@ -890,7 +890,7 @@ export class SpaceAddComponent implements OnInit {
                 data.pricing.push({ "spacseId": this.spaceId, "timeFrame": "8", "timeFrameType": "Hours", "rate": this.price8hours, "status": "Active" });
             }
             if(this.price12hours){
-                data.pricing.push({ "spacseId": this.spaceId, "timeFrame": "12", "timeFrameType": "Hours", "rate": this.price12hours, "status": "Active" });
+                data.pricing.push({ "spacseId": this.spaceId, "timeFrame": "12", "timeFrameType": "Hours", "rate": this.price12hours , "status": "Active" });
             }
             
             if(this.priceDay){

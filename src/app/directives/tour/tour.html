@@ -9,12 +9,21 @@
                 <ng2-datepicker [(ngModel)]="date"></ng2-datepicker>
             </div>
         </div>
-        <div class="form-group request-time">
-            <label for="Request Time">Request Time</label>
-            <div class="clearfix">
-                <input type="time" [(ngModel)]="startTime" class="form-control" placeholder="Start Time">
-                <input type="time" [(ngModel)]="endTime" class="form-control" placeholder="End Time">
+        <div style="clear: both"></div>
+        <div class="row form-group request-time">
+            <div class="col-md-6">
+                <label for="Request Time">Start Time</label>
+                <div class="clearfix">
+                    <input type="time" [(ngModel)]="startTime" class="form-control" placeholder="Start Time">
+                </div>
             </div>
+            <div class="col-md-6">
+                <label for="Request Time">End Time</label>
+                <div class="clearfix">
+                        <input type="time" [(ngModel)]="endTime" class="form-control" placeholder="End Time">
+                </div>
+            </div>
+
         </div>
         <div class="modal-footer">
             <button type="button" (click)="bookATour()" class="btn btn-primary">Request Tour</button>

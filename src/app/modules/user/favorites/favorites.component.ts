@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from "@angular/core";
 import { UserService } from '../../../graphqls/services/user';
 
@@ -15,8 +16,12 @@ export class FavoritesComponent implements OnInit {
   loading = false;
   alertMessage = "";
   _timer: any;
-  constructor(private _userService: UserService) {
-    this.userId = localStorage.getItem("loginUserId")
+  constructor(private _userService: UserService,
+    private router: Router,) {
+    this.userId = localStorage.getItem("loginUserId");
+    // if(!this.userId){
+    //   this.router.navigate(['/']);
+    // }
   }
 
   ngOnInit() {
@@ -75,8 +80,9 @@ export class FavoritesComponent implements OnInit {
   getFavourites() {
     this.messageAlert("loading", "Loading");
 
-    this._userService.getUserFavouriteSpacses(this.userId).subscribe(res => {
-      this.messageAlert("hideLoader", "hideloader");
+    var data = { "userId" : this.userId }; 
+    this._userService.getUserFavouriteSpacses(data).subscribe(res => {
+     // this.messageAlert("hideLoader", "hideloader");
       this.data = res.data.user.favourites;
       this.loading = false;
     });

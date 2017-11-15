@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { PayNowModel } from './../../../directives/pay-now/pay-now';
 import { PaymentRequest } from './../../../directives/payment-request/payment-request';
 import { LoginComponent } from './../../login/login.component';
@@ -37,9 +38,13 @@ export class MessageComponent implements OnInit {
     constructor(private _userService: UserService,
         private _requestService: RequestService,
         public modal: Modal,
+        private router: Router,
         public http : Http,
         private _broadcaster: Broadcaster) {
         this.loginUserId = localStorage.getItem("loginUserId");
+        // if(!this.loginUserId){
+        //     this.router.navigate(['/']);
+        //   }
     }
 
 

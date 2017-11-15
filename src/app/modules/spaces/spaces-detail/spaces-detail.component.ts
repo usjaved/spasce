@@ -283,7 +283,6 @@ export class SpacesDetailComponent {
         data.timeFrame = this.selectedPriceLayer.timeFrame;
         data.timeFrameType = this.selectedPriceLayer.timeFrameType;
         data.rate = this.selectedPriceLayer.rate;
-        //console.log(data);
         this.http.post(localStorage.getItem("webUrl") + "/book-space", data).subscribe(res => {
             this.messageAlert("hideLoader", "Loading");
             if (res.status == 200) {
@@ -293,11 +292,6 @@ export class SpacesDetailComponent {
             this.messageAlert("hideLoader", "Loading");
             this.messageAlert("error", "Please try again!!")
         })
-        /* this._spaceService.bookSpacse(data).subscribe(res => {
-             debugger;
-         }, error => {
- 
-         }); */
     }
 
     sendTourRequest() {

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { UserService } from '../../../graphqls/services/user';
 import { Component, OnInit } from "@angular/core";
 
@@ -11,8 +12,12 @@ export class RequestComponent implements OnInit {
   userId;
 
 
-  constructor(private _userservice: UserService) {
+  constructor(private _userservice: UserService, 
+    private router: Router) {
     this.userId = localStorage.getItem("loginUserId");
+    // if(!this.userId){
+    //   this.router.navigate(['/']);
+    // }
   }
 
   ngOnInit() {

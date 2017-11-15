@@ -42,7 +42,7 @@
                         <li>
                             <a [routerLink]="['/user/transactionhistory']">Transaction History</a>
                         </li>
-                        <li>
+                        <li *ngIf="loginWithEmail == 'true'" >
                             <a [routerLink]="['/user/changepassword']">Change Password</a>
                         </li>
                     </ul>

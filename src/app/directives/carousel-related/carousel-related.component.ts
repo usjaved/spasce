@@ -14,6 +14,7 @@ export class CarouselRelated {
     config;
     uniqSliderId;
     @Input() spaces : any;
+    slidePerPage = 3;
     
     private resizeSubject: ReplaySubject<Window>;
     constructor(private eventManager: EventManager) {
@@ -39,6 +40,7 @@ export class CarouselRelated {
                 buttonDisabledClass :"disabled",
                 observer: true
             };
+            this.slidePerPage = 3;
         } else if (width > 500) {
             this.config = {
                 nextButton: '.owl-next' + this.uniqSliderId,
@@ -48,6 +50,7 @@ export class CarouselRelated {
                 buttonDisabledClass :"disabled",
                 observer: true
             };
+            this.slidePerPage = 2;
         } else {
             this.config = {
                 nextButton: '.owl-next' + this.uniqSliderId,
@@ -57,6 +60,7 @@ export class CarouselRelated {
                 buttonDisabledClass :"disabled",
                 observer: true
             };
+            this.slidePerPage = 1;
         }
     }
 

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { PagerService } from './../../../utility/pagination';
 import { Component, OnInit } from "@angular/core";
 import { SpacesService } from '../../../graphqls/services/space';
@@ -35,6 +36,7 @@ export class DashboardComponent implements OnInit {
     private _spaceService: SpacesService,
     private _userservice: UserService,
     private pagerService: PagerService,
+    private router: Router,
     public modal: Modal
   ) {
     this.images = [];
@@ -47,34 +49,40 @@ export class DashboardComponent implements OnInit {
     this.booking = false;
     this.listing = false;
     this.userId = localStorage.getItem('loginUserId');
+    // if(!this.userId){
+    //   this.router.navigate(['/']);
+    // }
   }
 
   ngOnInit() {
-    this.getspacseoffer();
-    this.getstatistics()
-    this.getListings();
+
+    if (!this.userId) {
+      this.router.navigate(['/']);
+    }else{
+      this.getspacseoffer();
+      this.getstatistics()
+      this.getListings();
+    }
   }
   showStatistics() {
     this.statistics = true;
     this.calender = false;
     this.booking = false;
     this.listing = false;
-   }
-  
-  showBookings()
-  {
-    this.statistics =false;
-    this.calender=false;
-    this.listing=false;
-    this.booking=true;
-   
-   }
-  showListings()
-  {
-   this.statistics =false;
-    this.calender=false;
-    this.booking=false;
-    this.listing=true;
+  }
+
+  showBookings() {
+    this.statistics = false;
+    this.calender = false;
+    this.listing = false;
+    this.booking = true;
+
+  }
+  showListings() {
+    this.statistics = false;
+    this.calender = false;
+    this.booking = false;
+    this.listing = true;
   }
   showCalendar() {
     this.statistics = false;
@@ -105,30 +113,29 @@ export class DashboardComponent implements OnInit {
     }
   }
   getspacseoffer() {
-    this._userservice.getUserSpacseOffers(this.userId).subscribe(res=>{
-      this.data = res.data.user.spacseOffers; 
-    });  
+    this._userservice.getUserSpacseOffers(this.userId).subscribe(res => {
+      this.data = res.data.user.spacseOffers;
+    });
   }
-  getstatistics()
-  {
-    this.data ={};
-    this._userservice.getUserStatistics(this.userId).subscribe(res=>{
-      this.total =res.data.getStatistics;
-      this.monthly=res.data.getStatisticsByMonth ;
-      this.lastmonth =res.data.getStatisticsByLastMonth ;
-      this.yearly =res.data.getStatisticsByYear;
-      console.log( "total" +this.total);
-      console.log("month"+this.monthly);
-      console.log("year" +this.yearly);
-      console.log("lastmonth"+this.lastmonth);
-      })
-  } 
+  getstatistics() {
+    this.data = {};
+    this._userservice.getUserStatistics(this.userId).subscribe(res => {
+      this.total = res.data.getStatistics;
+      this.monthly = res.data.getStatisticsByMonth;
+      this.lastmonth = res.data.getStatisticsByLastMonth;
+      this.yearly = res.data.getStatisticsByYear;
+      console.log("total" + this.total);
+      console.log("month" + this.monthly);
+      console.log("year" + this.yearly);
+      console.log("lastmonth" + this.lastmonth);
+    })
+  }
 
-  
+
 
   setPage(page: number) {
-    
-    if(!this.pager){
+
+    if (!this.pager) {
       this.pager = this.pagerService.getPager(this.bookings.length, 1);
     }
     if (page < 1 || page > this.pager.totalPages) {
@@ -139,14 +146,15 @@ export class DashboardComponent implements OnInit {
   }
   approveStatus(item) {
     if (item.status == "Pending") {
-      var dialog = this.modal.open(AlertComponent, overlayConfigFactory({ 
-        "message" : "What you want to do with this booking request ?", 
-        "yes" : "Accept Booking", 
-        "no" : "Reject Booking" }, BSModalContext)).then((resultPromise) => {
+      var dialog = this.modal.open(AlertComponent, overlayConfigFactory({
+        "message": "What you want to do with this booking request ?",
+        "yes": "Accept Booking",
+        "no": "Reject Booking"
+      }, BSModalContext)).then((resultPromise) => {
         resultPromise.result.then((result) => {
           if (result == "Accept Booking") {
-              this.updateStatus(item, "Accepted");
-          }else if(result == "Reject Booking"){
+            this.updateStatus(item, "Accepted");
+          } else if (result == "Reject Booking") {
             this.updateStatus(item, "Rejected");
           }
         }).catch(err => {
@@ -155,14 +163,14 @@ export class DashboardComponent implements OnInit {
       });
     }
   }
-  updateStatus(item, status){
+  updateStatus(item, status) {
 
-    var data : any = {};
+    var data: any = {};
     data.id = item._id;
     data.status = status;
-    this._spaceService.updateBookingStatus(data).subscribe(res=>{
-        item.status = status
-    }, err=> {
+    this._spaceService.updateBookingStatus(data).subscribe(res => {
+      item.status = status
+    }, err => {
 
     })
 

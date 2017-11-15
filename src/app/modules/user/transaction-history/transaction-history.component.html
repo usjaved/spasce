@@ -18,7 +18,7 @@
                         <li><a [routerLink]="['/user/account']">Notifications</a></li>
                         <li><a [routerLink]="['/user/payment']">Payments</a></li>
                         <li><a class="active">Transaction History</a></li>
-                        <li><a [routerLink]="['/user/changepassword']">Change Password</a></li>
+                        <li *ngIf="loginWithEmail == 'true'" ><a [routerLink]="['/user/changepassword']">Change Password</a></li>
                     </ul>
                     <div class="accordion-content accordion-content2">
 

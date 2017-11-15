@@ -135,10 +135,11 @@ export class UserService {
             variables : data
         })
     }
-    getUserFavouriteSpacses(userId):any{
-        var data = {userId: userId};
+    getUserFavouriteSpacses(data):any{
+
         return this.apollo.watchQuery<any>({
             query: getUserFavouriteSpacses,
+            fetchPolicy: 'network-only',
             variables : data
         })
     }

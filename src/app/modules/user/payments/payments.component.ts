@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { UserService } from '../../../graphqls/services/user';
-
+import { Router } from '@angular/router';
 @Component({
 
     selector: 'payments',
@@ -22,12 +22,18 @@ export class PaymentsComponent {
     userId = "";
     data = [];
     paymentmethods = [] ;
+    loginWithEmail;
    @Output() newmethods = new EventEmitter();
 
 
-    constructor(private _userservice: UserService) {
+    constructor(private _userservice: UserService, 
+        private router: Router,) {
         this.userId = localStorage.getItem("loginUserId");
-        this.getPaymentMethod() ;
+        this.loginWithEmail = localStorage.getItem("loginWithEmail");
+        // if(!this.userId){
+        //     this.router.navigate(['/']);
+        //   }
+          this.getPaymentMethod() ;
     }
     messageAlert(type, message) {
         if (type == "error") {

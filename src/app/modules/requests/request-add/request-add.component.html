@@ -47,14 +47,27 @@
                     </div>
                     <h5 class="label-bar"><span>Request Date(s)</span></h5>
                     <div class="calendar-sec">
-                        <span>
+                       <!-- <span>
                             Start Date
                             <ng2-datepicker [options]="options" [(ngModel)]="startDate"></ng2-datepicker>
                         </span>
                         <span>
                             End Date
                             <ng2-datepicker [options]="options" [(ngModel)]="endDate"></ng2-datepicker>
-                        </span>
+                        </span> -->
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="startDate">Start Date</label>
+                                <ng2-datepicker [options]="options" [(ngModel)]="startDate"></ng2-datepicker>
+                                
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="endDate">End Date</label>
+                                <ng2-datepicker [options]="options" [(ngModel)]="endDate"></ng2-datepicker>
+                                
+                            </div>
+                        </div>
                     </div>
                     <h5 class="label-bar"><img src="/assets/images/folder-icon.png" alt=""><span>Daily Budget</span></h5>
                     <div class="space-select">

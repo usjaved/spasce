@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { UserService } from '../../../graphqls/services/user';
 import { getAccountSetting } from '../../../graphqls/queries/user';
 import { Broadcaster } from '../../../utility/broadcaster';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "user-account",
@@ -21,12 +22,16 @@ export class AccountComponent implements OnInit {
   loading = false;
   alertMessage = "";
   _timer: any;
-
-
+  loginWithEmail;
   constructor(private _userService: UserService,
     private broadcaster: Broadcaster,
+    private router: Router
   ) {
     this.userId = localStorage.getItem("loginUserId");
+    this.loginWithEmail = localStorage.getItem("loginWithEmail");
+    // if(!this.userId){
+    //   this.router.navigate(['/']);
+    // }
   }
   messageAlert(type, message) {
     if (type == "error") {
@@ -79,13 +84,17 @@ export class AccountComponent implements OnInit {
 
 
   ngOnInit() {
-    this._userService.getAccountSetting(this.userId).subscribe(res => {
-      this.accountsetting = res.data.user.accountsetting;
-      this.recievesms = res.data.user.accountsetting.smsNotification == "true" ? true : false;
-      this.generalandpromotional = res.data.user.accountsetting.generalNotification == "true" ? true : false;
-      this.reservationandreview = res.data.user.accountsetting.reservationNotification == "true" ? true : false;
-      this.accountacivity = res.data.user.accountsetting.accountNotification == "true" ? true : false;
-    });
+    if (!this.userId) {
+      this.router.navigate(['/']);
+    }else{
+      this._userService.getAccountSetting(this.userId).subscribe(res => {
+        this.accountsetting = res.data.user.accountsetting;
+        this.recievesms = res.data.user.accountsetting.smsNotification == "true" ? true : false;
+        this.generalandpromotional = res.data.user.accountsetting.generalNotification == "true" ? true : false;
+        this.reservationandreview = res.data.user.accountsetting.reservationNotification == "true" ? true : false;
+        this.accountacivity = res.data.user.accountsetting.accountNotification == "true" ? true : false;
+      });
+    }
   }
 
   saveChanges() {

@@ -95,10 +95,6 @@ export class ContactToHostComponent implements ModalComponent<ContactToHostconte
             this.messageAlert('error', 'Please select endDate');
             return false;
         }
-        if (!this.dateFlexible) {
-            this.messageAlert('error', 'check if you want to contact with host');
-            return false;
-        }
         if (!this.comment) {
             this.messageAlert('error', 'enter the comment');
             return false;
@@ -110,12 +106,11 @@ export class ContactToHostComponent implements ModalComponent<ContactToHostconte
         data.isDateFlexible = this.dateFlexible;
         data.comment = this.comment;
         data.status = "Pending";
-
         this._hostservice.createContactToHost(data).subscribe(res => {
             if (res.data.createContactToHost._id) {
                 this.dialog.close();
             }
-         });
+        });
 
     }
 

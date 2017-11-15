@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../graphqls/services/user';
 import { Broadcaster } from '../../../utility/broadcaster';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'change-password',
     templateUrl: 'change-password.component.html',
 })
-export class ChangePasswordComponent {
+export class ChangePasswordComponent implements OnInit {
 
     oldpassword;
     newpassword;
@@ -15,14 +16,22 @@ export class ChangePasswordComponent {
     error = false;
     alertMessage = "";
     _timer: any;
-
-
+    userId
     constructor(private _userservice: UserService,
         private broadcaster: Broadcaster,
+        private router: Router,
     ) 
     {
-
+      this.userId = localStorage.getItem('loginUserId');
+      // if(!this.userId){
+      //   this.router.navigate(['/']);
+      // }
     }
+    ngOnInit() {
+      if (!this.userId) {
+        this.router.navigate(['/']);
+      }
+     }
     messageAlert(type, message) {
         if (type == "error") {
           this.showError(message)

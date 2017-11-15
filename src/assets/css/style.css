@@ -13937,7 +13937,7 @@ ______________________*/
   }
 
   .host-income-wrap .host-income {
-    padding-left: 20px;
+    padding: 20px;
   }
   .host-income-wrap .host-income-sec {
     padding: 15px;
@@ -14792,3 +14792,18 @@ rating-star{
   font-size: 20px !important;
 }
 
+
+@media (max-width: 767px){
+  .right-btn a {
+      width: 196.1px;
+      height: 58.2px;
+      line-height: 58.2px;
+      background-color: #327ccb;
+      float: none;
+      font-weight: 600;
+      color: #ffffff;
+      text-align: center;
+      position: relative;
+      padding: 10px;
+  }
+}
