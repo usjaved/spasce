@@ -40,7 +40,7 @@
                                         </div>
                                         <p>What details do you want people to know about your space? <br>Please give a brief description</p>
                                         <div class="step-textarea">
-                                            <textarea [(ngModel)]="description" name="" id="" cols="30" rows="10" placeholder="I would describe my space as… "></textarea>
+                                            <textarea maxLength="1000" [(ngModel)]="description" name="" id="" cols="30" rows="10" placeholder="I would describe my space as… "></textarea>
                                         </div>
                                     </article>
                                     <div class="step-pager clearfix">
@@ -406,7 +406,7 @@
                                     <h2>Additional fees (Optional)</h2>
                                     <p>Additional fees that are not included in your base rate.</p>
                                     <div class="step-textarea">
-                                        <textarea name="" id="" cols="30" rows="10" placeholder="e.g. Extra hours, weekend price, cleaning, etc…" [(ngModel)]=additionalfees></textarea>
+                                        <textarea maxLength="1000" name="" id="" cols="30" rows="10" placeholder="e.g. Extra hours, weekend price, cleaning, etc…" [(ngModel)]=additionalfees></textarea>
                                     </div>
                                 </article>
                                 <div class="step-pager clearfix">

@@ -79,11 +79,11 @@
                     </div>
                     <h5 class="label-bar"><span>Describe Your Space</span></h5>
                     <div class="space-textarea">
-                        <textarea name="" id="" cols="30" rows="10" [(ngModel)]="description" placeholder="Tell us any specific needs and preferences you have. The more information we have, the more possibilities we can create."></textarea>
+                        <textarea maxLength="1000" name="" id="" cols="30" rows="10" [(ngModel)]="description" placeholder="Tell us any specific needs and preferences you have. The more information we have, the more possibilities we can create."></textarea>
                     </div>
                 </article>
                 <div class="step-pager clearfix">
-                 <div class="step-pager-right step-no-pager"><a (click)="submitForm()">Submit Request</a></div>
+                 <div class="step-pager-right step-no-pager pointer"><a (click)="submitForm()">Submit Request</a></div>
                 </div>
             </div>
             <div class="space-slider-outer">

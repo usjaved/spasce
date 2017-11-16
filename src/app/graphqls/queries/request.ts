@@ -303,7 +303,7 @@ query filterRequests($capacity: [String], $category: [String], $city: String, $s
           firstName
           lastName
         }
-      }
+       }
        messages(loginUserId: $loginUserId){
         _id
         comment

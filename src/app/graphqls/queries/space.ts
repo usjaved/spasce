@@ -9,6 +9,7 @@ export const spaceNewFormDetail = gql`
         properyCapacities{
             _id
             title  
+            maximumValue
         }
         amenities{
             _id

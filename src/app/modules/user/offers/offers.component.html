@@ -1,0 +1,510 @@
+<div id="main-wrap">
+    <div class="container">
+        <div class="profile-main">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active">
+                    <a [routerLink]="['/user/dashboard']" aria-controls="dashboard" role="tab" data-toggle="tab">Dashboard</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user']" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/account']" aria-controls="account" role="tab" data-toggle="tab">Account</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/message']" aria-controls="messages" role="tab" data-toggle="tab">Messages</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/bookings']" aria-controls="my_bookings" role="tab" data-toggle="tab">My Bookings</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/requests']" aria-controls="my_requests" role="tab" data-toggle="tab">My Requests</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/favorites']" aria-controls="my_favorites" role="tab" data-toggle="tab">My Favorites</a>
+                </li>
+            </ul>
+            <div role="tabpanel" class="tab-pane active" id="dashboard">
+                <div class="accordion-panel">
+                    <ul class="accordion-nav accordion-nav1">
+                        <li>
+                            <a class="pointer" [class.active]="statistics"  (click)="showStatistics();">Statistics</a>
+                        </li>
+                        <li>
+                            <a class="pointer" [class.active]="booking"  (click)="showBookings();">Bookings</a>
+                        </li>
+                        <li>
+                            <a  class="pointer" [class.active]= "listing "(click)="showListings();">Listings</a>
+                        </li>
+                        <li>
+                            <a class="pointer" [class.active]="calender" (click)="showCalendar();">Calendar</a>
+                        </li>
+                        <li>
+                            <a class="pointer" [class.active]="showOffer" (click)="showOffers();">Calendar</a>
+                        </li>
+                    </ul>
+                    <div class="accordion-content accordion-content1">
+                        <section *ngIf="statistics" class="active">
+                            <div class="dashboard-tab">
+                                <div class="dashboard-step dashboard-step1">
+                                    <div class="row" *ngIf="total" >
+                                        <div class="col-sm-4">
+                                            <div class="dashboard-step-sec">
+                                                <img src="/assets/images/events.png" alt="">
+                                                <div class="dashboard-step-info">
+                                                    <strong >{{ total.totalBookings}}</strong> 
+                                                     <small>Total Booked Events</small>
+                                                </div>
+                                            </div>
+                                            <ul class="status-sec">
+                                                <li class="clearfix">
+                                                    <span>This month</span>
+                                                    <b> {{monthly.totalBookings}}</b>
+                                                </li>
+                                                <li class="clearfix">
+                                                    <span>Last month</span>
+                                                    <b>{{lastmonth.totalBookings}}</b>
+                                                </li>
+                                                <li class="clearfix">
+                                                    <span>Annual</span>
+                                                    <b> {{yearly.totalBookings}}</b>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="dashboard-step-sec">
+                                                <img src="/assets/images/badge.png" alt="">
+                                                <div class="dashboard-step-info">
+                                                    <strong>${{ total.totalRevenue}}</strong> 
+                                                    <small>Total Revenue</small>
+                                                </div>
+                                            </div>
+                                            <ul class="status-sec">
+                                                <li class="clearfix">
+                                                    <span>This month</span>
+                                                    <b>$ {{ monthly.totalRevenue}}</b>
+                                                </li>
+                                                <li class="clearfix">
+                                                    <span>Last month</span>
+                                                    <b>$ {{ lastmonth.totalRevenue}}</b>
+                                                </li>
+                                                <li class="clearfix">
+                                                    <span>Annual</span>
+                                                    <b>$ {{ yearly.totalRevenue}}</b>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="dashboard-step-sec">
+                                                <img src="/assets/images/graph.png" alt="">
+                                                <div class="dashboard-step-info">
+                                                   <strong >${{ total.avgRevenue}}</strong> 
+                                                    <small>Avg. Revenue Per Event</small>
+                                                </div>
+                                            </div>
+                                            <ul class="status-sec">
+                                                <li class="clearfix">
+                                                    <span>This month</span>
+                                                    <b>$ {{ monthly.avgRevenue}}</b>
+                                                </li>
+                                                <li class="clearfix">
+                                                    <span>Last month</span>
+                                                    <b>$ {{ lastmonth.avgRevenue}}</b>
+                                                </li>
+                                                <li class="clearfix">
+                                                    <span>Annual</span>
+                                                    <b>$ {{ yearly.avgRevenue}}</b>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="dashboard-upcomimg">
+                                    <h4>Upcoming Bookings</h4>
+                                    <p>
+                                        <a href="#">Jerry N.</a> booked this space for these upcoming dates:
+                                        <a href="#">May 26, 2017 - May 30th, 2017</a>
+                                    </p>
+                                    <div class="book-slide">
+                                        <div class="book-slide-fig">
+                                            <carousel-image [images]="images"></carousel-image>
+                                        </div>
+                                        <div class="book-slide-info">
+                                            <h4>Art’s District Coworking Space</h4>
+                                            <p>Contemporary Pop Up &amp; Event Space - Next to Supreme on N Fairfax</p>
+                                            <ul>
+                                                <li>
+                                                    <img src="/assets/images/location-icon.png" alt="">
+                                                    <span>Los Angeles, CA</span>
+                                                </li>
+                                                <li>
+                                                    <img width="27px" src="/assets/images/group-icon.png" alt="">
+                                                    <span>30</span>
+                                                </li>
+                                                <li>
+                                                    <img width="24px" src="/assets/images/arrow-direction.png" alt="">
+                                                    <span>8,000 Sq. Ft.</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        <a href="#">Jerry N.</a> booked this space for these upcoming dates:
+                                        <a href="#">May 26, 2017 - May 30th, 2017</a>
+                                    </p>
+                                    <div class="book-slide">
+                                        <div class="book-slide-fig">
+                                            <carousel-image [images]="images"></carousel-image>
+                                        </div>
+                                        <div class="book-slide-info">
+                                            <h4>Art’s District Coworking Space</h4>
+                                            <p>Contemporary Pop Up &amp; Event Space - Next to Supreme on N Fairfax</p>
+                                            <ul>
+                                                <li>
+                                                    <img src="/assets/images/location-icon.png" alt="">
+                                                    <span>Los Angeles, CA</span>
+                                                </li>
+                                                <li>
+                                                    <img width="27px" src="/assets/images/group-icon.png" alt="">
+                                                    <span>30</span>
+                                                </li>
+                                                <li>
+                                                    <img width="24px" src="/assets/images/arrow-direction.png" alt="">
+                                                    <span>8,000 Sq. Ft.</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </section>
+                        <section *ngIf="booking" class="active" >
+                            <div class="account-tab dashboard-tab" >
+                                <div class="dashboard-step">
+                                    <div class="row">
+                                        <div class="col-md-3 col-sm-6">
+                                            <div class="dashboard-step-sec">
+                                                <img src="/assets/images/person-icon.png" alt="">
+                                                <div class="dashboard-step-info">
+                                                    <strong>{{bookingStatastics.totalRecords}}</strong>
+                                                    <small>All</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6">
+                                            <div class="dashboard-step-sec">
+                                                <img src="/assets/images/chat-icon.png" alt="">
+                                                <div class="dashboard-step-info">
+                                                    <strong>0</strong>
+                                                    <small>Inquiries</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6">
+                                            <div class="dashboard-step-sec">
+                                                <img src="/assets/images/fly-icon.png" alt="">
+                                                <div class="dashboard-step-info">
+                                                    <strong>{{bookingStatastics.totalTours}}</strong>
+                                                    <small>Scheduled Tour</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6">
+                                            <div class="dashboard-step-sec">
+                                                <img src="/assets/images/folder-icon-lg.png" alt="">
+                                                <div class="dashboard-step-info">
+                                                  <strong >{{bookingStatastics.totalOffers}}</strong>
+                                                    
+                                                    <small>Made An Offer</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12" *ngIf="pagedItems.length == 0">
+                                        <p>
+                                             You don't have any bookings on your Spacse .
+                                        </p>
+                                </div> 
+                                <div class="account-tab-inner tentative-inner" *ngIf="pagedItems.length > 0">
+                                      
+                                    <div class="tentative-table">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Tentative Booker</th>
+                                                    <th>Space</th>
+                                                    <th>Space Dates</th>
+                                                    <th>Status</th>
+                                                    <th>Payment Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of pagedItems" >
+                                                    <td>
+                                                        <readable-date [createdAt]="item.createdAt"></readable-date>
+                                                    </td>
+                                                    <td>
+                                                        {{ item.user.firstName }} {{ item.user.lastName }}
+                                                    </td>
+                                                    <td>{{ item.spacse.title }}</td>
+                                                    <td>{{ item.startDate }} - {{ item.endDate }}</td>
+                                                    <td> 
+                                                       <a class="pointer" (click)="approveStatus(item)" > {{ item.status }} </a></td>
+
+                                                    <td>{{ item.paymentStatus }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tentative-sec clearfix">
+                                        <div class="tentative-left">
+                                            <!-- <p>Displaying
+                                                <b>5</b> of
+                                                <b>20</b>
+                                            </p> -->
+                                        </div>
+                                        <div class="tentative-right">
+                                            <ul *ngIf="pager.pages">
+                                                <li [hidden]="pager.currentPage == 1">
+                                                    <a (click)="setPage(pager.currentPage - 1)" class="fa fa-angle-left"  ></a>
+                                                </li>
+                                                <li *ngFor="let page of pager.pages">
+                                                    <a (click)="setPage(page)" [ngClass]="{active: pager.currentPage === page}" >{{page}}</a>
+                                                </li>
+                                                <li [hidden]="pager.currentPage == pager.totalPages">
+                                                    <a (click)="setPage(pager.currentPage + 1)" class="fa fa-angle-right" ></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section *ngIf="listing" class="active">
+                            <div class="dashboard-tab">
+                                    <div class="col-sm-12" *ngIf="inProcessSpaces.length == 0 && pendingSpaces.length ==0 && approvedSpaces.length==0">
+                                            <p>
+                                                 You don't create any Spacse.
+                                            </p>
+                                    </div> 
+                                <div class="progress-sec" *ngIf="inProcessSpaces.length > 0">
+                                    <h4>In Progress</h4>
+                                    <div class="row">
+                                        <div *ngFor="let item of inProcessSpaces" class="col-sm-6 col-lg-5">
+                                            <div class="book-slide">
+                                                <div class="book-slide-fig">
+                                                    <ul class="slides">
+                                                        <li>
+                                                            <server-image [src]="getImage(item)"></server-image>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                                <div class="book-slide-info">
+                                                    <h4>{{ item.title }}</h4>
+                                                    <p>{{ item.subTitle }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="progress-btn">
+                                                <span>
+                                                    <a routerLink="/spaces/edit/{{item._id}}">Complete</a>
+                                                </span><span>
+                                                    <a  routerLink="/spaces/preview/{{item._id}}">Preview</a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="progress-sec" *ngIf="pendingSpaces.length > 0">
+                                    <h4>Pending Approval</h4>
+                                    <div class="row">
+                                        <div *ngFor="let item of pendingSpaces" class="col-md-6 col-lg-5">
+                                            <div class="book-slide">
+                                                <div class="book-slide-fig">
+                                                    <ul class="slides">
+                                                        <li>
+                                                            <server-image [src]="getImage(item)"></server-image>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="book-slide-info">
+                                                    <h4>{{ item.title }}</h4>
+                                                    <p>{{ item.subTitle }}</p>
+                                                    <ul>
+                                                        <li>
+                                                            <img src="/assets/images/location-icon.png" alt="">
+                                                            <span>{{ item.address }}</span>
+                                                        </li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li>
+                                                            <img width="27px" src="/assets/images/group-icon.png" alt="">
+                                                            <span>{{ item.capacity.title }}</span>
+                                                        </li>
+                                                        <li>
+                                                            <img width="24px" src="/assets/images/arrow-direction.png" alt="">
+                                                            <span>{{ item.squareFootArea }} Sq. Ft.</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="progress-btn">
+                                                <span>
+                                                    <a routerLink="/spaces/edit/{{item._id}}">Edit</a>
+                                                </span><span>
+                                                    <a routerLink="/spaces/preview/{{item._id}}">Preview</a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="progress-sec" *ngIf="approvedSpaces.length > 0">
+                                    <h4>Approved Listings</h4>
+                                    <div class="row">
+                                        <div *ngFor="let item of approvedSpaces" class="col-md-6 col-lg-5">
+                                            <div class="book-slide">
+                                                <div class="book-slide-fig">
+                                                    <ul class="slides">
+                                                        <li>
+                                                            <server-image [src]="getImage(item)"></server-image>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="book-slide-info">
+                                                    <h4>{{ item.title }}</h4>
+                                                    <p>{{ item.subTitle }}</p>
+                                                    <ul>
+                                                        <li>
+                                                            <img src="/assets/images/location-icon.png" alt="">
+                                                            <span>{{ item.address }}</span>
+                                                        </li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li>
+                                                            <img width="27px" src="/assets/images/group-icon.png" alt="">
+                                                            <span>{{ item.capacity.title }}</span>
+                                                        </li>
+                                                        <li>
+                                                            <img width="24px" src="/assets/images/arrow-direction.png" alt="">
+                                                            <span>{{ item.squareFootArea }} Sq. Ft.</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="progress-btn">
+
+                                                <span>
+                                                    <a routerLink="/spaces/edit/{{item._id}}">Edit</a>
+                                                </span><span>
+                                                    <a routerLink="/spaces/detail/{{item._id}}">View</a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section *ngIf="calender" class="active">
+                            <div class="dashboard-tab">
+                                <h4>Calendar</h4>
+                                <div class="calendar-month">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="month-format">
+                                                <ul>
+                                                    <li>
+                                                        <a class="active" href="#">Month</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Week</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Day</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6">
+                                            <div class="month-selected">
+                                                <i class="fa fa-angle-left"></i>
+                                                <span>May 2017</span>
+                                                <i class="fa fa-angle-right"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6">
+                                            <div class="create-event">
+                                                <a href="#">Create</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <ul class="week-day clearfix">
+                                        <li>Sun</li>
+                                        <li>Mon</li>
+                                        <li>Tue</li>
+                                        <li>Wed</li>
+                                        <li>Thu</li>
+                                        <li>Fri</li>
+                                        <li>Sat</li>
+                                    </ul>
+                                </div>
+                                <div class="calendar">
+                                    <ul class="clearfix">
+                                        <li>1</li>
+                                        <li>2</li>
+                                        <li>3</li>
+                                        <li>4</li>
+                                        <li>5</li>
+                                        <li>6</li>
+                                        <li>7</li>
+                                    </ul>
+                                    <ul class="clearfix">
+                                        <li>8</li>
+                                        <li>9</li>
+                                        <li>10</li>
+                                        <li>11</li>
+                                        <li>12</li>
+                                        <li>13</li>
+                                        <li>14</li>
+                                    </ul>
+                                    <ul class="clearfix">
+                                        <li>15</li>
+                                        <li>16</li>
+                                        <li>17</li>
+                                        <li>18</li>
+                                        <li>19</li>
+                                        <li>20</li>
+                                        <li>21</li>
+                                    </ul>
+                                    <ul class="clearfix">
+                                        <li>22</li>
+                                        <li>23</li>
+                                        <li>24</li>
+                                        <li>25</li>
+                                        <li>26</li>
+                                        <li>27</li>
+                                        <li>28</li>
+                                    </ul>
+                                    <ul class="clearfix">
+                                        <li>29</li>
+                                        <li>30</li>
+                                        <li>31</li>
+                                        <li class="next-month">1</li>
+                                        <li class="next-month">2</li>
+                                        <li class="next-month">3</li>
+                                        <li class="next-month">4</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

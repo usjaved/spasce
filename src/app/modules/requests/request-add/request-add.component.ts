@@ -64,34 +64,34 @@ export class RequestAddComponent {
     }
     messageAlert(type, message) {
         if (type == "error") {
-          this.showError(message)
+            this.showError(message)
         } else {
-          this.showSuccess(message);
+            this.showSuccess(message);
         }
-      }
-      showError(message) {
+    }
+    showError(message) {
         this.success = false;
         this.error = false;
         this.alertMessage = message;
         this.error = true;
         this._timer = setTimeout(() => {
-          this.alertMessage = '';
-          this.error = false;
-          this._timer = null;
+            this.alertMessage = '';
+            this.error = false;
+            this._timer = null;
         }, 3000);
-      }
-      showSuccess(message) {
+    }
+    showSuccess(message) {
         this.success = false;
         this.error = false;
         this.alertMessage = message;
         this.success = true;
         this._timer = setTimeout(() => {
-          this.alertMessage = '';
-          this.success = false;
-          this._timer = null;
+            this.alertMessage = '';
+            this.success = false;
+            this._timer = null;
         }, 3000);
-      }
-    
+    }
+
 
     ngOnInit() {
         this.zoom = 4;
@@ -120,7 +120,7 @@ export class RequestAddComponent {
         });
 
         if (!localStorage.getItem("loginUserId")) {
-             this.broadcaster.broadcast("loginOpen", "login");
+            this.broadcaster.broadcast("loginOpen", "login");
         }
     }
 
@@ -199,7 +199,11 @@ export class RequestAddComponent {
     slecectTime() {
         this.otherSpaceTime = false;
     }
-    submitForm(){
+    submitForm() {
+        if (!localStorage.getItem("loginUserId")) {
+            this.broadcaster.broadcast("loginOpen", "login");
+            return false;
+        }
         var _startTime = Number(this.startDate.momentObj.format("x"));
         var _endTime = Number(this.endDate.momentObj.format("x"));
         var date = new Date();
@@ -217,8 +221,8 @@ export class RequestAddComponent {
             this.messageAlert("error", "Sorry!! To date greater or equals to From date .")
             return;
         }
-        
-        if(!this.selectedCategory && !this.otherCategory){
+
+        if (!this.selectedCategory && !this.otherCategory) {
             this.messageAlert('error', 'Please select category');
             return false;
         } else if (this.otherCategory && !this.otherCategoryTitle) {
@@ -226,40 +230,40 @@ export class RequestAddComponent {
             return false;
         }
         if (!this.city) {
-            this.messageAlert('error','Please enter city');
+            this.messageAlert('error', 'Please enter city');
             return false;
         }
         if (!this.selectedCacpacity) {
-            this.messageAlert('error','Please select capacity');
+            this.messageAlert('error', 'Please select capacity');
             return false;
         }
 
         if (!this.spaceTime && !this.otherSpaceTime) {
-             this.messageAlert('error','Please Select Time');
+            this.messageAlert('error', 'Please Select Time');
             return false;
         } else if (this.otherSpaceTime && !this.otherSpaceTimeTitle) {
-             this.messageAlert('error','Please enter time');
+            this.messageAlert('error', 'Please enter time');
             return false;
         }
-         if (!this.startDate || !this.startDate.formatted) {
-             this.messageAlert('error','Please select start date');
+        if (!this.startDate || !this.startDate.formatted) {
+            this.messageAlert('error', 'Please select start date');
             return false;
         }
-        if(!this.endDate || !this.endDate.formatted){
-             this.messageAlert('error','Please select end date');
+        if (!this.endDate || !this.endDate.formatted) {
+            this.messageAlert('error', 'Please select end date');
             return false;
         }
-        if(!this.budget){
-             this.messageAlert('error','Please select budget');
+        if (!this.budget) {
+            this.messageAlert('error', 'Please select budget');
             return false;
         }
 
-        if(!this.description){
-             this.messageAlert('error','Please enter description');
+        if (!this.description) {
+            this.messageAlert('error', 'Please enter description');
             return false;
         }
-        
-        var data : any;
+
+        var data: any;
         data = {};
         data.userId = localStorage.getItem("loginUserId");
         data.startDate = this.startDate.formatted;
@@ -268,34 +272,32 @@ export class RequestAddComponent {
         data.city = this.addressConponent.administrative_area_level_2;
         data.state = this.addressConponent.administrative_area_level_1;
         data.country = this.addressConponent.country;
-        if(this.otherCategory){
+        if (this.otherCategory) {
             data.otherCategoryTitle = this.otherCategoryTitle;
-        }else {
+        } else {
             data.categoryId = this.selectedCategory._id;
         }
         data.capacityId = this.selectedCacpacity._id
         data.budgetId = this.budget
         data.description = this.description;
-        if(this.otherSpaceTime){
+        if (this.otherSpaceTime) {
             data.timeDuration = this.otherSpaceTimeTitle;
-        }else {
+        } else {
             data.timeDuration = this.spaceTime;
         }
         data.status = "Active"
-        
+
         this._requestService.createRequest(data).subscribe(res => {
-            if(res.data.createRequest._id)
-            {
-                this.messageAlert('success','Saved');
+            if (res.data.createRequest._id) {
+                this.messageAlert('success', 'Saved');
                 this.router.navigate(['/requests']);
             }
-            else
-            {
-                this.messageAlert('error','Error');
+            else {
+                this.messageAlert('error', 'Error');
             }
-                
+
         }, err => {
-                 this.messageAlert('error','Error');
+            this.messageAlert('error', 'Error');
         })
 
         return false;

@@ -28,7 +28,7 @@ export class AppComponent {
   loginUserId = "";
   loginUserName = "";
   showMobileMenu = false;
-  profilePic= "uploads/person-img5.png";
+  profilePic = "uploads/person-img5.png";
   isUserLoggedIn = false;
   loading = true;
   success = false;
@@ -39,12 +39,12 @@ export class AppComponent {
   showResult = false;
   _timer: any;
   searchResult = [];
- // googleUser: gapi.auth2.GoogleUser;
+  // googleUser: gapi.auth2.GoogleUser;
   googleClinetId;
   constructor(
     public modal: Modal,
     public loginService: LoginService,
-    public spaceService : SpacesService,
+    public spaceService: SpacesService,
     private router: Router,
     private broadcaster: Broadcaster,
     private zone: NgZone
@@ -91,29 +91,29 @@ export class AppComponent {
           this._timer = null;
         }, 3000);
       });
-      this.broadcaster.on<string>('loading')
+    this.broadcaster.on<string>('loading')
       .subscribe(message => {
         this.success = false;
         this.error = false;
         this.loading = false;
         this.alertMessage = message;
         this.loading = true;
-      });  
-      this.broadcaster.on<string>('hideLoader')
+      });
+    this.broadcaster.on<string>('hideLoader')
       .subscribe(message => {
         this.success = false;
         this.error = false;
         this.loading = false;
-      });  
-      
-      this.broadcaster.on<string>('loginOpen')
+      });
+
+    this.broadcaster.on<string>('loginOpen')
       .subscribe(message => {
-        if(!this.isLoginOpen){
+        if (!this.isLoginOpen) {
           this.isLoginOpen = true;
           this.openLoginModal();
         }
-        
-      });  
+
+      });
 
 
   }
@@ -136,7 +136,7 @@ export class AppComponent {
         }
       });
     });
-}
+  }
   openSignUpModal() {
     var dialog = this.modal.open(RegisterComponent).then((resultPromise) => {
       resultPromise.result.then((result) => {
@@ -155,7 +155,7 @@ export class AppComponent {
         localStorage.setItem("firstName", res.data.loginSession.user.firstName);
         localStorage.setItem("lastName", res.data.loginSession.user.lastName);
         localStorage.setItem("loginUserId", res.data.loginSession.user._id);
-        var picture=res.data.loginSession.user.profilePic;
+        var picture = res.data.loginSession.user.profilePic;
 
         var picture = res.data.loginSession.user.profilePic;
         if (picture == null) {
@@ -181,29 +181,27 @@ export class AppComponent {
     });
 
   }
- 
-  listSpacse()
-  {
-    if(localStorage.getItem("loginUserId"))
-    {
-        this.router.navigate(['/spaces/new']);
+
+  listSpacse() {
+    if (localStorage.getItem("loginUserId")) {
+      this.router.navigate(['/spaces/new']);
     }
-    else
-    {
-        this.broadcaster.broadcast("loginOpen", "login");
+    else {
+      this.broadcaster.broadcast("loginOpen", "login");
     }
   }
 
   navigationInterceptor(event: RouterEvent): void {
-    
+
     if (event instanceof NavigationStart) {
       this.loading = true
       this.showResult = false;
       this.showMobileMenu = false;
+      window.scrollTo(0, 0);
     }
     if (event instanceof NavigationEnd) {
       this.loading = false;
-      
+
     }
 
     if (event instanceof NavigationCancel) {
@@ -213,33 +211,33 @@ export class AppComponent {
       this.loading = false
     }
   }
-/*
-  onGoogleSignInSuccess(event: GoogleSignInSuccess) {
-    this.googleUser = event.googleUser;
-    let id: string = this.googleUser.getId();
-    let profile: gapi.auth2.BasicProfile = this.googleUser.getBasicProfile();
-    var name = profile.getName().split(" ");
-
-
-    var postData = { "firstName": name[0], "dateOfBirth": "", "lastName": name[1], "email": profile.getEmail(), "status": "active", "gid": profile.getId(), "profilePic": profile.getImageUrl() };
-    this.loginService.signUpGoogle(postData).subscribe(res => {
-      localStorage.setItem("loginSession", res.data.loginWithGoogle._id);
-      this.login();
-    }, error => {
-      
-    })
-
-  } */
-  doSearch(event){
-    var keyword =  event.target.value
+  /*
+    onGoogleSignInSuccess(event: GoogleSignInSuccess) {
+      this.googleUser = event.googleUser;
+      let id: string = this.googleUser.getId();
+      let profile: gapi.auth2.BasicProfile = this.googleUser.getBasicProfile();
+      var name = profile.getName().split(" ");
+  
+  
+      var postData = { "firstName": name[0], "dateOfBirth": "", "lastName": name[1], "email": profile.getEmail(), "status": "active", "gid": profile.getId(), "profilePic": profile.getImageUrl() };
+      this.loginService.signUpGoogle(postData).subscribe(res => {
+        localStorage.setItem("loginSession", res.data.loginWithGoogle._id);
+        this.login();
+      }, error => {
+        
+      })
+  
+    } */
+  doSearch(event) {
+    var keyword = event.target.value
     this.spaceService.searchSpaceByTitle(keyword).subscribe(res => {
-        this.showResult = true;
-        this.searchResult = res.data.searchSpaceByTitle;
+      this.showResult = true;
+      this.searchResult = res.data.searchSpaceByTitle;
     }, err => {
 
     })
   }
-  onChange(){
-   // this.showResult = false;
+  onChange() {
+    // this.showResult = false;
   }
 }

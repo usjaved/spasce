@@ -72,6 +72,14 @@ export class MakeOfferComponent {
         var data: any;
         data = {};
         
+        if(!this.startDate){
+            this.messageAlert("error", "Please select check in.")
+            return;
+        }
+        if(!this.endDate){
+            this.messageAlert("error", "Please select check out.")
+            return;
+        }
         var _startTime = Number(this.startDate.momentObj.format("x"));
         var _endTime = Number(this.endDate.momentObj.format("x"));
         var date = new Date();
@@ -86,23 +94,16 @@ export class MakeOfferComponent {
             return;
         }
         if (_startTime > _endTime) {
-            this.messageAlert("error", "Sorry!! To date greater or equals to From date .")
+            this.messageAlert("error", "Sorry!! Checkout date greater or equals to Check In date .")
             return;
         }
-        if (!this.startDate) {
-            this.messageAlert('error', 'Please enter startDate');
-            return false;
-        }
-        if (!this.endDate) {
-            this.messageAlert('error', 'Please enter endDate');
-            return false;
-        }
+        
         if (!this.HoursNeeded) {
-            this.messageAlert('error', 'Enter  the required HoursNeeded');
+            this.messageAlert('error', 'Enter  the required Hours Needed');
             return false;
         }
         if (!this.ProposedOffer) {
-            this.messageAlert('error', 'Enter the  proposedOffer');
+            this.messageAlert('error', 'Enter the Proposed Offer');
             return false
         }
         if (this.ProposedOffer.startsWith('$')) {

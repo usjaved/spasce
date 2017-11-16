@@ -11,7 +11,7 @@
             </div>
             <div class="form-group">
                 <label for="Enterreason">For:</label>
-                <textarea type="text" class="form-control" name="reason" [(ngModel)]="reason" id="Enterreason" placeholder="Enter reason..."></textarea>
+                <textarea type="text" maxLength="1000" class="form-control" name="reason" [(ngModel)]="reason" id="Enterreason" placeholder="Enter reason..."></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" (click)="doPayment()">Request Payment</button>

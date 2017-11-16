@@ -6,10 +6,6 @@
     <div class="clearfix">
 
         <wizard>
-
-
-
-
             <!-- Select spacse category step 1"-->
             <wizard-step title="step 1">
                 <section class="step-content">
@@ -50,7 +46,7 @@
                     <div class="step-main">
                         <article>
                             <h1>Hi {{ firstName }} {{lastName}},
-                                <br>Let’s list a space!</h1>
+                                <br>Let’s list your space!</h1>
                             <h2>What type of space do you have? </h2>
                             <p>Please select all that apply</p>
                             <div class="step-muilty">
@@ -74,11 +70,12 @@
                             <img src="/assets/images/list-space-img.png" alt="">
                         </div>
                         <div class="step-sidebar-info">
-                            <h4>List your space in 4 easy steps</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig. Orci
-                                varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a
-                                orci vel metus congue dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Nunc a orci vel metus congue dig. Orci varius natoque penatibus</p>
+                            <p>Does your space include more than one event area? Create a different listing for each area to
+                                make the most out of your venue.</p>
+                            <br>
+                            <p>For example - If you can host three different events at the same time; on a rooftop, in the backyard,
+                                and in a meeting room, add each one as its own separate listing (3 listings). Each listing
+                                can be customized based on it’s own needs.</p>
                         </div>
                     </div>
                 </aside>
@@ -126,7 +123,7 @@
                             <div class="step-muilty step-muilty2">
                                 <ul>
                                     <li *ngFor="let item of capacities " (click)="selectPropery(item)" [ngClass]="{ 'active' : item.isSelected }">
-                                        {{ item.title }}
+                                        {{ item.maximumValue}}
                                     </li>
                                 </ul>
                             </div>
@@ -165,10 +162,7 @@
                         </div>
                         <div class="step-sidebar-info">
                             <h4>How big is your space?</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig. Orci
-                                varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a
-                                orci vel metus congue dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Nunc a orci vel metus congue dig. Orci varius natoque penatibus</p>
+                            <p>List the usable space only. For capacity, we recommend 10 square feet per person. Providing this information will help guests be more prepared</p>
                         </div>
                     </div>
                 </aside>
@@ -241,11 +235,7 @@
                                 </div>
                                 <div class="step-sidebar-info">
                                     <h4>What makes your space awesome?</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue
-                                        dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit. Nunc a orci vel metus congue dig. Orci varius natoque penatibus. Lorem ipsum
-                                        dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig. Orci
-                                        varius natoque penatibus</p>
+                                    <p> These are the most common amenities a guest looks for when searching for a space</p>
                                 </div>
                             </div>
                         </aside>
@@ -297,7 +287,7 @@
                                     <p>What is your full address of your space?</p>
                                     <div class="clearfix">
                                         <div class="step-input">
-                                            <input type="text" #search [(ngModel)]="place">
+                                            <input type="text" #search [(ngModel)]="place" placeholder="e.g.123 Main St. Los Angeles,CA">
                                         </div>
                                         <div>
                                             <small>Please spacify floor and/or apartment number if applicatble</small>
@@ -326,12 +316,7 @@
                                     <img src="/assets/images/availability-img.png" alt="">
                                 </div>
                                 <div class="step-sidebar-info">
-                                    <h4>Let viewers know when they can book your space </h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue
-                                        dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit. Nunc a orci vel metus congue dig. Orci varius natoque penatibus. Lorem ipsum
-                                        dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig. Orci
-                                        varius natoque penatibus</p>
+                                    <h4>Share your spacse location so guests know exactly where it is. </h4>
                                 </div>
                             </div>
                         </aside>
@@ -452,12 +437,8 @@
                                     <img src="/assets/images/availability-img.png" alt="">
                                 </div>
                                 <div class="step-sidebar-info">
-                                    <h4>Let viewers know when they can book your space </h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue
-                                        dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit. Nunc a orci vel metus congue dig. Orci varius natoque penatibus. Lorem ipsum
-                                        dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig. Orci
-                                        varius natoque penatibus</p>
+                                    <h4>Let guests know when they can book your space </h4>
+                                    <p> Select the day(s) of the week and then add your available hours.</p>
                                 </div>
                             </div>
                         </aside>
@@ -508,16 +489,16 @@
                                     <h2>Tell us more about your space</h2>
                                     <p>What do you want the name of your space listed as?</p>
                                     <div class="step-input">
-                                        <input type="text" [(ngModel)]="spacename" placeholder="e.g. Starbucks">
+                                        <input type="text" [(ngModel)]="spacename" placeholder="Dave’s Coffee Shop ">
                                     </div>
-                                    <p>What do you want the subtitle of your space listed as?</p>
+                                    <p>What tagline best describes your space?</p>
                                     <div class="step-input">
-                                        <input type="text" [(ngModel)]="subtitle" placeholder="e.g. Specialty Coffee Shop">
+                                        <input type="text" [(ngModel)]="subtitle" placeholder="Lovely meeting in down town">
                                     </div>
                                     <p>What details do you want people to know about your space?
                                         <br>Please give a brief description</p>
                                     <div class="step-textarea">
-                                        <textarea [(ngModel)]="description" name="" id="" cols="30" rows="10" placeholder="I would describe my space as… "></textarea>
+                                        <textarea maxLength="1000" [(ngModel)]="description" name="" id="" cols="30" rows="10" placeholder="I would describe my space as… "></textarea>
                                     </div>
                                 </article>
                                 <div class="step-pager clearfix">
@@ -539,12 +520,10 @@
                                     <img src="/assets/images/description-img.png" alt="">
                                 </div>
                                 <div class="step-sidebar-info">
-                                    <h4>Give your viewers all the details that make your space the one they want</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue
-                                        dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit. Nunc a orci vel metus congue dig. Orci varius natoque penatibus. Lorem ipsum
-                                        dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig. Orci
-                                        varius natoque penatibus</p>
+                                    <h4>Pro Tip: </h4>
+                                    <p>Using your business name increases your chances of getting your space booked!Also, it’s
+                                        free marketing! </p>
+
                                 </div>
                             </div>
                         </aside>
@@ -593,24 +572,25 @@
                             </div>
                             <div class="step-main">
                                 <article>
-                                    <h2>Space Pricing</h2>
-                                    <p>Price your space in 4, 8, or 12 hour booking blocks.</p>
-                                    <p>4 hours</p>
+                                    <h2> Pricing</h2>
+                                    <p>Encourage guests to rent your space in bulk by providing discounts for 4 hours, 8 hours,
+                                        and 12 hour bookings .</p>
+                                    <p>4 hour rate</p>
                                     <div class="step-price">
                                         <div class="step-input">
-                                            <input type="number" [(ngModel)]="price4hours" placeholder="$500">
+                                            <input type="number" [(ngModel)]="price4hours" placeholder="$400">
                                         </div>
                                     </div>
-                                    <p>8 hours</p>
+                                    <p>8 hour rate</p>
                                     <div class="step-price">
                                         <div class="step-input">
-                                            <input type="number" [(ngModel)]="price8hours" placeholder="$900">
+                                            <input type="number" [(ngModel)]="price8hours" placeholder="$700">
                                         </div>
                                     </div>
-                                    <p>12 hours</p>
+                                    <p>12 hour rate</p>
                                     <div class="step-price">
                                         <div class="step-input">
-                                            <input type="number" [(ngModel)]="price12hours" placeholder="$1,200">
+                                            <input type="number" [(ngModel)]="price12hours" placeholder="$1,000">
                                         </div>
                                     </div>
                                 </article>
@@ -634,11 +614,13 @@
                                 </div>
                                 <div class="step-sidebar-info">
                                     <h4>Make pricing easy!</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue
-                                        dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit. Nunc a orci vel metus congue dig. Orci varius natoque penatibus. Lorem ipsum
-                                        dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig. Orci
-                                        varius natoque penatibus</p>
+                                    <p>Please fill in a reasonable base price that includes all potential events that can be
+                                        hosted in your venue such as photography, meetings, parties, production, etc…</p>
+                                    <br>
+                                    <p>You can always come back and change your pricing from your user dashboard.</p>
+                                    <br>
+                                    <p>Guests will have the flexibility to make booking offers on your venue other than the
+                                        4 hours, 8 hours, or 12 hour time slots.</p>
                                 </div>
                             </div>
                         </aside>
@@ -684,24 +666,25 @@
                             </div>
                             <div class="step-main">
                                 <article>
-                                    <h2>Space Pricing</h2>
-                                    <p>Price your space in 1 day, 1 week, or 1 month booking blocks.</p>
+                                    <h2> Pricing</h2>
+                                    <p>Encourage guests to rent your space in bulk by providing discounts for 1 day, 1 week,
+                                        and 1 month bookings.</p>
                                     <p>1 day</p>
                                     <div class="step-price">
                                         <div class="step-input">
-                                            <input type="number" [(ngModel)]="priceDay" placeholder="$500">
+                                            <input type="number" [(ngModel)]="priceDay" placeholder="$1000">
                                         </div>
                                     </div>
                                     <p>1 week</p>
                                     <div class="step-price">
                                         <div class="step-input">
-                                            <input type="number" [(ngModel)]="priceWeek" placeholder="$900">
+                                            <input type="number" [(ngModel)]="priceWeek" placeholder="$4000">
                                         </div>
                                     </div>
                                     <p>1 month</p>
                                     <div class="step-price">
                                         <div class="step-input">
-                                            <input type="number" [(ngModel)]="priceMonth" placeholder="$1,200">
+                                            <input type="number" [(ngModel)]="priceMonth" placeholder="$15000">
                                         </div>
                                     </div>
                                 </article>
@@ -725,11 +708,13 @@
                                 </div>
                                 <div class="step-sidebar-info">
                                     <h4>Make pricing easy!</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue
-                                        dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit. Nunc a orci vel metus congue dig. Orci varius natoque penatibus. Lorem ipsum
-                                        dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig. Orci
-                                        varius natoque penatibus</p>
+                                    <p>Please fill in a reasonable base price that includes all potential events that can be
+                                        hosted in your venue such as production, pop ups, commercials, etc…</p>
+                                    <br>
+                                    <p>You can always come back and change your pricing from your user dashboard.</p>
+                                    <br>
+                                    <p>Guests will have the flexibility to make booking offers on your venue other than the
+                                        1 day, 1 week, or 1 month booking. </p>
                                 </div>
                             </div>
                         </aside>
@@ -789,14 +774,14 @@
                                             <input type="text" placeholder="Name on Account" [(ngModel)]="name">
                                         </div>
                                         <!-- <p>Account Type</p>
-                                        <div class="span-select">
-                                            <span>
-                                                <select name="accounttype" [(ngModel)]="accounttype">
-                                                    <option value="Personal">Personal</option>
-                                                    <option value="Business">Business</option>
-                                                </select>
-                                            </span>
-                                        </div> -->
+                                            <div class="span-select">
+                                                <span>
+                                                    <select name="accounttype" [(ngModel)]="accounttype">
+                                                        <option value="Personal">Personal</option>
+                                                        <option value="Business">Business</option>
+                                                    </select>
+                                                </span>
+                                            </div> -->
                                         <p>Routing Number
                                             <b></b>
                                         </p>
@@ -811,15 +796,15 @@
                                         </div>
                                     </div>
                                     <!-- <div class="step-radio">
-                                        <input id="step-radio2" name="payment-order" [(ngModel)]="paymentmethod" value="paypal" type="radio">
-                                        <label for="step-radio2">PayPal</label>
-                                    </div>
-                                    <div class="step-inner">
-                                        <p>Enter email address associated with PayPal account</p>
-                                        <div class="step-input">
-                                            <input type="text" placeholder="Enter email Address" [(ngModel)]="email">
+                                            <input id="step-radio2" name="payment-order" [(ngModel)]="paymentmethod" value="paypal" type="radio">
+                                            <label for="step-radio2">PayPal</label>
                                         </div>
-                                    </div> -->
+                                        <div class="step-inner">
+                                            <p>Enter email address associated with PayPal account</p>
+                                            <div class="step-input">
+                                                <input type="text" placeholder="Enter email Address" [(ngModel)]="email">
+                                            </div>
+                                        </div> -->
                                 </article>
                                 <div class="step-pager clearfix">
                                     <div class="step-pager-left">
@@ -841,11 +826,7 @@
                                 </div>
                                 <div class="step-sidebar-info">
                                     <h4>Where should we pay you?</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue
-                                        dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit. Nunc a orci vel metus congue dig. Orci varius natoque penatibus. Lorem ipsum
-                                        dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig. Orci
-                                        varius natoque penatibus</p>
+                                    <p>Choose the best payment method that works for you.</p>
                                 </div>
                             </div>
                         </aside>
@@ -897,10 +878,9 @@
                             <div class="step-main">
                                 <article>
                                     <h2>Security Deposit (Optional)</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue
-                                        dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit.
-                                    </p>
+                                    <p>Spacse stores guest's credit card information and can collect against damages of up to
+                                        ($1000). If you wish to collect a higher security deposit please do so directly from
+                                        the guest.</p>
                                     <div class="step-price">
                                         <div class="step-input">
                                             <input type="number" placeholder="$1,200" [(ngModel)]="securityDeposit">
@@ -927,11 +907,9 @@
                                 </div>
                                 <div class="step-sidebar-info">
                                     <h4>Security deposit</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue
-                                        dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit. Nunc a orci vel metus congue dig. Orci varius natoque penatibus. Lorem ipsum
-                                        dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig. Orci
-                                        varius natoque penatibus</p>
+                                    <p> A security deposit should not replace event insurance.Event insurance only cover small
+                                        damages.
+                                    </p>
                                 </div>
                             </div>
                         </aside>
@@ -985,7 +963,7 @@
                                     <h2>Additional fees (Optional)</h2>
                                     <p>Additional fees that are not included in your base rate.</p>
                                     <div class="step-textarea">
-                                        <textarea name="" id="" cols="30" rows="10" placeholder="e.g. Extra hours, weekend price, cleaning, etc…" [(ngModel)]=additionalfees></textarea>
+                                        <textarea maxLength="1000" name="" id="" cols="30" rows="10" placeholder="e.g. Extra hours, weekend price, cleaning, etc…" [(ngModel)]=additionalfees></textarea>
                                     </div>
                                 </article>
                                 <div class="step-pager clearfix">
@@ -1008,12 +986,7 @@
                                 </div>
                                 <div class="step-sidebar-info">
                                     <h4>Make viewers aware of any additional fees</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue
-                                        dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit. Nunc a orci vel metus congue dig. Orci varius natoque penatibus. Lorem ipsum
-                                        dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig. Orci
-                                        varius natoque penatibus
-                                    </p>
+                                    <p>Include any additional fees such as cleaning, discounts, etc.</p>
                                 </div>
                             </div>
                         </aside>
@@ -1063,9 +1036,10 @@
                             <div class="step-main">
                                 <article>
                                     <h2>Show us your space</h2>
-                                    <p>Add up to 10 images your your space. Drag and drop images to put them in order of how
-                                        viewers see them.
-                                        <br>Preferred image dimensions: 3:2 <small>ex (300px width x 200px height ) </small></p>
+                                    <p>Time to showcase your unique space! Add up to 10 images. Drag and drop images to put
+                                        them in order of how guests see them.
+                                        <!-- <br>Preferred image dimensions: 3:2 <small>ex (300px width x 200px height ) </small> -->
+                                    </p>
 
                                     <p>Cover photo</p>
                                     <div class="step-img">
@@ -1124,11 +1098,16 @@
                                 </div>
                                 <div class="step-sidebar-info">
                                     <h4>Show off your space!</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue
-                                        dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit. Nunc a orci vel metus congue dig. Orci varius natoque penatibus. Lorem ipsum
-                                        dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig. Orci
-                                        varius natoque penatibus</p>
+                                    <p>Listings with great pictures get booked more frequently than ones with bad pictures.</p>
+                                    <br>
+                                    <p>Pro tips:</p>
+                                    <br>
+                                    <p>Make sure your space is well lit when taking pictures Wide shots are always best Take
+                                        pictures of all areas and amenities</p>
+                                    <br>
+                                    <p>If you need more tips on takeing better pictures, please reach out to us at photography@space3.co</p>
+                                    <br>
+                                    <p>We’re here to help!</p>
                                 </div>
                             </div>
                         </aside>
@@ -1211,12 +1190,7 @@
                                 </div>
                                 <div class="step-sidebar-info">
                                     <h4>Make viewers aware of any additional fees</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue
-                                        dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit. Nunc a orci vel metus congue dig. Orci varius natoque penatibus. Lorem ipsum
-                                        dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig. Orci
-                                        varius natoque penatibus
-                                    </p>
+                                    <p>Include any additional fees such as cleaning, discounts, etc.</p>
                                 </div>
                             </div>
                         </aside>
@@ -1237,9 +1211,10 @@
                                         <br>your listing is complete!</h1>
                                     <p>
                                         <a class="photo-btn pointer" *ngIf="!isSubmitted" (click)="submitForApproval()">Submit for approval</a>
-                                        <a class="photo-btn pointer" *ngIf="isSubmitted" >Submitted</a>
+                                        <a class="photo-btn pointer" *ngIf="isSubmitted">Submitted</a>
                                     </p>
                                     <div class="step-complete">
+                                        <p>Thank you for submitting your listing, you'll be notified once it's approved</p>
                                         <p>Once our team approves your listing, it will be publicly displayed within 2 working
                                             days.
                                         </p>
@@ -1302,23 +1277,15 @@
                                 </div>
                                 <div class="step-sidebar-info">
                                     <h4>Congratulations! Your space is almost listed</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue
-                                        dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit. Nunc a orci vel metus congue dig. Orci varius natoque penatibus. Lorem ipsum
-                                        dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig. Orci
-                                        varius natoque penatibus</p>
+                                    <p>We're reviewing your listing to make sure it has a high potential of becoming a successful
+                                        listing. You'll hear back from us in the next couple of business days :) In the meantime,
+                                        feel free to make any edits.</p>
                                 </div>
                             </div>
                         </aside>
                     </div>
                 </div>
-
-
-
             </wizard-step>
-
-
         </wizard>
-
     </div>
 </div>

@@ -34,7 +34,7 @@ export const getUserRequests = gql`
     {
         userRequests(userId: $userId)
         {
-                    _id
+                _id
                 createdAt
                 startDate
                 endDate
@@ -42,8 +42,18 @@ export const getUserRequests = gql`
                 timeDuration
                 city
                 state
+                userId
                 description
                 otherCategoryTitle
+                spaces(loginUserId: $userId){
+                    _id
+                    spacse{
+                      _id
+                      userId
+                      title
+                      address
+                    }
+                }
                 category{
                             title
                             _id
@@ -73,6 +83,20 @@ export const getUserRequests = gql`
                          commentType
                          createdAt
                 }
+                spaces(loginUserId: $userId){
+                    _id
+                    spacse{
+                      _id
+                      userId
+                      title
+                      address
+                    }
+                    user{
+                      _id
+                      firstName
+                      lastName
+                    }
+                  }
                messages(loginUserId: $userId){
                       _id
                         comment
@@ -189,10 +213,10 @@ export const getUserSpaceBooking = gql`
  {
      user(_id:$userId)
       {
-          _id
+        _id
         bookings
-          {
-              _id
+        {
+            _id
             amount 
             reason 
             startDate 
@@ -239,9 +263,9 @@ export const getUserSpaceBooking = gql`
     }   
  }
 `
-;
+    ;
 
-export const getuserSpacseOffers =gql`
+export const getuserSpacseOffers = gql`
 query user($userId: String!)
 {
     user(_id:$userId)
@@ -342,7 +366,7 @@ query user($userId: String!){
 }
 `;
 
-export const getUserFavouriteSpacses =gql`
+export const getUserFavouriteSpacses = gql`
 query user($userId: String!){
     user(_id: $userId) {
         _id
@@ -371,7 +395,7 @@ query user($userId: String!){
       }  
 }
 `;
-export const getreviews =gql`
+export const getreviews = gql`
 query user($userId: String!){
     user(_id: $userId) {
          _id

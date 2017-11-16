@@ -12082,6 +12082,7 @@ ______________________*/
   }
   .step-sidebar-info p {
     font-size: 24px;
+    text-align: justify;
   }
 
   .step-inner {
@@ -14806,4 +14807,29 @@ rating-star{
       position: relative;
       padding: 10px;
   }
+}
+
+.modal-dialog  ng2-datepicker input, .selection-calendar-new ng2-datepicker input{
+  border: 1px solid #cfcfcf !important;
+  padding: 12px !important;
+  width: 100% !important;
+}
+.modal-dialog ng2-datepicker .datepicker-input-icon, .selection-calendar-new ng2-datepicker .datepicker-input-icon{
+    position: absolute !important;
+    top: 0px !important;
+    right: 0px !important;
+}
+
+.modal-dialog ng2-datepicker i svg, .selection-calendar-new ng2-datepicker i svg{
+  width: 25px !important;
+  height: 25px !important;
+  position: absolute;
+  top: 12px;
+  right: 20px;
+}
+
+.modal-dialog ng2-datepicker input, .selection-calendar-new ng2-datepicker input{
+  display: block !important;
+  width: 100% !important;
+  font-size: 20px !important;
 }

@@ -230,6 +230,7 @@ export class SpaceAddComponent implements OnInit {
                 this.capacities.push({
                     _id: res.data.properyCapacities[i]._id,
                     title: res.data.properyCapacities[i].title,
+                    maximumValue:res.data.properyCapacities[i].maximumValue,
                     isSelected: false
                 });
             };
@@ -401,6 +402,11 @@ export class SpaceAddComponent implements OnInit {
     }
 
     validateStep1() {
+
+        if (!localStorage.getItem("loginUserId")) {
+            this.broadcaster.broadcast("loginOpen", "login");
+            return false;
+        }
 
         var categoryIds = [];
         for (var i = 0; i < this.categories.length; i++) {
@@ -684,7 +690,7 @@ export class SpaceAddComponent implements OnInit {
                 data.userId = localStorage.getItem("loginUserId");
                 data.bankInfo = this.name;
                 data.routingNo = this.routingNo;
-                data.accounttype = this.accounttype;
+              //  data.accounttype = this.accounttype;
                 data.accountNo = this.accountNo;
                 console.log(data);
                 this._spacesService.createUserPaymentInfo(data).subscribe(res => {
