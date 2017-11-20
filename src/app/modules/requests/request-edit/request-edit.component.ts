@@ -25,6 +25,7 @@ export class RequestEditComponent {
     categories: any;
     capacities: any;
     budgets: any;
+    createdAt: string;
     selectedCategory: any;
     selectedCacpacity: any;
     zoom: number;
@@ -160,6 +161,7 @@ export class RequestEditComponent {
             this.addressConponent.administrative_area_level_2 = data.city;
             this.addressConponent.administrative_area_level_1 = data.state;
             this.addressConponent.country = data.country;
+            this.createdAt=data.createdAt;
             if(data.otherCategoryTitle){
                 this.otherCategory = true;
                 this.otherCategoryTitle = data.otherCategoryTitle;
@@ -340,6 +342,7 @@ export class RequestEditComponent {
         data.city = this.addressConponent.administrative_area_level_2;
         data.state = this.addressConponent.administrative_area_level_1;
         data.country = this.addressConponent.country;
+        data.createdAt=this.createdAt;
         if(this.otherCategory){
             data.otherCategoryTitle = this.otherCategoryTitle;
         }else {
@@ -353,13 +356,13 @@ export class RequestEditComponent {
         }else {
             data.timeDuration = this.spaceTime;
         }
-        data.status = "Active"
+        data.status = "Pending"
         
         this._requestService.updateRequest(data).subscribe(res => {
             if(res.data.updateRequest.code == '200')
             {
                 this.messageAlert('success',res.data.updateRequest.message);
-                this.router.navigate(['']);
+           //     this.router.navigate(['']);
             }else
             {
                 this.messageAlert('error',"Please try again.");

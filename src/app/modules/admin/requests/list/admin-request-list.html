@@ -1,0 +1,38 @@
+<div id="main-wrap">
+    <div class="container">
+        <div class="profile-main">
+            <h2>Admin Request Listings.</h2>
+
+            <div class="action-buttons">
+                <button (click)="activeAllSelectedItem('Active')" class="btn-blue pointer">Active</button>
+                <button (click)="activeAllSelectedItem('Rejected')" class="btn-blue pointer">Reject</button>
+                <button (click)="activeAllSelectedItem('Pending')" class="btn-blue pointer">Pending</button>
+            </div> 
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            <input [(ngModel)]="selectAll" (change)="checkAll()" type="checkbox">
+                        </th>
+                        <th>Request Title</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let request of  requestList">
+                        <td>
+                            <input id="{{ request.description }}" [(ngModel)]="request.isSelected" type="checkbox">
+                        </td>
+                        <td>
+                            <label for="{{ request.description }}">{{  request.description }}</label>
+                        </td>
+                        <td>
+                            {{ request.status }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table> 
+
+        </div>
+    </div>
+</div>

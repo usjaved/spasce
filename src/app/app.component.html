@@ -10,15 +10,17 @@
                 <a [routerLink]="['/']">
                     <img src="/assets/images/logo.png" alt="">
                 </a>
-                <form class="search-form" action="">
-                    <input id="search1" name="search" type="text" [(ngModel)]="searchKeyWord" (input)="doSearch($event)" placeholder="Search">
-                    <ul class="search-result" [ngClass]="{ 'result' : showResult }">
-                        <li *ngFor="let item of searchResult">
-                            <a [routerLink]="['/spaces/detail/', item._id]">{{ item.title }}</a>
-                        </li>
-                    </ul>
-                    <button class="fa fa-search"></button>
-                </form>
+                <div class="topSearch">
+                    <form [ngClass]="{ 'hide' : hidesearch }" class="search-form" action="">
+                        <input id="search1" name="search" type="text" [(ngModel)]="searchKeyWord" (input)="doSearch($event)" placeholder="Search">
+                        <ul class="search-result" [ngClass]="{ 'result' : showResult }">
+                            <li *ngFor="let item of searchResult">
+                                <a [routerLink]="['/spaces/detail/', item._id]">{{ item.title }}</a>
+                            </li>
+                        </ul>
+                        <button class="fa fa-search"></button>
+                    </form>
+                </div>
             </div>
             <div id="header-right">
                 <button type="button" (click)="showMobileMenu = !showMobileMenu" class="collapsed navbar-toggle">
@@ -77,7 +79,7 @@
                                 <a [routerLink]="['user/requests']">My Requests</a>
                             </li>
                             <li>
-                                <a [routerLink]="['user/favorites']">My Favorites</a>
+                                <a [routerLink]="['user/favorite']">My Favorites</a>
                             </li>
                             <li>
                                 <a (click)="logout()">Logout</a>

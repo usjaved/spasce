@@ -123,7 +123,7 @@
                             <div class="step-muilty step-muilty2">
                                 <ul>
                                     <li *ngFor="let item of capacities " (click)="selectPropery(item)" [ngClass]="{ 'active' : item.isSelected }">
-                                        {{ item.maximumValue}}
+                                        {{ item.title }}
                                     </li>
                                 </ul>
                             </div>
@@ -365,8 +365,8 @@
                             </div>
                             <div class="step-main">
                                 <article>
-                                    <h2>Space availiblity</h2>
-                                    <p>What days and times is your space available?</p>
+                                    <h2>Space availability</h2>
+                                    <p>What days and times is your space availabile?</p>
                                     <div class="schedule-inner clearfix">
                                         <div class="schedule-left">
                                             <div class="step-check">
@@ -493,7 +493,7 @@
                                     </div>
                                     <p>What tagline best describes your space?</p>
                                     <div class="step-input">
-                                        <input type="text" [(ngModel)]="subtitle" placeholder="Lovely meeting in down town">
+                                        <input type="text" [(ngModel)]="subtitle" placeholder="Lovely meeting space in downtown">
                                     </div>
                                     <p>What details do you want people to know about your space?
                                         <br>Please give a brief description</p>
@@ -881,9 +881,9 @@
                                     <p>Spacse stores guest's credit card information and can collect against damages of up to
                                         ($1000). If you wish to collect a higher security deposit please do so directly from
                                         the guest.</p>
-                                    <div class="step-price">
+                                    <div class="">
                                         <div class="step-input">
-                                            <input type="number" placeholder="$1,200" [(ngModel)]="securityDeposit">
+                                            <input type="number" style="width:50%" placeholder="$1,200" [(ngModel)]="securityDeposit">
                                         </div>
                                     </div>
                                 </article>

@@ -862,7 +862,6 @@ ion-range-slider span{
 }
 .contact-host-fig img{
   width: 125px;
-  height: 125px;
 }
 
 .modal-dialog ng2-datepicker input{
@@ -1045,4 +1044,35 @@ input[type=checkbox].css-checkbox:checked + label.css-label {
 }
 body{
   overflow-y: scroll;
+}
+
+.relative{
+  position: relative;
+}
+
+.read-counter{
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  height: 30px;
+  min-width: 30px;
+  display: block;
+  line-height: normal;
+  background: red;
+  padding: 2px 8px;
+  text-align: center;
+  border-radius: 20px;
+}
+
+
+.topSearch {
+  position: relative;
+  display: inline-block;
+  min-width: 2px;
+  min-height: 141px;
+  vertical-align: middle;
+}
+
+.host-main .host-aside .host-fig img{
+  max-width: 100px;
 }

@@ -111,6 +111,18 @@ export const getSpaceDetail = gql`
                 about
                 createdAt
             }
+            reviews {
+                _id
+                user {
+                  _id
+                  firstName
+                  lastName
+                  profilePic
+                }
+                rate
+                comment
+                createdAt
+              }
             comments{
                  _id
                 user{
@@ -259,7 +271,7 @@ query spacse($id:String, $userId : String){
 
 
 export const getFilterSpacessQuery = gql`
-query filterSpacse($capacity: [String], $category: [String], $city: String, $state: String, $minPrice: Float, $maxPrice: Float, $minCapacity: Float, $maxCapacity: Float){
+query filterSpacse($capacity: [String], $category: [String], $city: String, $state: String, $minPrice: Float, $maxPrice: Float, $minCapacity: Float, $maxCapacity: Float, $loginUserId : String){
    filterSpacses(capacity: $capacity, category: $category, city: $city, state: $state, minPrice: $minPrice, maxPrice: $maxPrice, minCapacity: $minCapacity, maxCapacity: $maxCapacity){
        _id
        title
@@ -274,6 +286,9 @@ query filterSpacse($capacity: [String], $category: [String], $city: String, $sta
        description
        coverPictire
        TotalReview
+       favourites(userId : $loginUserId){
+            _id
+        }
        AvgReview
         user{
            _id
@@ -318,6 +333,7 @@ query getHomePageDetails($loginUserId : String){
     requests{
         _id
         createdAt
+        updatedAt
         startDate
         endDate
         budgetId

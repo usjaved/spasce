@@ -1,12 +1,12 @@
 import { PaymentRequest, DoPayment } from './../mutations/request';
-import { NewRequestArributes } from './../queries/request';
+import { NewRequestArributes, clearReadCount } from './../queries/request';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import { Apollo, ApolloQueryObservable } from 'apollo-angular';
 import { ApolloQueryResult } from 'apollo-client';
-import { CreateRequest, SendRequestMessage, TourRequest, UpdateRequest, UpdateRequestCounter, submitSpaces } from '../mutations/request';
-import { getFiteredRequests, getRequestDetail, getRequestDetailForEdit, getFilterRequestsQuery, getSimilerRequest } from '../queries/request';
+import { CreateRequest, SendRequestMessage, TourRequest, UpdateRequest, UpdateRequestCounter, submitSpaces, UpdateRequestStatus } from '../mutations/request';
+import { getFiteredRequests, getRequestDetail, getRequestDetailForEdit, getFilterRequestsQuery, getSimilerRequest, getAllRequests } from '../queries/request';
 
 
 @Injectable()
@@ -114,5 +114,26 @@ export class RequestService {
             mutation: submitSpaces,
             variables: data
         })
+    }
+
+    getAllRequests(data): any{
+        return this.apollo.watchQuery<any>({
+            query: getAllRequests,
+            variables: data
+        })
+    }
+    updateRequestStatus(data):any{
+        return this.apollo.mutate({
+            mutation: UpdateRequestStatus,
+            variables: data
+        })
+    }
+    
+    clearReadCount(data) {
+        return this.apollo.watchQuery<any>({
+            query: clearReadCount,
+            variables: data,
+            fetchPolicy: 'network-only',
+        });
     }
 }

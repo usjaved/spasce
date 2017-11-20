@@ -38,6 +38,7 @@ export const getUserRequests = gql`
                 createdAt
                 startDate
                 endDate
+                unReadMessageCount
                 budgetId
                 timeDuration
                 city
@@ -407,3 +408,168 @@ query user($userId: String!){
       }
 }
 `;
+
+export const getOfferListing = gql`
+query getOfferListing($userId: String!){
+    getSendSpacseOffers(userId: $userId) {
+        _id
+        sender {
+          _id
+          firstName
+          lastName
+        }
+        receiver {
+          _id
+          firstName
+          lastName
+        }
+        hoursNeeded
+        offerPrice
+        startDate
+        endDate
+        createdAt
+         spacse {
+          _id
+          title
+          description
+        }
+      }
+
+      getReceiveSpacseOffers(userId: $userId) {
+        _id
+        sender {
+          _id
+          firstName
+          lastName
+        }
+        receiver {
+          _id
+          firstName
+          lastName
+        }
+        hoursNeeded
+        offerPrice
+        startDate
+        endDate
+        createdAt
+        spacse {
+          _id
+          title
+          description
+        }
+      }
+}
+`;
+
+export const userPublicInfoProfile = gql`
+query userPublicInfoProfile($_id: String!) {
+    user(_id: $_id) {
+        _id
+        firstName
+        lastName
+        profilePic
+        createdAt
+        about
+    }
+    getApprovedSpace(userId:$_id){
+        _id
+        title
+        subTitle
+        address
+        coverPictire
+        squareFootArea
+        category{
+            _id
+            title
+        }
+        capacity{
+            _id
+            title
+            maximumValue
+        }
+    }
+    submittedReviews(userId : $_id) {
+        _id
+        comment
+        user{
+            firstName
+            lastName
+            profilePic
+            about
+        }
+    }
+    receivedReview(userId : $_id) {
+        _id
+        comment
+        user{
+            firstName
+            lastName
+            profilePic
+            about
+        }
+    }
+}`;
+
+export const getOfferMessages = gql`
+query getOfferMessages($userId: String!){
+    getOfferMessages(userId :$userId){
+    _id
+    requestedId
+    sender {
+      _id
+      firstName
+      profilePic
+      lastName      
+    }
+    spacse {
+      _id
+      title
+    }
+    receiver {
+      _id
+      firstName
+      lastName
+      profilePic
+      
+    }
+    spacseoffers {
+      _id
+      offerPrice
+      startDate
+      endDate
+      hoursNeeded
+    }
+    message
+    createdAt
+  }
+}
+`;
+
+export const getFullOfferMessageHistories = gql`
+query getFullOfferMessageHistoryForUser($senderId: String! , $receiverId: String!, $requestedId: String! ,$time: String) {
+    getFullOfferMessageHistoryForUser(senderId: $senderId , receiverId: $receiverId, requestedId: $requestedId , time:$time){
+    spacseoffers(_id: $requestedId){
+            _id
+            startDate
+            endDate
+            hoursNeeded
+            offerPrice
+    }
+    _id
+    createdAt
+    message
+    sender {
+      _id
+      firstName
+      lastName
+      profilePic
+      
+    }
+    receiver {
+      _id
+      firstName
+      lastName
+      profilePic
+    }
+}
+ }`;

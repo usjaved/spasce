@@ -9,6 +9,7 @@ import { LoginComponent } from '../../login/login.component';
 import { IonRangeSliderComponent } from "ng2-ion-range-slider";
 import { Broadcaster } from '../../../utility/broadcaster';
 import { Router } from '@angular/router';
+import { UserService } from '../../../graphqls/services/user';
 
 @Component({
     selector: 'spaces-list',
@@ -31,8 +32,9 @@ export class SpacesListComponent implements OnInit {
     zoom = 5;
     latitude = 25;
     longitude = -71;
-    selectedcategory : any; 
+    selectedcategory: any;
     markers: any;
+    similarcategory: String;
     @ViewChild("search")
     @ViewChild('sliderCapacity') sliderCapacity: IonRangeSliderComponent;
     @ViewChild('sliderPrice') sliderPrice: IonRangeSliderComponent;
@@ -53,7 +55,8 @@ export class SpacesListComponent implements OnInit {
         private broadcaster: Broadcaster,
         private router: Router,
         private modal: Modal,
-        private zoon: NgZone
+        private zoon: NgZone,
+        private _userservice : UserService
     ) {
         this.markers = [];
         this.showCommentBox = false;
@@ -70,7 +73,7 @@ export class SpacesListComponent implements OnInit {
     enableCategoryFilter() {
         this.showCategoryFilter = !this.showCategoryFilter;
     }
-     ngOnInit() {
+    ngOnInit() {
         this.getDetails();
         this.getFilteredSpaces();
         /* this.mapsAPILoader.load().then(() => {
@@ -102,7 +105,7 @@ export class SpacesListComponent implements OnInit {
  
          }); */
     }
-   getDetails() {
+    getDetails() {
         this._spacesService.getNewFormOptions().subscribe(res => {
             for (let i = 0; i < res.data.categories.length; i++) {
                 this.categories.push({
@@ -127,8 +130,8 @@ export class SpacesListComponent implements OnInit {
 
         })
     }
-   
-public loadAPIWrapper(map) {
+
+    public loadAPIWrapper(map) {
         this.map = map;
     }
     getFilteredSpaces() {
@@ -157,7 +160,7 @@ public loadAPIWrapper(map) {
         localStorage.setItem("filterCity", "");
         localStorage.setItem("filterState", "");
         localStorage.setItem("filterCategory", "");
-
+        data.loginUserId = localStorage.getItem("loginUserId");
         this._spacesService.getFilterSpaces(data).subscribe(res => {
             this.spaces = res.data.filterSpacses.map((item) => { return Object.assign({}, item, { isSelected: false }); });;
             if (this.spaces.length > 0) {
@@ -166,7 +169,7 @@ public loadAPIWrapper(map) {
                 this.agmMap.triggerResize();
                 const position = new google.maps.LatLng(this.latitude, this.longitude);
                 this.map.panTo(position);
-               }
+            }
 
         }, err => {
 
@@ -187,13 +190,13 @@ public loadAPIWrapper(map) {
         this.getFilterDetails();
         this.getSimilarRequests();
     }
-    getSimilarRequests()
-    {
+    getSimilarRequests() {
         for (var i = 0; i < this.categories.length; i++) {
             if (this.categories[i].isSelected) {
-                this.selectedcategory =this.categories[i]._id;
+                this.selectedcategory = this.categories[i]._id;
             }
         }
+console.log("In SpacseList"+this.selectedcategory);
     }
     clearFilter() {
         this.filters = [];
@@ -262,15 +265,13 @@ public loadAPIWrapper(map) {
         v = this.sliderCapacity;
         data.minCapacity = v.from;
         data.maxCapacity = v.to;
-
-
-        console.log(data);
+        data.loginUserId = localStorage.getItem("loginUserId");
         this._spacesService.getFilterSpaces(data).subscribe(res => {
             this.spaces = res.data.filterSpacses.map((item) => { return Object.assign({}, item, { isSelected: false }); });
         }, err => {
 
         })
-
+        
     }
     toggleCommentBox() {
         this.showCommentBox = !this.showCommentBox;
@@ -314,29 +315,46 @@ public loadAPIWrapper(map) {
         return Number(val);
     }
 
-    requestSpacse()
-    {
-        if(localStorage.getItem("loginUserId"))
-        {
+    requestSpacse() {
+        if (localStorage.getItem("loginUserId")) {
             this.router.navigate(['/requests/new']);
         }
-        else
-        {
+        else {
             this.broadcaster.broadcast("loginOpen", "login");
         }
     }
-    getPrice(item){
+    getPrice(item) {
         return "$ " + item.pricingLayer[0].rate;
     }
-    getMarker(item){
-        if(item.isSelected){
+    getMarker(item) {
+        if (item.isSelected) {
             return "/assets/images/marker-selected.png";
-        }else{
+        } else {
             return "/assets/images/marker.png";
         }
-        
+
     }
-    markerClick(item){
+    markerClick(item) {
         item.isSelected = !item.isSelected;
+    }
+    addToFav(item){
+        if (!localStorage.getItem("loginUserId")) {
+            this.broadcaster.broadcast("loginOpen", "login");
+            return false;
+        }
+        var data: any;
+        data = {};
+        data.userId = localStorage.getItem("loginUserId");
+        data.spacseId = item._id;
+        this._userservice.createUserFavouriteSpacse(data).subscribe(res => {
+            debugger;
+            if (res.data.createFavourite.code == "200") {
+                item.favourites.push("hell");
+            }
+            else {
+                item.favourites = [];
+            }
+        });
+        
     }
 }

@@ -6,7 +6,9 @@
                                 <div class="request-person-fig"><server-image [src]=request.user.profilePic></server-image></div>
                                 <div class="request-person-info">
                                     <h4>{{request.user.firstName}} {{request.user.lastName}}</h4>
-                                    <p>  <relative-time [createdAt]="request.createdAt"></relative-time></p>
+                                    <p>  <relative-time [createdAt]="request.createdAt" *ngIf="request.updatedAt == null"  ></relative-time>
+                                   <span *ngIf="request.updatedAt != null">Last UpdatedAt </span> <relative-time [createdAt]="request.updatedAt" *ngIf="request.updatedAt != null" ></relative-time> </p> 
+                                    
                                     <p> <a [routerLink]="['/requests/detail',request._id]" (click)="requestcounter()">{{ request.description }}</a></p>
                                 </div>
                             </div>
@@ -29,7 +31,7 @@
                         <div class="request-ship">
                             <div class="request-ship-inner clearfix">
                                 <div class="request-ship-left">
-                                    <a class="request-btn pointer" (click)=" sendmessage()">Message</a>
+                                    <a class="request-btn pointer" [routerLink]="['/requests/detail',request._id]">Fulfill this request</a>
                                 </div>
                                 <div class="request-ship-right">
                                     <a href="#"><img src="/assets/images/fb-icon.png" alt=""></a>

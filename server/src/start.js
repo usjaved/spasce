@@ -72,6 +72,7 @@ export const start = async () => {
     const PaymentMethods = db.collection('payment_methods');
     const Favourites = db.collection('user_favourites');
     const Reviews = db.collection('spacse_reviews');
+    const OfferMessageHistories = db.collection('offer_message');
 
 
     const typeDefs = [`
@@ -115,9 +116,10 @@ export const start = async () => {
         favourites(_id: String) : Favourite
         
         paymentmethod(_id: String): PaymentMethod
-  
+        offermessageHistory(_id: String) : OfferMessageHistory
+        
         filterSpacses(capacity: [String], category: [String], city: String, state: String,  minPrice: Float, maxPrice: Float, minCapacity: Float, maxCapacity: Float) : [Spacse] 
-        filterRequests(capacity: [String], category: [String], dates: [String], city: String, state: String, limit: Int, pageNo: Int) : [Request]
+        filterRequests(loginUserId : String, capacity: [String], category: [String], dates: [String], city: String, state: String, limit: Int, pageNo: Int) : [Request]
         paymentmethods: [PaymentMethod]
         favourites : [Favourite]
         bookings: [Booking]
@@ -153,12 +155,15 @@ export const start = async () => {
         budgets:[Budget]
         accountsettings : [UserAccountSetting]
         messages(userId: String) : [Message] 
+        offermessageHistories: [OfferMessageHistory]
         profileMessages(userId: String) : [Message]
         getFullMessageHistoryForUser(senderId: String!, requestId: String!, receiverId: String!, time : String) : [Message]
 
         updateCapacity : [ProperyCapacity]
         updatePrice : [ProperyCapacity]
         getAllSpace(limit: Int, offset: Int) : [Spacse]
+        getAllRequests(limit: Int, offset: Int) : [Request]
+        
         getPendingSpace(userId: String) : [Spacse]
         getApprovedSpace(userId: String) : [Spacse]
         getInProcessSpace(userId: String) : [Spacse]
@@ -177,6 +182,14 @@ export const start = async () => {
         getTopEventSpaces: [Spacse]
         getTopCreativeSpaces: [Spacse] 
         latestRequests : [Request] 
+        getSendSpacseOffers(userId: String!) : [SpacseOffer]
+        getReceiveSpacseOffers(userId: String!): [SpacseOffer]
+
+        submittedReviews(userId: String!): [Reviews]
+        receivedReview(userId: String!): [Reviews]
+        clearReadCount(userId: String, requestId: String) : Response
+        getOfferMessages(userId: String!): [OfferMessageHistory]
+        getFullOfferMessageHistoryForUser(senderId: String! ,receiverId: String!, requestedId: String! ,time: String): [OfferMessageHistory]
       }
     
       type Favourite{
@@ -243,8 +256,7 @@ export const start = async () => {
         accountsetting : UserAccountSetting
         paymentmethods : [PaymentMethod]
         favourites : [Favourite]
-        
-      }
+       }
 
       type UserAccountSetting{
         _id: String
@@ -341,6 +353,7 @@ export const start = async () => {
         endDateInSec : Float
         address : String
         createdAt: String
+        updatedAt: String
         city : String
         state : String
         country : String
@@ -355,6 +368,7 @@ export const start = async () => {
         capacity: ProperyCapacity
         user: User
         budget: Budget
+        unReadMessageCount: Int
         comments: [Comment]
         messages(loginUserId: String): [Message]
         flags: [RequestFlag]
@@ -402,6 +416,7 @@ export const start = async () => {
         transactionId: String
         tourId : String
         repliedToMessageId: String
+        isReaded : Boolean
         createdAt: String
         request: Request
         spacse : Spacse
@@ -559,6 +574,23 @@ export const start = async () => {
         replies: [MessageHistory]
       }
       
+      type OfferMessageHistory{
+        _id: String
+        senderId: String
+        receiverId: String
+        spacseId:String
+        message: String
+        createdAt: String
+        requestedId: String
+        messageId: String
+        spacse: Spacse
+        sender: User
+        receiver: User
+        spacseoffers(_id: String): SpacseOffer
+        createdAt : String
+        replies: [OfferMessageHistory]
+       }
+
       type ContactToHost{
         _id: String
         spacseId: String
@@ -576,6 +608,8 @@ export const start = async () => {
       type SpacseOffer{
         _id: String
         userId: String
+        senderId: String
+        receiverId: String
         spacseId: String
         startDate: String
         endDate: String
@@ -584,6 +618,8 @@ export const start = async () => {
         status: String
         createdAt: String
         updatedAt: String
+        sender: User
+        receiver: User
         user: User
         spacse: Spacse
       }
@@ -699,7 +735,7 @@ export const start = async () => {
         createPricingLayer(spacseId: String, timeFrame: String, timeFrameType: String, rate: Float, status: String ): PricingLayer
         createMessageHistory(senderId: String, receiverId: String, spacseId: String, message: String, messageId: String): MessageHistory
         createContactToHost( spacseId: String, userId: String, startDate: String, endDate: String, isDateFlexible: String, comment: String, createdAt: String, status: String ): ContactToHost
-        createSpacseOffer(userId: String, spacseId: String, startDate: String, endDate: String, hoursNeeded: String, offerPrice: String, status: String,createdAt: String ): SpacseOffer
+        createSpacseOffer(senderId: String, receiverId: String, spacseId: String, startDate: String, endDate: String, hoursNeeded: String, offerPrice: String, status: String,createdAt: String ): SpacseOffer
         createSpacseTour(userId: String, propertyId: String, propertyType: String tourDate: String, startTime: String, endTime: String, status: String): SpacseTour
         createSpacseOrderBook(spacseId: String, startDate: String, endDate: String, pricingLayerId: String, status: String, startTime: String, endTime: String, paymentStatus: String): SpacseOrderBook
         createEvent(title: String, startDate: String, endDate: String,userId: String): Event     
@@ -707,14 +743,15 @@ export const start = async () => {
         createUserAccountSetting(userId: String, smsNotification: String, generalNotification: String, reservationNotification: String, accountNotification: String) : Response
         createPaymentMethod(userId: String, accounttype: String, firstName: String ,lastName: String ,routingNo: String,accountNo: String) : PaymentMethod
 
-
+        createOfferMessage(senderId: String, receiverId: String, spacseId: String , requestedId: String, message: String, messageType: String): OfferMessageHistory
+        
         updatePrice(pricing: [PricingLayerInput]) :Response
         updateSecurityDeposit(spacseId: String, securityDeposit: String) :Response
         updateAdditionalFees(spacseId: String, additionalFees: String) :Response
         uploadImages(spacseId: String, coverPic : String , photoGellary: [String]) :Response
         updateUser(_id: String, firstName: String, lastName: String, email: String, password: String, status: String, dateOfBirth: String, mobile: String, about: String, profilePic : String  ): Response
         updatePassword(_id: String, oldpassword: String, newpassword: String, confirmpassword: String): Response
-        updateRequest(_id: String, userId : String, startDate : String, endDate : String, address : String, city : String, state : String, country : String, otherCategoryTitle : String, categoryId : String, capacityId : String, budgetId : String, description : String, timeDuration : String,  status : String): Response
+        updateRequest(_id: String, userId : String, startDate : String, endDate : String, address : String, city : String, state : String, country : String, otherCategoryTitle : String, categoryId : String, capacityId : String, budgetId : String, description : String, timeDuration : String, createdAt: String, status : String): Response
         updateRequestCounter(requestId: String,userId: String) : Response
         doPayment(userId: String, token: String, requestId: String, amount: String, reason: String, transactionType: String, transactionInfo: String, status: String, requestTransactionId: String) : Response
         submitForApproval(spacseId: String, status: String) : Response
@@ -739,6 +776,8 @@ export const start = async () => {
         bookSpacse(userId : String, spaceId : String, amount : Float, reason : String, token : String, startDate : String, endDate : String, timeFrame : String, timeFrameType : String, rate : Float): Response
 
         updateStatus(spacseIds: [String], status: String) : Response
+        updateRequestStatus(requestIds: [String], status: String) : Response
+        
         updateBookingStatus(id: String, status: String) : Response
 
         submitSpacesForRequest(requestId: String, userId: String, spacsesId: [String], spaceLink : String, description : String) : Response
@@ -825,6 +864,11 @@ export const start = async () => {
           var filter = {};
           filter.status = { $in: ["Pending", "Active", "Rejected"] };
           return (await Spacses.find(filter).skip(offset).limit(limit).toArray()).map(prepare)
+        },
+        getAllRequests: async (root, { limit, offset }) => {
+          var filter = {};
+          filter.status = { $in: ["Pending", "Active", "Rejected"] };
+          return (await Requests.find(filter).skip(offset).limit(limit).toArray()).map(prepare)
         },
         getSimilerRequest: async (root, { limit, categoryId }) => {
 
@@ -1125,7 +1169,109 @@ export const start = async () => {
           }
 
         },
-      
+        getSendSpacseOffers: async (root, { userId }) => {
+          var filter = {}
+          filter = {
+            '$or': [
+              { "receiverId": { "$ne": userId } },
+              { "senderId": { "$eq": userId } },
+            ]
+          }
+          var sending_offer = (await SpacseOffers.find(filter).toArray()).map(prepare)
+          return (await SpacseOffers.find(filter).toArray()).map(prepare)
+        },
+
+        getReceiveSpacseOffers: async (root, { userId }) => {
+          var filter = {}
+          filter = {
+            '$or': [
+              { "receiverId": { "$eq": userId } },
+              { "senderId": { "$ne": userId } },
+            ]
+          }
+          var receiving_offer = (await SpacseOffers.find(filter).toArray()).map(prepare)
+          console.log("sending_offer" + receiving_offer)
+          return (await SpacseOffers.find(filter).toArray()).map(prepare)
+
+        },
+        submittedReviews: async (root, { userId }) => {
+          var filter = {}
+          filter.userId = userId;
+          return (await Reviews.find(filter).toArray()).map(prepare);
+
+        },
+        receivedReview: async (root, { userId }) => {
+          var filter = {}
+          filter.userId = userId;
+          var spaces = (await Spacses.find(filter).toArray()).map(prepare);
+          var spaceIds = [];
+          for (var i = 0; i < spaces.length; i++) {
+            spaceIds.push(spaces[i]._id)
+          }
+          var spaceFilter = { "spaceId": { "$in": spaceIds } };
+          return  (await Reviews.find(spaceFilter).toArray()).map(prepare)
+        },
+
+        clearReadCount: async (root, { userId, requestId }) => {
+          var filter = {};
+          filter.receiverId = userId;
+          filter.requestId = requestId;
+          (await Messages.update(filter, { $set: { isReaded: true } }, { multi: true }));
+          return { "code": 200, }
+        },
+
+        getReceiveSpacseOffers: async (root, { userId }) => {
+          var filter = {}
+          filter = {
+            '$or': [
+              { "receiverId": { "$eq": userId } },
+              { "senderId": { "$ne": userId } },
+            ]
+          }
+          var receiving_offer = (await SpacseOffers.find(filter).toArray()).map(prepare)
+          return (await SpacseOffers.find(filter).toArray()).map(prepare)
+
+        },
+        getOfferMessages: async (root, { userId }) => {
+          var res = [];
+          var condi = { "$or": [{ "receiverId": userId }] };
+
+          await (OfferMessageHistories.group(["senderId", "requestedId"], condi, { "count": 0 }, "function (obj, prev) { prev.count++; }").then(function (results) {
+            res = results;
+          }));
+          var k = 0;
+          var userIds = [];
+          var response = [];
+          var requestedIds = [];
+          for (var i = 0; i < res.length; i++) {
+            var filter = {};
+            filter.requestedId = res[i].requestedId;
+            filter.$or = [{ senderId: res[i].senderId }, { receiverId: res[i].senderId }];
+            var obj = (await OfferMessageHistories.find(filter).sort({ "createdAt": 1 }).limit(1).toArray()).map(prepare);
+            res[i] = obj[0];
+          }
+          return res;
+        },
+
+        getFullOfferMessageHistoryForUser: async (root, { senderId, receiverId, requestedId }) => {
+
+          var request = prepare(await SpacseOffers.findOne(ObjectId(requestedId)));
+          var offerId = request._id
+          if (offerId) {
+            var filter = { "requestedId": offerId };
+            if (offerId.senderId == senderId) {
+              filter.$or = [{ "senderId": receiverId }, { "receiverId": receiverId }];
+            } else {
+              filter.$or = [{ "senderId": senderId }, { "receiverId": senderId }];
+            }
+            return (await OfferMessageHistories.find(filter).sort({ "createdAt": 1 }).limit(100).toArray()).map(prepare);
+          }
+          return [];
+
+        },
+
+
+
         favourites: async (root, { }) => {
           return (await Favourites.find({}).skip(0).limit(50).toArray()).map(prepare)
         },
@@ -1149,11 +1295,29 @@ export const start = async () => {
         request: async (root, { _id }) => {
           return prepare(await Requests.findOne(ObjectId(_id)))
         },
-        requests: async (root, { }) => {
-          return (await Requests.find({}).skip(0).limit(50).toArray()).map(prepare);
+
+        requests: async (root, { limit, offset }) => {
+          var defaultLimit = 20;
+          if (limit) {
+            defaultLimit = limit;
+          }
+          var filter = {};
+          filter.status = "Active"
+          return (await Requests.find(filter).sort({ "createdAt": -1 }).skip(0).limit(defaultLimit).toArray()).map(prepare)
         },
+
         userRequests: async (root, { userId }) => {
-          return (await Requests.find({ userId: userId }).skip(0).limit(50).toArray()).map(prepare)
+          var requests = (await Requests.find({ userId: userId }).sort({ "createdAt": -1 }).skip(0).limit(50).toArray()).map(prepare)
+          for (var i = 0; i < requests.length; i++) {
+            var messageFilter = {};
+            messageFilter.receiverId = userId;
+            messageFilter.isReaded = false;
+            messageFilter.requestId = requests[i]._id;
+            var messages = (await Messages.find(messageFilter).toArray());
+            requests[i].unReadMessageCount = messages.length;
+          }
+          console.log(requests);
+          return requests;
         },
 
         comment: async (root, { _id }) => {
@@ -1165,14 +1329,6 @@ export const start = async () => {
         categories: async (root, { }) => {
           return (await Categories.find({}).skip(0).limit(50).toArray()).map(prepare)
         },
-
-        request: async (root, { _id }) => {
-          return prepare(await Requests.findOne(ObjectId(_id)))
-        },
-        requests: async (root, { }) => {
-          return (await Requests.find({}).skip(0).sort({ "createdAt": - 1 }).limit(50).toArray()).map(prepare)
-        },
-
         userSocialMedia: async (root, { _id }) => {
           return prepare(await UserSocialMedias.findOne(ObjectId(_id)))
         },
@@ -1237,6 +1393,12 @@ export const start = async () => {
           //return (await Spacses.find().skip(0).limit(defaultLimit).toArray()).map(prepare)
         },
 
+        offermessageHistory: async (root, { _id }) => {
+          return prepare(await OfferMessageHistories.findOne(ObjectId(_id)))
+        },
+        offermessageHistories: async (root, { }) => {
+          return (await OfferMessageHistories.find({}).skip(0).limit(50).toArray()).map(prepare)
+        },
 
         messageHistory: async (root, { _id }) => {
           return prepare(await MessageHistories.findOne(ObjectId(_id)))
@@ -1289,7 +1451,7 @@ export const start = async () => {
         reviews: async (root, { }) => {
           return (await Reviews.find({}).skip(0).limit(50).toArray()).map(prepare)
         },
-         budget: async (root, { _id }) => {
+        budget: async (root, { _id }) => {
           return prepare(await Budgets.findOne(ObjectId(_id)))
         },
         budgets: async (root, { }) => {
@@ -1437,7 +1599,7 @@ export const start = async () => {
         },
 
         filterRequests: async (root, { capacity, category, city, state, limit, pageNo, dates }) => {
-          var filter = {};
+          var filter = { "status": "Active" };
           if (capacity.length > 0) {
             filter.capacityId = { $in: capacity };
           }
@@ -1451,16 +1613,14 @@ export const start = async () => {
             for (i = 0; i < dates.length; i++) {
               dateTime = new Date(dates[i]);
               dateTime.setSeconds(10);
-              var time = dateTime.getTime();                  
+              var time = dateTime.getTime();
               and = [];
               console.log(time);
-              and.push({ startDateInSec : { $lte : time }});
-              and.push({ endDateInSec : { $gte : time }});
-              filter.$or.push( { $and : and });  
+              and.push({ startDateInSec: { $lte: time } });
+              and.push({ endDateInSec: { $gte: time } });
+              filter.$or.push({ $and: and });
             }
-          } 
-
-          console.log(filter);
+          }
           if (city != "") {
             filter.city = city;
           }
@@ -1468,7 +1628,22 @@ export const start = async () => {
             filter.state = state;
           }
           var skip = limit * pageNo;
-          return (await Requests.find(filter).sort({ "createdAt": -1 }).skip(skip).limit(limit).toArray()).map(prepare);
+
+          if (!loginUserId) {
+            return (await Requests.find(filter).sort({ "createdAt": -1 }).skip(skip).limit(limit).toArray()).map(prepare);
+          } else {
+            var requests = (await Requests.find(filter).sort({ "createdAt": -1 }).skip(skip).limit(limit).toArray()).map(prepare);
+            for (var i = 0; i < requests.length; i++) {
+              var messageFilter = {};
+              messageFilter.receiverId = loginUserId;
+              messageFilter.isReaded = false;
+              messageFilter.requestId = requests[i]._id;
+              var messages = (await Messages.find(messageFilter).toArray());
+              requests[i].unReadMessageCount = messages.length;
+            }
+            console.log(requests);
+            return requests;
+          }
         },
 
         profileMessages: async (root, { userId }) => {
@@ -1519,7 +1694,7 @@ export const start = async () => {
         },
       },
 
-      Reviews:{
+      Reviews: {
         spacse: async ({ spacseId }) => {
           return prepare(await Spacses.findOne(ObjectId(spacseId)))
         },
@@ -1590,7 +1765,7 @@ export const start = async () => {
           return (await Bookings.find({ userId: _id }).limit(50).toArray()).map(prepare)
         },
         reviews: async ({ _id }) => {
-          return (await Reviews.find({userId: _id}).skip(0).limit(50).toArray()).map(prepare)
+          return (await Reviews.find({ userId: _id }).skip(0).limit(50).toArray()).map(prepare)
         },
 
         events: async ({ _id }) => {
@@ -1765,6 +1940,28 @@ export const start = async () => {
           return (await RequestTransactions.find(ObjectId(transactionId)).limit(1).toArray()).map(prepare)
         }
       },
+
+      OfferMessageHistory: {
+        sender: async ({ senderId }) => {
+          return prepare(await Users.findOne(ObjectId(senderId)))
+        },
+        receiver: async ({ receiverId }) => {
+          return prepare(await Users.findOne(ObjectId(receiverId)))
+        },
+        spacse: async ({ spacseId }) => {
+          return prepare(await Spacses.findOne(ObjectId(spacseId)))
+        },
+        spacseoffers: async ({ requestedId }) => {
+          if (requestedId) {
+            return prepare(await SpacseOffers.findOne(ObjectId(requestedId)))
+          }
+          else {
+            return [];
+          }
+        }
+      },
+
+
       Spacse: {
         user: async ({ userId }) => {
           return prepare(await Users.findOne(ObjectId(userId)))
@@ -1891,8 +2088,8 @@ export const start = async () => {
         },
 
         favourites: async ({ _id }, { userId }) => {
-         
-          return (await Favourites.find({ spacseId: _id , userId : userId }).sort({ "createdAt": - 1 }).limit(1).skip(0).toArray()).map(prepare)
+
+          return (await Favourites.find({ spacseId: _id, userId: userId }).sort({ "createdAt": - 1 }).limit(1).skip(0).toArray()).map(prepare)
         },
         category: async ({ categoryId }) => {
           var res = await Categories.findOne(ObjectId(categoryId));
@@ -1963,10 +2160,16 @@ export const start = async () => {
       },
       SpacseOffer: {
         spacse: async ({ spacseId }) => {
-          return (await Spacses.findOne(ObjectId(spacseId)).toArray()).map(prepare)
+          return prepare(await Spacses.findOne(ObjectId(spacseId)))
         },
         user: async ({ userId }) => {
           return prepare(await Users.findOne(ObjectId(userId)))
+        },
+        sender: async ({ senderId }) => {
+          return prepare(await Users.findOne(ObjectId(senderId)))
+        },
+        receiver: async ({ receiverId }) => {
+          return prepare(await Users.findOne(ObjectId(receiverId)))
         },
       },
       SpacseTour: {
@@ -2020,7 +2223,8 @@ export const start = async () => {
                 spacseId: args.spacsesId[i],
                 comment: args.description,
                 messageType: "initialized",
-                createdAt: args.createdAt
+                createdAt: args.createdAt,
+                isReaded: false
               }
 
               const msg = await Messages.insert(data);
@@ -2206,18 +2410,19 @@ export const start = async () => {
         },
         createRequest: async (root, args, context, info) => {
 
-          var  ses =  (await Requests.find({}).skip(0).limit(50).toArray()); // .map(prepare);
-          for(var i = 0 ; i < ses.length; i++){
+          var ses = (await Requests.find({}).skip(0).limit(50).toArray()); // .map(prepare);
+          for (var i = 0; i < ses.length; i++) {
             ses[i].startDateInSec = (new Date(ses[i].startDate + " 00:00:01 ")).getTime();
             ses[i].endDateInSec = (new Date(ses[i].endDate + " 23:59:59 ")).getTime();
-            Requests.update({ _id: ses[i]._id  }, ses[i]);
+            Requests.update({ _id: ses[i]._id }, ses[i]);
           }
-          
+
 
           var currentTime = Date.now();
           args.createdAt = currentTime;
           args.startDateInSec = (new Date(args.startDate + " 00:00:01 ")).getTime();
           args.endDateInSec = (new Date(args.endDate + "  23:59:59 ")).getTime();
+          args.status = "Pending";
           const res = await Requests.insert(args)
           return prepare(await Requests.findOne({ _id: res.insertedIds[1] }))
         },
@@ -2256,8 +2461,16 @@ export const start = async () => {
         createMessage: async (root, args) => {
           var currentTime = Date.now();
           args.createdAt = currentTime;
+          args.isReaded = false;
           const res = await Messages.insert(args);
           return prepare(await Messages.findOne({ _id: res.insertedIds[1] }))
+        },
+
+        createOfferMessage: async (root, args) => {
+          var currentTime = Date.now();
+          args.createdAt = currentTime;
+          const res = await OfferMessageHistories.insert(args);
+          return prepare(await OfferMessageHistories.findOne({ _id: res.insertedIds[1] }))
         },
 
         createRequestTransaction: async (root, args) => {
@@ -2339,7 +2552,7 @@ export const start = async () => {
 
           console.log("match" + match);
           if (match == null) {
-           const res = await Favourites.insert(args);
+            const res = await Favourites.insert(args);
             var id = await Favourites.findOne({ _id: res.insertedIds[1] })
             return { "message": "Spacse is added to your Favourites", "code": "200", "id": id._id };
           }
@@ -2347,17 +2560,17 @@ export const start = async () => {
             var id = match._id;
             const res = await Favourites.remove({ "_id": ObjectId(id) });
             return { "message": "Spacse is removed from your Favourites", "code": "400", "id": id };
-           }
-       },
+          }
+        },
 
         createSpacseReview: async (root, args) => {
 
           var currentTime = Date.now();
           args.createdAt = currentTime;
-          
+
           const res = await Reviews.insert(args);
           var id = (await Reviews.findOne({ _id: res.insertedIds[1] }))
-          
+
           var filter = {};
           filter.spacseId = args.spacseId;
           var match = (await Reviews.find(filter).toArray()).map(prepare);
@@ -2367,19 +2580,16 @@ export const start = async () => {
 
             var totalreview = 0
             var avgrating = 0
-            var rating =0
+            var rating = 0
             for (let i = 0; i < match.length; i++) {
               totalreview = totalreview + 1;
-              rating= rating+ match[i].rate;
+              rating = rating + match[i].rate;
             }
             avgrating = (rating / match.length)
-            console.log("Total Review" + totalreview);
-            console.log("Avg rating"+avgrating);
             var avgreviewspacse = await Spacses.update({ _id: ObjectId(args.spacseId) }, { $set: { "AvgReview": avgrating, "TotalReview": totalreview } })
-            console.log("Spacse_totalviews" + avgreviewspacse);
           }
-            return { "message": "Review added", "code": "200" };
-          
+          return { "message": "Review added", "code": "200" };
+
 
         },
         createSpacseTour: async (root, args) => {
@@ -2476,9 +2686,14 @@ export const start = async () => {
         updateRequest: async (root, args) => {
           const id = await Requests.findOne(ObjectId(args._id));
           if (id) {
+            var currentTime = Date.now();
             args._id = ObjectId(args._id)
+            args.updatedAt = currentTime;
+            args.startDateInSec = (new Date(args.startDate + " 00:00:01 ")).getTime();;
+            args.endDateInSec = (new Date(args.endDate + " 00:00:01 ")).getTime();;
+            args.status = "Pending";
             const res = await Requests.update({ _id: ObjectId(args._id) }, args);
-            return { "message": "Request  Updated", "code": "200" };
+            return { "message": "Your Request is updated and sent for approval", "code": "200" };
           }
           else {
             return { "message": "Request  Not Updated", "code": "400" };
@@ -2679,8 +2894,8 @@ export const start = async () => {
         },
 
         createContactToHost: async (root, args) => {
-          if(args.isDateFlexible == null){
-            args.isDateFlexible=false
+          if (args.isDateFlexible == null) {
+            args.isDateFlexible = false
           }
           var currentTime = Date.now();
           args.createdAt = currentTime;
@@ -2691,6 +2906,22 @@ export const start = async () => {
           var currentTime = Date.now();
           args.createdAt = currentTime;
           const res = await SpacseOffers.insert(args);
+          var offerId = prepare(await SpacseOffers.findOne({ _id: res.insertedIds[1] }))
+          console.log("offerId" + offerId._id)
+
+
+          var currentTime = Date.now();
+          args.createdAt = currentTime;
+          var data = {
+            senderId: args.senderId,
+            receiverId: args.receiverId,
+            spacseId: args.spacseId,
+            requestedId: offerId._id,
+            messageType: "initialized",
+            createdAt: args.createdAt
+          }
+          const msg = await OfferMessageHistories.insert(data);
+          console.log("msg:" + msg);
           return prepare(await SpacseOffers.findOne({ _id: res.insertedIds[1] }))
 
         },
@@ -2706,6 +2937,20 @@ export const start = async () => {
             return { "message": "Status Updated", "code": "200" };
           } else {
             return { "message": "Spacse not found !!!", "code": "400" };
+          }
+        },
+        updateRequestStatus: async (root, args) => {
+          if (args.status && args.requestIds) {
+            for (var i = 0; i < args.requestIds.length; i++) {
+              const requests = (await Requests.findOne(ObjectId(args.requestIds[i])));
+              if (requests) {
+                requests.status = args.status;
+                const res = await Requests.update({ _id: ObjectId(args.requestIds[i]) }, requests);
+              }
+            }
+            return { "message": "Request Status Updated", "code": "200" };
+          } else {
+            return { "message": "Request not found !!!", "code": "400" };
           }
         },
         updateBookingStatus: async (root, args) => {

@@ -6,6 +6,7 @@ import { UserService } from '../../../graphqls/services/user';
 import { AlertComponent } from '../../../directives/alert/alert.component';
 import { Modal, BSModalContext } from 'ngx-modialog/plugins/bootstrap';
 import { overlayConfigFactory } from 'ngx-modialog';
+import { getOfferListing } from '../../../graphqls/queries/user';
 
 @Component({
   selector: "user-dashboard",
@@ -19,6 +20,7 @@ export class DashboardComponent implements OnInit {
   booking;
   listing;
   calender;
+  offers;
   userId;
   data;
   total;
@@ -30,8 +32,14 @@ export class DashboardComponent implements OnInit {
   inProcessSpaces: any = [];
   bookings = [];
   bookingStatastics = [];
+  receivingoffers = [] ;
+  sendingoffers = [];
+  sendingoffer =false;
+  receivingoffer =false;
   pager: any = {};
   pagedItems: any = [];
+  pagedSendItems: any = [];
+  pagedReceiveItems: any =[];
   constructor(
     private _spaceService: SpacesService,
     private _userservice: UserService,
@@ -48,6 +56,7 @@ export class DashboardComponent implements OnInit {
     this.calender = false;
     this.booking = false;
     this.listing = false;
+    this.offers =false;
     this.userId = localStorage.getItem('loginUserId');
     // if(!this.userId){
     //   this.router.navigate(['/']);
@@ -62,6 +71,7 @@ export class DashboardComponent implements OnInit {
       this.getspacseoffer();
       this.getstatistics()
       this.getListings();
+      this.getOfferListing();
     }
   }
   showStatistics() {
@@ -69,6 +79,7 @@ export class DashboardComponent implements OnInit {
     this.calender = false;
     this.booking = false;
     this.listing = false;
+    this.offers =false;
   }
 
   showBookings() {
@@ -76,6 +87,7 @@ export class DashboardComponent implements OnInit {
     this.calender = false;
     this.listing = false;
     this.booking = true;
+    this.offers =false;
 
   }
   showListings() {
@@ -83,12 +95,23 @@ export class DashboardComponent implements OnInit {
     this.calender = false;
     this.booking = false;
     this.listing = true;
+    this.offers =false;
   }
   showCalendar() {
     this.statistics = false;
     this.booking = false;
     this.listing = false;
     this.calender = true;
+    this.offers=false;
+  }
+
+  showOffers(){
+
+    this.offers = true;
+    this.statistics =false;
+    this.calender=false;
+    this.booking=false;
+    this.listing=false;
   }
   getListings() {
     var data = { "userId": localStorage.getItem("loginUserId") }
@@ -130,8 +153,6 @@ export class DashboardComponent implements OnInit {
       console.log("lastmonth" + this.lastmonth);
     })
   }
-
-
 
   setPage(page: number) {
 
@@ -175,4 +196,43 @@ export class DashboardComponent implements OnInit {
     })
 
   }
+
+  getOfferListing()
+  {
+      this._userservice.getOfferListing(this.userId).subscribe(res =>{
+
+        this.sendingoffers =res.data.getSendSpacseOffers;
+        this.receivingoffers = res.data.getReceiveSpacseOffers;
+        if(this.sendingoffers.length >0){
+          this.sendingoffer=true;
+           this.setsendofferPage(1);
+        }
+        if(this.receivingoffers.length> 0){
+          this.receivingoffer =true;
+          this.setreceiveofferPage(1);
+        }
+      } );
+  }
+  setsendofferPage(page: number) {
+    
+        if (!this.pager) {
+          this.pager = this.pagerService.getPager(this.sendingoffers.length, 1);
+        }
+        if (page < 1 || page > this.pager.totalPages) {
+          return;
+        }
+        this.pager = this.pagerService.getPager(this.sendingoffers.length, page, 5);
+        this.pagedSendItems= this.sendingoffers.slice(this.pager.startIndex, this.pager.endIndex + 1);
+      }
+      setreceiveofferPage(page: number) {
+        
+            if (!this.pager) {
+              this.pager = this.pagerService.getPager(this.receivingoffers.length, 1);
+            }
+            if (page < 1 || page > this.pager.totalPages) {
+              return;
+            }
+            this.pager = this.pagerService.getPager(this.receivingoffers.length, page, 5);
+            this.pagedReceiveItems= this.receivingoffers.slice(this.pager.startIndex, this.pager.endIndex + 1);
+          }
 }

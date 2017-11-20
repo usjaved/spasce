@@ -51,7 +51,7 @@ const client = new ApolloClient({
   networkInterface: createNetworkInterface({
     uri: localStorage.getItem("webUrl") + "/graphql",
     opts: {
-      cache : "reload"
+      cache : "reload",
     }
   }),
 });

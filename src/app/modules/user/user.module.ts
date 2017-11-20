@@ -1,10 +1,10 @@
+import { PublicProfileComponent } from './publicprofile/publicprofile.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { BookingsComponent } from './bookings/bookings.component';
 import { MessageComponent } from './message/message.component';
 import { RequestComponent } from './requests/request.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AgmCoreModule } from '@agm/core';
-
 import { SwiperModule } from 'angular2-useful-swiper';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -22,6 +22,7 @@ import { PaymentsComponent } from './payments/payments.component';
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { PagerService } from '../../utility/pagination';
+import { OfferMessageComponent } from './offer-message/offer-message.component';
 
 
 @NgModule({
@@ -35,8 +36,10 @@ import { PagerService } from '../../utility/pagination';
     BookingsComponent,
     FavoritesComponent,
     PaymentsComponent,
+    OfferMessageComponent,
     TransactionHistoryComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    PublicProfileComponent
   ],
   imports: [
     CommonModule,
@@ -47,7 +50,7 @@ import { PagerService } from '../../utility/pagination';
     SwiperModule,
     SharedModule,
     WizardModule,
-    HttpModule
+    HttpModule,
  ],
   providers: [PagerService]
 })

@@ -21,6 +21,7 @@ export const getFiteredRequests = gql`
         requests{
             _id
             createdAt
+            updatedAt
             startDate
             endDate
             budgetId
@@ -28,6 +29,7 @@ export const getFiteredRequests = gql`
             address
             city
             state
+            status
             description
             userId
             otherCategoryTitle
@@ -148,6 +150,7 @@ export const getRequestDetail = gql`
         request(_id:$id){
             _id
             createdAt
+            updatedAt
             startDate
             endDate
             budgetId
@@ -249,12 +252,15 @@ export const getRequestDetail = gql`
 
 export const getFilterRequestsQuery = gql`
 query filterRequests($capacity: [String], $category: [String], $city: String, $state: String, $loginUserId: String, $dates : [String],  $limit : Int, $pageNo : Int){
-   filterRequests(capacity: $capacity, category: $category, city: $city, state: $state,  limit : $limit, pageNo: $pageNo, dates : $dates ){
+   filterRequests(loginUserId: $loginUserId, capacity: $capacity, category: $category, city: $city, state: $state,  limit : $limit, pageNo: $pageNo, dates : $dates ){
         _id
         createdAt
+        updatedAt
         startDate
         endDate
+        status
         budgetId
+        unReadMessageCount
         timeDuration
         address
         city
@@ -391,3 +397,19 @@ query getSimilerRequest($limit: Int, $categoryId: String){
  
 }`;
 
+export const getAllRequests = gql`
+query getAllRequests($limit: Int , $offset: Int ){
+    getAllRequests( limit: $limit, offset: $offset){
+            _id
+            description       
+            status
+        } 
+    }
+`
+
+export const clearReadCount  = gql`
+query clearReadCount($userId: String, $requestId: String){
+    clearReadCount(userId : $userId, requestId: $requestId){
+        code
+    }
+}`

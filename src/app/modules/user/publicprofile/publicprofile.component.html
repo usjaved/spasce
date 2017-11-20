@@ -1,0 +1,114 @@
+<div id="main-wrap">
+    <div class="container">
+        <div class="host-main">
+            <aside class="host-aside">
+                <div class="host-fig">
+                    <server-image [src]="profilePic"></server-image>
+                </div>
+                <p>{{ timeToDate( user.createdAt) }}
+                    <!-- <br>Response rate:
+                    <b>100%</b>
+                    <br>Responds within
+                    <b>10 hours</b> -->
+                </p>
+                <p>
+                    <i class="fa fa-check-circle"></i>
+                    <strong>Verified owner</strong>
+                </p>
+                <p>
+                    <a href="#">Message</a>
+                </p>
+                <p>
+                    <img src="images/curve-flag.png" alt="">
+                    <span>Flag</span>
+                </p>
+            </aside>
+            <section class="host-section">
+                <div class="host-top">
+                    <h1>Need a Space?</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus congue dig. Orci varius
+                        natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a orci vel metus
+                        congue dig. Orci varius natoque penatibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Nunc a orci vel metus congue dig. Orci varius natoque penatibus</p>
+                </div>
+                <div class="small-request-outer">
+                    <div class="heading-text">
+                        <h3>Listings ({{spacse.length}})</h3>
+                    </div>
+                    <div class="host-slider">
+                        <div class="row">
+                            <div *ngFor="let item of spacse" class="col-md-6 col-lg-5">
+                                <div class="book-slide">
+                                    <div class="book-slide-fig">
+                                        <ul class="slides">
+                                            <li>
+                                                <server-image [src]="getImage(item)"></server-image>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="book-slide-info">
+                                        <h4>{{ item.title }}</h4>
+                                        <p>{{ item.subTitle }}</p>
+                                        <ul>
+                                            <li>
+                                                <img src="/assets/images/location-icon.png" alt="">
+                                                <span>{{ item.address }}</span>
+                                            </li>
+                                        </ul>
+                                        <ul>
+                                            <li>
+                                                <img width="27px" src="/assets/images/group-icon.png" alt="">
+                                                <span>{{ item.capacity.title }}</span>
+                                            </li>
+                                            <li>
+                                                <img width="24px" src="/assets/images/arrow-direction.png" alt="">
+                                                <span>{{ item.squareFootArea }} Sq. Ft.</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-outer">
+                    <h3>Reviews From Guests ({{recievedReview.length}})</h3>
+                    <div class="review-inner" *ngFor="let item of recievedReview">
+                            <div class="review-sec clearfix">
+                                <div class="review-fig">
+                                    <server-image [src]="item.user.profilePic"></server-image>
+                                </div>
+                                <div class="review-info">
+                                    <p>
+                                        <strong>{{item.user.firstName }}.</strong>{{ timeToDate( item.user.createdAt) }}</p>
+                                </div>
+                            </div>
+                            <p>{{ item.comment }}</p>
+                    </div>
+                    <div class="show-more">
+                        <a href="#">Show More</a>
+                    </div>
+                </div>
+                <div class="review-outer">
+                    <h3>Reviews From Hosts ({{submittedReview.length}})</h3>
+                    <div class="review-inner" *ngFor="let item of submittedReview">
+                        <div class="review-sec clearfix">
+                            <div class="review-fig">
+                                <server-image [src]="item.user.profilePic"></server-image>
+                            </div>
+                            <div class="review-info">
+                                <p>
+                                    <strong>{{item.user.firstName }}.</strong>{{ timeToDate( item.user.createdAt) }}</p>
+                            </div>
+                        </div>
+                        <p>{{ item.comment }}</p>
+                    </div>
+                    <div class="show-more">
+                        <a href="#">Show More</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

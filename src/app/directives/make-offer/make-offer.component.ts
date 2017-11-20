@@ -7,6 +7,8 @@ import { DatePickerOptions } from 'ng2-datepicker';
 
 export class MakeOffercontext extends BSModalContext {
     public spacseId: String;
+    public senderId: String;
+    public receiverId: String;
 }
 
 @Component({
@@ -111,7 +113,8 @@ export class MakeOfferComponent {
         }
 
         data.spacseId = this.context.spacseId;
-        data.userId = localStorage.getItem('loginUserId');
+        data.senderId =this.context.senderId;
+        data.receiverId =this.context.receiverId;
         data.startDate = this.startDate.formatted;
         data.endDate = this.endDate.formatted;
         data.hoursNeeded = this.HoursNeeded;

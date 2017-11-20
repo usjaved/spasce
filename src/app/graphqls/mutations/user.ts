@@ -79,3 +79,33 @@ mutation createFavourite($spacseId: String, $userId: String) {
     }
 }
 `;
+
+export const createOffermessage = gql`
+mutation createOfferMessage($senderId: String, $receiverId: String, $spacseId: String , $requestedId: String, $message: String){
+    createOfferMessage(senderId: $senderId, receiverId: $receiverId, spacseId: $spacseId , requestedId: $requestedId, message: $message){
+        _id
+        message
+        createdAt
+        senderId
+        receiverId
+        requestedId
+        sender{
+            _id
+            firstName
+            lastName
+            profilePic
+        }
+        receiver{
+            _id
+            firstName
+            lastName
+            profilePic
+            
+        }
+        spacseoffers
+        {
+            _id
+        }
+    }
+}
+`;

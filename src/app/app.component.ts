@@ -25,6 +25,7 @@ import {
 })
 export class AppComponent {
   title = 'app';
+  hidesearch: boolean;
   loginUserId = "";
   loginUserName = "";
   showMobileMenu = false;
@@ -194,6 +195,11 @@ export class AppComponent {
   navigationInterceptor(event: RouterEvent): void {
 
     if (event instanceof NavigationStart) {
+      if(event.url =="" || event.url == "/" ){
+        this.hidesearch = true;
+      }else {
+        this.hidesearch = false;
+      }
       this.loading = true
       this.showResult = false;
       this.showMobileMenu = false;

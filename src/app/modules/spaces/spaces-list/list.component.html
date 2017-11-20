@@ -74,7 +74,7 @@
                                         <li>
                                             <i>New</i>
                                             <server-image [src]="item.coverPictire"></server-image>
-                                            <span class="active"></span>
+                                            <span [ngClass]="{'active' : item.favourites.length > 0 } " (click)="addToFav(item)"></span>
                                             <p>From: <strong>${{ item.pricingLayer[0].rate }}</strong><small>per {{ item.pricingLayer[0].timeFrame }} {{ item.pricingLayer[0].timeFrameType  }}</small></p>
                                         </li>
                                     </ul>
@@ -103,7 +103,7 @@
                         <h3>Can’t Find A Space? <a [routerLink]="['/requests']">See All <i class="fa fa-angle-right"></i></a></h3>
                         <p>Make a request and we will find you the perfect space just like these people!</p>{{selectedcategory}}
                         <similer-request [categoryId]=selectedcategory limit="5"> </similer-request> 
-                        <!-- <similer-request categoryId="597acd4341813a13ac4a47f3" limit="5"> </similer-request> -->     
+                      <!--   <similer-request categoryId="597acd4341813a13ac4a47f3" limit="5"> </similer-request>   -->  
                     </div>
                     <div class="right-btn clearfix">
                         <a (click)="requestSpacse();">Request a Space</a>

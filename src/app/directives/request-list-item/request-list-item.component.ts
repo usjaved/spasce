@@ -19,7 +19,7 @@ export class RequestListItemComponent implements OnInit {
   @Input() userId: String;
   showCommentBox;
   showMesseges;
-
+  unReadMessageCount = 0;
   constructor(public modal: Modal,
     private _requestservice: RequestService,
     private broadcaster: Broadcaster
@@ -29,7 +29,7 @@ export class RequestListItemComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.unReadMessageCount = this.itemDetail.unReadMessageCount;
   }
   toggleCommentBox() {
     this.showCommentBox = !this.showCommentBox;
@@ -41,9 +41,11 @@ export class RequestListItemComponent implements OnInit {
     if (localStorage.getItem("loginUserId") == this.itemDetail.userId) {
       this.showMesseges = !this.showMesseges;
       this.showCommentBox = false;
+      this.clearReadCount()
     } else if (this.itemDetail.spaces.length > 0) {
       this.showMesseges = !this.showMesseges;
       this.showCommentBox = false;
+      this.clearReadCount()
     } else if (localStorage.getItem("loginUserId")) {
       var dialog = this.modal.open(FullFillComponent, overlayConfigFactory({ "requestId": this.itemDetail._id }, BSModalContext));
     }
@@ -51,7 +53,18 @@ export class RequestListItemComponent implements OnInit {
       this.broadcaster.broadcast("loginOpen", "login");
     }
   }
-
+  messgaeTitle() {
+    if (localStorage.getItem("loginUserId") == this.itemDetail.userId) {
+      return "View Messages"
+    } else if (this.itemDetail.spaces.length > 0) {
+      return "View Messages"
+    } else if (localStorage.getItem("loginUserId")) {
+      return  "Fulfill this request"
+    }
+    else {
+      return  "Fulfill this request"
+    }
+  }
 
   openFlagModal(id) {
     if (localStorage.getItem("loginUserId")) {
@@ -69,9 +82,18 @@ export class RequestListItemComponent implements OnInit {
       data.userId = localStorage.getItem("loginUserId")
       this._requestservice.updateRequestCounter(data).subscribe(res => {
         console.log(res);
-        debugger;
       })
     }
+  }
+
+  clearReadCount(){
+    
+    var data : any = {};
+    data.requestId = this.itemDetail._id;
+    data.userId = localStorage.getItem("loginUserId");
+    this._requestservice.clearReadCount(data).subscribe(res => {
+      this.unReadMessageCount = 0;
+    });
   }
 
 }

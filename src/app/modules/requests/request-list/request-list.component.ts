@@ -43,7 +43,7 @@ export class RequestListComponent {
     }
     ngOnInit() {
         this.getDetails();
-        // this.getFiteredRequests();
+         this.getFiteredRequests();
 
         this.addressConponent = {};
         this.options = new DatePickerOptions();
@@ -86,7 +86,7 @@ export class RequestListComponent {
     enableCategoryFilter() {
         this.showCategoryFilter = !this.showCategoryFilter;
     }
- /*
+ 
     getFiteredRequests() {
 
         var data = { loginUserId: localStorage.getItem("loginUserId") }
@@ -95,7 +95,7 @@ export class RequestListComponent {
         }, err => {
 
         })
-    } */
+    } 
     getDetails() {
         this._requestService.getNewFormOptions().subscribe(res => {
             for (let i = 0; i < res.data.categories.length; i++) {

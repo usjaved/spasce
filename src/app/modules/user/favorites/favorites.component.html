@@ -25,7 +25,7 @@
                     <a [routerLink]="['/user/requests']" aria-controls="my_requests" role="tab" data-toggle="tab">My Requests</a>
                 </li>
                 <li class="active">
-                    <a [routerLink]="['/user/favorites']" aria-controls="my_favorites" role="tab" data-toggle="tab">My Favorites</a>
+                    <a [routerLink]="['/user/favorite']" aria-controls="my_favorites" role="tab" data-toggle="tab">My Favorites</a>
                 </li>
             </ul>
             <div role="tabpanel" class="tab-pane active">
@@ -46,6 +46,8 @@
                                 <div class="book-slide-fig">
                                     <div class="clone" aria-hidden="true" style="width: 100%;">
                                         <server-image [src]="item.spacse.coverPictire"></server-image>
+                                      <!--  <span class="like" [ngClass]="{ 'active' : like }" (click)="add()" ></span> -->
+                                         
                                         <!-- <img src ="/assets/images/active-like.png"> 
                                         <span></span>
                                         <p> From: <strong >${{ space.pricingLayer[0].rate / 4 }}</strong>

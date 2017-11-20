@@ -23,8 +23,12 @@ export class SimilerRequest implements OnInit {
             this.limit = 2;
         }
         var data = { limit : this.limit, categoryId: this.categoryId }
+
+        console.log("similar request"+ this.categoryId);
         this._requestService.getSimilerRequest(data).subscribe(res => {
             this.requests = res.data.getSimilerRequest;
+            console.log(this.requests);
+            debugger;
         })
     }
     

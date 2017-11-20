@@ -1,0 +1,134 @@
+<!--component html goes here -->
+<div id="main-wrap">
+    <div class="container">
+
+        <div class="error-box" *ngIf="error"> {{alertMessage }} </div>
+        <div class="seccess-box" *ngIf="success"> {{alertMessage }} </div>
+        <div class="profile-main">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li>
+                    <a [routerLink]="['/user/dashboard']" aria-controls="dashboard" role="tab" data-toggle="tab">Dashboard</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user']" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/account']" aria-controls="account" role="tab" data-toggle="tab">Account</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/message']" aria-controls="messages" role="tab" data-toggle="tab">Messages</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/bookings']" aria-controls="my_bookings" role="tab" data-toggle="tab">My Bookings</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/requests']" aria-controls="my_requests" role="tab" data-toggle="tab">My Requests</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/favorite']" aria-controls="my_favorites" role="tab" data-toggle="tab">My Favorites</a>
+                </li>
+
+            </ul>
+            <div role="tabpanel" class="tab-pane active">
+                <div class="messages-tab">
+                    <h4>Offer Messages</h4>
+                    <div class="col-sm-12" *ngIf="messageuser.length == 0" >
+                        <p>
+                            You don't have any messages .
+                        </p>
+                    </div>
+                    <div class="row" *ngIf="messageuser.length > 0 ">
+                        <div class="col-sm-5">
+                            <form class="search" action="">
+                                <input type="text" placeholder="Search Messages">
+                                <label for="" class="fa fa-search"></label>
+                            </form>
+                            <ul class="msgs-main">
+                                <li *ngFor="let message of messageuser">
+                                    <a (click)="getofferMeesageDetailByUser(message)">
+                                        <div *ngIf="message.sender._id != loginUserId">
+                                            <server-image [src]="message.sender.profilePic"></server-image>
+                                            <span class="menu-info">
+                                                <b>{{ message.sender.firstName }} {{ message.sender.lastName }}
+                                                    <em>May 20th</em>
+                                                </b>
+                                                <strong>{{ message.message }}</strong>
+                                                <div *ngIf="message.spacse">{{ message.spacse.title }}</div> 
+                                            </span>
+                                        </div>
+                                        <div *ngIf="message.sender._id == loginUserId">
+                                            <server-image [src]="message.receiver.profilePic"></server-image>
+                                            <span class="menu-info">
+                                                <b>{{ message. receiver.firstName }} {{ message. receiver.lastName }}
+                                                    <em>May 20th</em>
+                                                </b>
+                                                <strong>{{ message.message }}</strong>
+                                                <!-- <div *ngIf="message.request">{{ message.request.description }}</div> -->
+                                            </span>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="payment-outer">
+                                <div class="payment-upper">
+                                    <div class="payment-chat" *ngFor="let msg of messageList   ">
+                                        <div *ngIf="loginUserId == msg.sender._id">
+                                            <div class="payment-chat-fig">
+                                                <server-image [src]="msg.sender.profilePic"></server-image>
+                                            </div>
+                                            <div class="payment-chat-info">
+                                                <span class="payment-chat-time">
+                                                    <relative-time [createdAt]="msg.createdAt"></relative-time>
+                                                </span>
+                                                <div class="chat-txt">
+                                                    <div>{{ msg.message }}</div>
+                                                   <!-- <div *ngFor="let offer of msg.spacseoffers">
+                                                        <div>Start Date : {{ offer.startDate }} </div>
+                                                        <div>End Date : {{ offer.endDate }}</div>
+                                                        <div>HoursNeeded : {{ offer.hoursNeeded }}</div>
+                                                        <div>OfferPrice : {{offer.offerPrice}}</div>
+                                                    </div>-->
+                                                  
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="loginUserId != msg.sender._id">
+
+                                            <div class="payment-chat-info">
+                                                <span class="payment-chat-time">
+                                                    <relative-time [createdAt]="msg.createdAt"></relative-time>
+                                                </span>
+                                                <div class="chat-txt">
+                                                    <div>{{ msg.message }}</div>
+                                                   
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="payment-lower">
+                                    <form action="" class="clearfix">
+                                        <div class="payment-lower-left">
+                                            <input name="messagevalue" type="text" [(ngModel)]="messagevalue" placeholder="Type a message…">
+                                        </div>
+                                       
+                                        <div class="payment-lower-right">
+                                             <button (click)="sendMessage()">Send</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+    </div>
+</div>

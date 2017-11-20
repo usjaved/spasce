@@ -7927,7 +7927,7 @@ ______________________*/
   border-radius: 100%;
 }
 .request-comment form textarea {
-  height: 45px;
+  height: 120px;
   width: 100%;
   display: block;
   font-size: 22px;
@@ -8112,7 +8112,6 @@ ______________________*/
 }
 .small-request .request-ship .request-ship-left a.request-btn {
   margin: 0;
-  width: 101px;
   height: 30px;
   line-height: 30px;
   font-size: 14px;
@@ -14779,7 +14778,7 @@ rating-star{
 
 
 
- .capacity-listing ng2-datepicker i svg {
+ .capacity-listing ng2-datepicker .datepicker-input-icon i svg {
   width: 25px !important;
   height: 25px !important;
   position: absolute;
@@ -14809,18 +14808,24 @@ rating-star{
   }
 }
 
-.modal-dialog  ng2-datepicker input, .selection-calendar-new ng2-datepicker input{
+.modal-dialog  ng2-datepicker input, 
+.calendar-sec  ng2-datepicker input, 
+.selection-calendar-new ng2-datepicker input{
   border: 1px solid #cfcfcf !important;
   padding: 12px !important;
   width: 100% !important;
 }
-.modal-dialog ng2-datepicker .datepicker-input-icon, .selection-calendar-new ng2-datepicker .datepicker-input-icon{
+.modal-dialog ng2-datepicker .datepicker-input-icon, 
+.calendar-sec ng2-datepicker .datepicker-input-icon, 
+.selection-calendar-new ng2-datepicker .datepicker-input-icon{
     position: absolute !important;
     top: 0px !important;
     right: 0px !important;
 }
 
-.modal-dialog ng2-datepicker i svg, .selection-calendar-new ng2-datepicker i svg{
+.modal-dialog ng2-datepicker .datepicker-input-icon i svg, 
+.calendar-sec ng2-datepicker .datepicker-input-icon i svg, 
+.selection-calendar-new ng2-datepicker .datepicker-input-icon i svg{
   width: 25px !important;
   height: 25px !important;
   position: absolute;
@@ -14828,8 +14833,21 @@ rating-star{
   right: 20px;
 }
 
-.modal-dialog ng2-datepicker input, .selection-calendar-new ng2-datepicker input{
+.modal-dialog ng2-datepicker input, 
+.calendar-sec ng2-datepicker input, 
+.selection-calendar-new ng2-datepicker input{
   display: block !important;
   width: 100% !important;
   font-size: 20px !important;
+}
+
+.datepicker-calendar-month-section .month-title{
+  color: #fff !important;
+  line-height: normal !important;
+  margin-top: -5px;
+  text-align: center;
+  font-size: 19px;
+}
+.datepicker-calendar-day-names span{
+  color: #fff !important;
 }

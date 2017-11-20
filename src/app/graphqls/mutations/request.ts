@@ -10,8 +10,8 @@ mutation createRequest($userId : String, $startDate : String,$endDate : String,$
 `;
 
 export const UpdateRequest = gql`
-mutation updateRequest($id: String, $userId : String, $startDate : String,$endDate : String,$address : String,$city : String,$state : String,$country : String,$otherCategoryTitle : String,$categoryId : String,$capacityId : String,$budgetId : String,$description : String,$timeDuration : String, $status : String){
-    updateRequest(_id: $id, userId : $userId, startDate : $startDate, endDate : $endDate, address : $address, city : $city, state : $state, country : $country ,otherCategoryTitle : $otherCategoryTitle , categoryId : $categoryId , capacityId : $capacityId, budgetId : $budgetId, description : $description , timeDuration : $timeDuration, status : $status){
+mutation updateRequest($id: String, $userId : String, $startDate : String,$endDate : String,$address : String,$city : String,$state : String,$country : String,$otherCategoryTitle : String,$categoryId : String,$capacityId : String,$budgetId : String,$description : String,$timeDuration : String, $status : String ,$createdAt: String){
+    updateRequest(_id: $id, userId : $userId, startDate : $startDate, endDate : $endDate, address : $address, city : $city, state : $state, country : $country ,otherCategoryTitle : $otherCategoryTitle , categoryId : $categoryId , capacityId : $capacityId, budgetId : $budgetId, description : $description , timeDuration : $timeDuration, status : $status,createdAt: $createdAt){
                 code
                 message
     }
@@ -99,3 +99,10 @@ mutation submitSpaces($requestId: String,$userId: String, $spacsesId: [String], 
         message
     }
 }`;
+export const UpdateRequestStatus  = gql`
+mutation updateRequestStatus($requestIds: [String], $status: String) {
+    updateRequestStatus(requestIds : $requestIds , status : $status) {
+        code
+    }
+}
+`;

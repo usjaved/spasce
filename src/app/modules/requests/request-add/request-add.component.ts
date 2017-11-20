@@ -15,6 +15,7 @@ export class RequestAddComponent {
     endDate: DateModel;
     city: string;
     options: DatePickerOptions;
+    toDateoptions: DatePickerOptions;
     otherCategory: boolean;
     otherCategoryTitle: string;
     description: string;
@@ -52,6 +53,9 @@ export class RequestAddComponent {
         this.budget = "";
 
         this.options = new DatePickerOptions();
+        this.toDateoptions = new DatePickerOptions();
+      //  this.options.format =  'MMM D[,] YYYY',
+        
         // this.options.placeholder = "Start Date";    
         this.otherCategory = false;
         this.otherCategoryTitle = "";
@@ -289,8 +293,8 @@ export class RequestAddComponent {
 
         this._requestService.createRequest(data).subscribe(res => {
             if (res.data.createRequest._id) {
-                this.messageAlert('success', 'Saved');
-                this.router.navigate(['/requests']);
+                this.messageAlert('success', 'Your request is submitted for approval');
+         //       this.router.navigate(['/requests']);
             }
             else {
                 this.messageAlert('error', 'Error');
@@ -301,5 +305,11 @@ export class RequestAddComponent {
         })
 
         return false;
+    }
+
+    fromDateChange(event) {
+        if(this.startDate){
+            this.toDateoptions.minDate = this.startDate.momentObj.toDate() ;
+        }
     }
 }

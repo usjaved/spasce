@@ -10,11 +10,13 @@ import { SharedModule } from '../../directives/shared.module';
 import { WizardModule } from 'ng2-archwizard';
 import { MapsAPILoader } from '@agm/core';
 import { AdminSpacseList } from './spaces/list/admin-spacse-list';
+import { AdminRequestList } from './requests/list/admin-request-list';
 
 
 @NgModule({
   declarations: [
-    AdminSpacseList
+    AdminSpacseList,
+    AdminRequestList
   ],
   imports: [
     CommonModule,

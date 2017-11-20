@@ -64,6 +64,7 @@ export class SpacesDetailComponent {
         });
 
         this.spacse = [];
+    
     }
     messageAlert(type, message) {
         if (type == "error") {
@@ -260,9 +261,9 @@ export class SpacesDetailComponent {
             }
         }
     }
-    openOfferModal(id) {
+    openOfferModal(spacseid,receiverId) {
         if (localStorage.getItem("loginUserId")) {
-            var dialog = this.modal.open(MakeOfferComponent, overlayConfigFactory({ "spacseId": id }, BSModalContext));
+            var dialog = this.modal.open(MakeOfferComponent, overlayConfigFactory({ "spacseId": spacseid , "senderId":this.loginUserId,"receiverId": receiverId }, BSModalContext));
         }
         else {
             this._broadcast.broadcast("loginOpen", "login");

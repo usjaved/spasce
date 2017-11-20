@@ -4,7 +4,9 @@
             <div class="request-person-fig"><server-image [src]=itemDetail.user.profilePic></server-image></div>
             <div class="request-person-info">
                 <h4>{{ itemDetail.user.firstName}} {{ itemDetail.user.lastName}}</h4>
-                <p>  <relative-time [createdAt]="itemDetail.createdAt"></relative-time></p>
+                <p>  <relative-time [createdAt]="itemDetail.createdAt" *ngIf="itemDetail.updatedAt == null" ></relative-time>
+                <span *ngIf="itemDetail.updatedAt != null">Last UpdatedAt </span> <relative-time [createdAt]="itemDetail.updatedAt" *ngIf="itemDetail.updatedAt != null" ></relative-time> </p> 
+                
             </div>
         </div>
         <div class="request-person-msg">
@@ -30,13 +32,12 @@
     <div class="request-ship">
         <div class="request-ship-inner clearfix">
             <div class="request-ship-left">
-                <a class="request-btn pointer" (click)="showMessegeBox();" >Fulfill this request</a>
+                <a class="request-btn pointer relative" (click)="showMessegeBox();" >{{ messgaeTitle() }} <span class="read-counter" *ngIf="unReadMessageCount" >{{ unReadMessageCount }}</span></a>
                 <a class="pointer" (click)="toggleCommentBox();"><img src="/assets/images/comment-icon.png" ><span  *ngIf="itemDetail.comments.length ==0">Comments ({{itemDetail.comments.length}})</span><span  *ngIf="itemDetail.comments.length >0">Comments ({{itemDetail.comments.length}})</span></a>
                 <a href="javascript:void(0);"  (click)="openFlagModal(itemDetail._id)"><img src="/assets/images/curve-flag.png"><span>Flag</span></a>
                 <a *ngIf="userId" [routerLink]="['/requests/edit',itemDetail._id]" > <img src="/assets/images/edit-icon.png"><span>Edit</span></a>
-                
             </div>
-            
+           
             <div class="request-ship-right">
                 <a href="#"><img src="/assets/images/fb-icon.png" alt=""></a>
                 <a href="#"><img src="/assets/images/instagram-icon.png" alt=""></a>

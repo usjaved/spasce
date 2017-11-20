@@ -16,6 +16,7 @@ export class FavoritesComponent implements OnInit {
   loading = false;
   alertMessage = "";
   _timer: any;
+  like =false;
   constructor(private _userService: UserService,
     private router: Router,) {
     this.userId = localStorage.getItem("loginUserId");
@@ -26,6 +27,10 @@ export class FavoritesComponent implements OnInit {
 
   ngOnInit() {
     this.getFavourites();
+    if(this.data.length>0)
+    {
+      this.like =true;
+    }
   }
 
   messageAlert(type, message) {
@@ -82,7 +87,7 @@ export class FavoritesComponent implements OnInit {
 
     var data = { "userId" : this.userId }; 
     this._userService.getUserFavouriteSpacses(data).subscribe(res => {
-     // this.messageAlert("hideLoader", "hideloader");
+    //  this.messageAlert("hideLoader", "hideloader");
       this.data = res.data.user.favourites;
       this.loading = false;
     });

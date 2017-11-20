@@ -11,7 +11,7 @@
                 <li><a [routerLink]="['/user/message']" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
                 <li><a [routerLink]="['/user/bookings']" aria-controls="my_bookings" role="tab" data-toggle="tab">My Bookings</a></li>
                 <li class="active"><a [routerLink]="['/user/requests']" aria-controls="my_requests" role="tab" data-toggle="tab">My Requests</a></li>
-                <li><a [routerLink]="['/user/favorites']" aria-controls="my_favorites" role="tab" data-toggle="tab">My Favorites</a></li>
+                <li><a [routerLink]="['/user/favorite']" aria-controls="my_favorites" role="tab" data-toggle="tab">My Favorites</a></li>
             </ul>
             
             <div role="tabpanel" class="tab-pane active">
@@ -20,7 +20,7 @@
                                  You don't create any request.
                             </p>
                     </div> 
-            <request-list-item *ngFor="let item of listItems" [itemDetail]="item"></request-list-item>
+            <request-list-item *ngFor="let item of listItems" [itemDetail]="item" [userId]="userId"></request-list-item>
             </div>
         </div>
     </div>

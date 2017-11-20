@@ -1,4 +1,12 @@
-import { getFullMessageHistoryForUser, getMessageListByUser, getUserPaymentMethods, userProfile, getreviews } from './../queries/user';
+import {
+    getFullMessageHistoryForUser,
+    getMessageListByUser,
+    getOfferMessages,
+    getreviews,
+    getUserPaymentMethods,
+    userProfile,
+    userPublicInfoProfile,
+} from './../queries/user';
 import { getSpacessQuery } from './../queries/space';
 import { CreateSpace, UpdatePrice, UploadImages } from './../mutations/space';
 import { Injectable } from '@angular/core';
@@ -9,8 +17,15 @@ import { ApolloQueryResult } from 'apollo-client';
 import { spaceNewFormDetail, getFilterSpacessQuery, getSpaceDetail } from '../queries/space';
 // import { CategoriesInterface } from './../schemas/spaces';
 import { CreateSpaceAmenities } from '../mutations/space';
-import { createUserAccountSetting, updatePassword, updateUser, createPaymentMethod, createFavourite } from '../mutations/user';
-import { getAllStatistics, getSpacebookings, getAccountSetting, getUserRequests, getUserSpaceBooking, getuserSpacseOffers, getUserFavouriteSpacses } from '../queries/user';
+import {
+    createFavourite,
+    createOffermessage,
+    createPaymentMethod,
+    createUserAccountSetting,
+    updatePassword,
+    updateUser,
+} from '../mutations/user';
+import { getAllStatistics, getSpacebookings, getAccountSetting, getUserRequests, getUserSpaceBooking, getuserSpacseOffers, getUserFavouriteSpacses, getOfferListing, getFullOfferMessageHistories } from '../queries/user';
 
 interface CategoriesInterface {
     categories: Array<{
@@ -33,6 +48,15 @@ export class UserService {
         var data = { _id: id };
         return this.apollo.watchQuery<any>({
             query: userProfile,
+            fetchPolicy: 'network-only',
+            variables: data
+
+        });
+    }
+    userPublicInfoProfile(id): any {
+        var data = { _id: id };
+        return this.apollo.watchQuery<any>({
+            query: userPublicInfoProfile,
             fetchPolicy: 'network-only',
             variables: data
 
@@ -148,5 +172,36 @@ export class UserService {
         return this.apollo.watchQuery<any>({
             query:getreviews,
             variables: data
-        })  }
+        }) 
+     }
+
+     getOfferListing(userId):any{
+         var data = {userId: userId};
+         return this.apollo.watchQuery<any>({
+             query: getOfferListing,
+             variables :data
+         })
+     }
+
+     getofferMessagesList():any{
+         var data = {userId: localStorage.getItem("loginUserId") }
+         return this.apollo.watchQuery<any>({
+             query: getOfferMessages,
+             variables : data
+         })   
+    }
+
+    getFullOfferMessageHistories(data):any{
+        return this.apollo.watchQuery<any>({
+            query: getFullOfferMessageHistories,
+            variables: data
+        })  
+    }
+
+    createOfferMessage(data):any{
+        return this.apollo.mutate({
+            mutation: createOffermessage,
+            variables: data
+        })
+    }
 }

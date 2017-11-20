@@ -109,7 +109,9 @@ export class SpaceAddComponent implements OnInit {
         this.spaceId = localStorage.getItem("tempSpaceId");
         this.timeOptions = [];
         this.coverPic = "";
-        for (var i = 0; i < 12; i++) {
+        this.timeOptions.push("12:00 AM");
+        this.timeOptions.push("12:30 AM");
+        for (var i = 1; i < 12; i++) {
             if (i >= 10) {
                 this.timeOptions.push(i + ":00 AM");
                 this.timeOptions.push(i + ":30 AM");
@@ -119,7 +121,9 @@ export class SpaceAddComponent implements OnInit {
             }
 
         }
-        for (var i = 0; i < 12; i++) {
+        this.timeOptions.push("12:00 PM");
+        this.timeOptions.push("12:30 PM");
+        for (var i = 1; i < 12; i++) {
             if (i >= 10) {
                 this.timeOptions.push(i + ":00 PM");
                 this.timeOptions.push(i + ":30 PM");
